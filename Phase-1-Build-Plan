@@ -1,4 +1,0 @@
-npx create-next-app@latest nicks-lit --typescript --tailwind --eslint --app --src-dir
-cd nicks-lit && pnpm i @auth/core @auth/nextjs @prisma/client prisma \
-     tailwind-merge shadcn-ui clsx zod @stripe/stripe-js \
-     tiptap-react tiptap-starter-kit @vercel/postgres
