@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Nick's Literary Works - Your publishing sanctuary for truth-inspired literature." />
+  <title>Nick’s Literary Works</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+    }
+    .text-gold {
+      color: #FFD700;
+    }
+    .bg-gold {
+      background-color: #FFD700;
+    }
+    .border-gold {
+      border-color: #FFD700;
+    }
+  </style>
+</head>
+
+<body class="bg-[#0a1a2f] text-white">
+  <header class="flex items-center justify-between px-6 py-4 bg-[#091525] border-b border-gold">
+    <div class="flex items-center space-x-4">
+      <img src="/mnt/data/Website Logo.jpg" alt="Kuya Nick Logo" class="h-10 w-10 rounded-full border border-gold" />
+      <div>
+        <h1 class="text-xl font-bold text-gold">Nick’s Literary Works</h1>
+        <p class="text-sm italic text-gray-400">“Ink the truth, shape the soul—stories that linger beyond the final page.”</p>
+      </div>
+    </div>
+    <nav class="space-x-4 text-gold font-semibold">
+      <a href="#home" class="hover:underline">Home</a>
+      <a href="#store" class="hover:underline">Store</a>
+      <a href="#updates" class="hover:underline">Updates</a>
+      <a href="#account" class="hover:underline">My Account</a>
+      <a href="#about" class="hover:underline">About</a>
+      <a href="#contact" class="hover:underline">Contact</a>
+    </nav>
+  </header>
+
+  <main class="p-8">
+    <!-- Banner Section -->
+    <section id="home" class="mb-10 text-center">
+      <h2 class="text-3xl font-bold text-gold">Welcome to Your Publishing Sanctuary</h2>
+      <p class="text-lg text-gray-300">Explore books that challenge, inspire, and reveal the truth.</p>
+      <div class="mt-6">
+        <button class="bg-gold text-[#0a1a2f] px-4 py-2 rounded hover:bg-yellow-400 font-semibold">Browse Books</button>
+      </div>
+    </section>
+
+    <!-- Book Feature Section -->
+    <section id="store" class="bg-[#112240] p-6 rounded-lg shadow-lg mb-10">
+      <h3 class="text-2xl text-gold font-bold mb-4">Featured Book</h3>
+      <div class="flex flex-col md:flex-row items-center md:space-x-8">
+        <img src="/mnt/data/Book Cover (Front).jpg" alt="Why Employees Can't Be Blamed" class="w-64 rounded-lg shadow-lg" />
+        <div class="mt-4 md:mt-0">
+          <h4 class="text-xl font-semibold text-white">Why Employees Can’t Be Blamed for Being Employees</h4>
+          <p class="text-gray-300 mt-2">A comprehensive examination of the role of employees—delving into common myths and misconceptions, and celebrating their true impact.</p>
+          <div class="mt-4">
+            <button class="bg-gold text-[#0a1a2f] px-4 py-2 rounded hover:bg-yellow-400 font-semibold">Preview</button>
+            <button class="bg-transparent border border-gold text-gold px-4 py-2 rounded ml-2 hover:bg-gold hover:text-[#0a1a2f] font-semibold">Buy Now</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="bg-[#112240] p-6 rounded-lg shadow-lg mb-10">
+      <h3 class="text-2xl text-gold font-bold mb-4">About the Author</h3>
+      <p class="text-gray-300 mb-4">Nick Reyes is a dedicated author, publisher, and truth-seeker whose works reflect deep conviction and insight. Through 'Kuya Nick’s Literary Works,' he aims to share stories that resonate with soul and substance.</p>
+      <p class="text-gray-300">This section is editable and can be expanded with photos and a deeper biography as the site evolves.</p>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="bg-[#112240] p-6 rounded-lg shadow-lg">
+      <h3 class="text-2xl text-gold font-bold mb-4">Contact & Support</h3>
+      <form class="space-y-4 max-w-xl mx-auto">
+        <div>
+          <label for="name" class="block text-sm font-medium text-gray-200">Name</label>
+          <input type="text" id="name" class="mt-1 block w-full px-3 py-2 bg-[#0a1a2f] border border-gold rounded text-white" required />
+        </div>
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-200">Email</label>
+          <input type="email" id="email" class="mt-1 block w-full px-3 py-2 bg-[#0a1a2f] border border-gold rounded text-white" required />
+        </div>
+        <div>
+          <label for="message" class="block text-sm font-medium text-gray-200">Message</label>
+          <textarea id="message" rows="4" class="mt-1 block w-full px-3 py-2 bg-[#0a1a2f] border border-gold rounded text-white" required></textarea>
+        </div>
+        <button type="submit" class="bg-gold text-[#0a1a2f] px-4 py-2 rounded font-semibold hover:bg-yellow-400">Send Message</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="text-center py-6 border-t border-gold mt-10">
+    <p class="text-sm text-gray-400">© 2025 Kuya Nick’s Literary Works. All rights reserved.</p>
+  </footer>
+</body>
+
+</html>
