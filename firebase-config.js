@@ -1,9 +1,9 @@
 // firebase-config.js
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyBVhLP24BL4mibJhLuK5H8S4UIyc6SnbkM",
+  authDomain: "nicks-literary-works-29a64.firebaseapp.com",
+  projectId: "nicks-literary-works-29a64",
+  storageBucket: "nicks-literary-works-29a64.firebasestorage.app",
+  messagingSenderId: "1030818110758",
+  appId: "1:1030818110758:web:6a47c5af6d6cba8b9635e7"
 };
