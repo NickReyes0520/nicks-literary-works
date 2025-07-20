@@ -5,7 +5,7 @@ This package includes your complete website with a multi-page layout ready to de
 ## Pages
 - index.html: Homepage
 - store.html: Bookstore
-- readfree.html: Read for Free Books
+- readfree.html: Read for Free books
 - updates.html: Blog/Articles
 - account.html: My Account (Login/Register placeholder)
 - admin.html: Admin dashboard
