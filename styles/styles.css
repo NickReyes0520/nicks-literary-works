@@ -76,7 +76,7 @@ a {
 .carousel img {
   max-width: 100%;
   height: auto;
-  max-height: 400px; /* Adjust this as needed */
+  max-height: 150px;
   object-fit: contain;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
