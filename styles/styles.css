@@ -63,18 +63,13 @@ a {
   font-weight: bold;
 }
 
-.hero-carousel {
-  background: #f5f5f5;
-  padding: 2rem;
-  text-align: center;
-}
-
-.slide {
+.carousel-slide {
   display: none;
-  animation: fadeIn 0.8s ease-in-out;
+  text-align: center;
+  transition: opacity 0.5s ease-in-out;
 }
 
-.slide.active {
+.carousel-slide.active {
   display: block;
 }
 
