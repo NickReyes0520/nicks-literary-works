@@ -5,87 +5,132 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nick’s Literary Works</title>
-
+  
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="/public/assets/website-logo.jpg" />
+  <link rel="icon" type="image/jpeg" href="website-logo.jpg" />
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles/style.css" />
 
-  <!-- Styles -->
-  <link rel="stylesheet" href="/styles/styles.css" />
-
-  <!-- Fonts (Optional) -->
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fffef8;
+    }
+    header {
+      text-align: center;
+      padding: 1.5rem;
+      background-color: #fcd34d;
+      border-bottom: 4px solid #000;
+    }
+    header img {
+      height: 80px;
+    }
+    .tagline {
+      font-style: italic;
+      color: #444;
+      margin-top: 0.5rem;
+    }
+    .publisher {
+      margin-top: 0.25rem;
+      font-weight: bold;
+      color: #222;
+    }
+    nav ul {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      list-style: none;
+      padding: 1rem;
+      background-color: #333;
+      margin: 0;
+    }
+    nav a {
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+    }
+    nav a:hover {
+      color: #ffd700;
+    }
+    .carousel, .quick-access {
+      padding: 2rem;
+      text-align: center;
+    }
+    .carousel-slide {
+      display: none;
+    }
+    .carousel-slide.active {
+      display: block;
+    }
+    .quick-access button {
+      margin: 1rem;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      background-color: #222;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+    .quick-access button:hover {
+      background-color: #444;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #333;
+      color: white;
+    }
+  </style>
 </head>
-
 <body>
-  <!-- Header & Branding -->
-  <header class="site-header">
-    <div class="logo-container">
-      <img src="/public/assets/kuya-nick-logo.jpg" alt="Kuya Nick Logo" class="logo" />
-      <div class="brand-text">
-        <h1>Nick’s Literary Works</h1>
-        <p class="tagline">“Ink the truth, shape the soul—stories that linger beyond the final page.”</p>
-        <p class="publisher">Publisher: <strong>Kuya Nick’s Literary Works</strong></p>
-      </div>
-    </div>
 
-    <!-- Navigation -->
-    <nav class="main-nav">
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/store">Store</a></li>
-        <li><a href="/read-for-free">Read for Free</a></li>
-        <li><a href="/updates">Updates</a></li>
-        <li><a href="/my-account">My Account</a></li>
-        <li><a href="/about">About the Author</a></li>
-        <li><a href="/admin">Admin</a></li>
-        <li><a href="/contact">Contact & Support</a></li>
-      </ul>
-    </nav>
+  <!-- HEADER -->
+  <header>
+    <img src="website-logo.jpg" alt="Kuya Nick Logo">
+    <h1>Nick’s Literary Works</h1>
+    <p class="tagline">“Ink the truth, shape the soul—stories that linger beyond the final page.”</p>
+    <p class="publisher">Published by: Kuya Nick’s Literary Works</p>
   </header>
 
-  <!-- Hero Carousel Banner -->
-  <section class="hero-carousel">
-    <div class="carousel">
-      <div class="slide active">
-        <h2>📖 Book of the Month</h2>
-        <p>“Echoes of Faith” – A spiritual journey through poetic narrative.</p>
-      </div>
-      <div class="slide">
-        <h2>✨ New Release</h2>
-        <p>“Truth and Tempest” – Available now in ePUB and print.</p>
-      </div>
-      <div class="slide">
-        <h2>🌟 Readers’ Top Pick</h2>
-        <p>“Letters to the Lighthouse” – Loved by readers worldwide!</p>
-      </div>
-    </div>
-  </section>
+  <!-- NAVIGATION -->
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="store.html">Store</a></li>
+      <li><a href="read.html">Read for Free</a></li>
+      <li><a href="updates.html">Updates</a></li>
+      <li><a href="account.html">My Account</a></li>
+      <li><a href="about.html">About the Author</a></li>
+      <li><a href="admin.html">Admin</a></li>
+      <li><a href="contact.html">Contact & Support</a></li>
+    </ul>
+  </nav>
 
-  <!-- Quick Access Buttons -->
-  <section class="quick-access">
-    <h2>Quick Access</h2>
-    <div class="buttons">
-      <button onclick="window.location.href='/store'">📚 Browse Books</button>
-      <button onclick="window.location.href='/read-for-free'">📖 Read for Free</button>
-      <button onclick="window.location.href='/updates'">📰 Latest Updates</button>
-    </div>
-  </section>
+  <!-- MAIN CONTENT -->
+  <main>
+    <section class="carousel">
+      <div class="carousel-slide active">
+        <h2>📚 Book of the Month</h2>
+        <img src="images/book-month.jpg" alt="Book of the Month" width="300">
+        <p>"Discover the featured masterpiece handpicked by Kuya Nick."</p>
+      </div>
+    </section>
 
-  <!-- Footer -->
-  <footer class="site-footer">
+    <div class="quick-access">
+      <button onclick="location.href='store.html'">Browse Books</button>
+      <button onclick="location.href='read.html'">Read for Free</button>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
     <p>&copy; 2025 Kuya Nick’s Literary Works. All rights reserved.</p>
   </footer>
 
-  <!-- Carousel Script -->
-  <script>
-    let currentSlide = 0;
-    const slides = document.querySelectorAll(".slide");
-
-    setInterval(() => {
-      slides[currentSlide].classList.remove("active");
-      currentSlide = (currentSlide + 1) % slides.length;
-      slides[currentSlide].classList.add("active");
-    }, 5000);
-  </script>
+  <script type="module" src="src/main.js"></script>
 </body>
 </html>
