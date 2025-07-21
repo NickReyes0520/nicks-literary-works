@@ -139,6 +139,54 @@
     <p>&copy; 2025 Nick Reyes. All rights reserved.</p>
   </footer>
 
-  <script src="scripts/carousel.js"></script>
+  <script>
+    const slides = document.querySelectorAll(".carousel-slide");
+    let currentSlide = 0;
+    let isTouching = false;
+    let startX = 0;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.remove("active");
+        if (i === index) slide.classList.add("active");
+      });
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    // Auto Slide
+    setInterval(nextSlide, 5000);
+
+    // Touch Events for Mobile
+    const carousel = document.querySelector(".carousel");
+
+    carousel.addEventListener("touchstart", (e) => {
+      isTouching = true;
+      startX = e.touches[0].clientX;
+    });
+
+    carousel.addEventListener("touchmove", (e) => {
+      if (!isTouching) return;
+      let deltaX = e.touches[0].clientX - startX;
+      if (Math.abs(deltaX) > 50) {
+        if (deltaX > 0) prevSlide();
+        else nextSlide();
+        isTouching = false;
+      }
+    });
+
+    carousel.addEventListener("touchend", () => {
+      isTouching = false;
+    });
+  </script>
+
 </body>
 </html>
