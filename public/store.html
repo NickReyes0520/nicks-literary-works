@@ -4,67 +4,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Store | Nick’s Literary Works</title>
-  <link rel="stylesheet" href="styles/style.css" />
-  <link rel="icon" type="image/jpeg" href="website-logo.jpg" />
-
-  <style>
-    main {
-      padding: 2rem;
-    }
-    .store-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-    }
-    .book-card {
-      border: 1px solid #ccc;
-      padding: 1rem;
-      border-radius: 8px;
-      background-color: #fffbe6;
-    }
-    .book-card img {
-      width: 100%;
-      height: auto;
-      border-radius: 4px;
-    }
-    .book-card h3 {
-      margin: 0.5rem 0 0.25rem;
-    }
-    .book-card p {
-      font-size: 0.9rem;
-    }
-    .book-card button {
-      margin-top: 1rem;
-      padding: 0.5rem;
-      background-color: #222;
-      color: white;
-      border: none;
-      cursor: pointer;
-      width: 100%;
-      border-radius: 5px;
-    }
-    .book-card button:hover {
-      background-color: #444;
-    }
-  </style>
+  <title>Nick's Literary Store</title>
+  <link rel="icon" href="/website-logo.jpg" />
+  <link rel="stylesheet" href="style.css" />
+  <script type="module" src="store.js" defer></script>
 </head>
 <body>
   <header>
-    <img src="website-logo.jpg" alt="Kuya Nick Logo" style="height: 60px;">
-    <h1>Book Store</h1>
+    <h1>📚 Welcome to Nick's Literary Store</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="readfree.html">Read Free</a>
+      <a href="account.html">Account</a>
+    </nav>
   </header>
 
   <main>
-    <section id="store" class="store-grid">
-      <!-- Firebase will dynamically insert product cards here -->
+    <section class="store-container">
+      <h2>🛒 Browse Available Books</h2>
+      <div class="product-grid" id="product-grid">
+        <!-- Products will be loaded here dynamically -->
+      </div>
     </section>
   </main>
 
   <footer>
-    <p>&copy; 2025 Kuya Nick’s Literary Works. All rights reserved.</p>
+    <p>&copy; 2025 Nick's Literary Works. All rights reserved.</p>
   </footer>
-
-  <script type="module" src="store.js"></script>
 </body>
 </html>
