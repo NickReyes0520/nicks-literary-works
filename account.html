@@ -1,2 +1,26 @@
 <!-- User Account Page -->
-<!DOCTYPE html><html><head><title>My Account</title></head><body><h1>User Dashboard</h1></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Account | Nick’s Literary Works</title>
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="icon" href="website-logo.jpg">
+</head>
+<body>
+  <header>
+    <h1>Login to Your Account</h1>
+  </header>
+
+  <main>
+    <section style="max-width: 400px; margin: auto;">
+      <input id="email" type="email" placeholder="Email" style="width:100%;margin-bottom:1rem;"><br>
+      <input id="password" type="password" placeholder="Password" style="width:100%;margin-bottom:1rem;"><br>
+      <button id="login">Login</button>
+      <button id="google-login">Login with Google</button>
+    </section>
+  </main>
+
+  <script type="module" src="auth.js"></script>
+</body>
+</html>
