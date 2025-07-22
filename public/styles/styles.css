@@ -19,12 +19,9 @@ a {
 
 /* ====== SITE HEADER ====== */
 .site-header {
-  background-color: #2f2f2f;
-  color: white;
-  padding: 1.5rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  background-color: #fcd34d;
+  padding: 1rem 0;
+  border-bottom: 4px solid #000;
 }
 
 /* Branding / Logo */
@@ -35,7 +32,7 @@ a {
 }
 
 .branding img {
-  height: 90px;
+  height: 100px;
   width: auto;
 }
 
@@ -55,6 +52,17 @@ a {
   font-size: 1rem;
   font-style: italic;
   color: #ccc;
+}
+
+.header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 2rem;
 }
 
 /* ====== NAVIGATION BAR ====== */
