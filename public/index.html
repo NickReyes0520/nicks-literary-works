@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nick’s Literary Works</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
   
   <!-- Favicon -->
   <link rel="icon" type="image/jpeg" href="website-logo.jpg" />
@@ -19,52 +20,84 @@
       padding: 0;
       background-color: #fffef8;
     }
-    header {
-      text-align: center;
-      padding: 1.5rem;
+
+    /* --- HEADER STYLING --- */
+    .site-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       background-color: #fcd34d;
+      padding: 20px 40px;
       border-bottom: 4px solid #000;
+      flex-wrap: wrap;
     }
-    header img {
-      height: 80px;
+
+    .branding {
+      display: flex;
+      align-items: center;
+      gap: 20px;
     }
-    .tagline {
-      font-style: italic;
-      color: #444;
-      margin-top: 0.5rem;
+
+    .branding img {
+      height: 90px;
+      width: auto;
     }
-    .publisher {
-      margin-top: 0.25rem;
-      font-weight: bold;
+
+    .title-group h1 {
+      margin: 0;
+      font-size: 2.2rem;
+      font-weight: 700;
       color: #222;
     }
-    nav ul {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      list-style: none;
-      padding: 1rem;
-      background-color: #333;
-      margin: 0;
+
+    .title-group .highlight {
+      color: #333;
+      font-weight: bold;
     }
-    nav a {
+
+    .title-group .tagline {
+      margin: 5px 0 0;
+      font-size: 1rem;
+      font-style: italic;
+      color: #444;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 0;
+      margin: 0;
+      background-color: #333;
+      padding: 1rem 2rem;
+    }
+
+    nav li a {
       text-decoration: none;
       color: white;
       font-weight: bold;
+      transition: color 0.3s ease;
     }
-    nav a:hover {
+
+    nav li a:hover {
       color: #ffd700;
     }
+
+    /* --- CAROUSEL & QUICK ACCESS --- */
     .carousel, .quick-access {
       padding: 2rem;
       text-align: center;
     }
+
     .carousel-slide {
       display: none;
     }
+
     .carousel-slide.active {
       display: block;
     }
+
     .carousel img {
       max-width: 100%;
       height: auto;
@@ -75,6 +108,7 @@
       margin: 1rem auto;
       display: block;
     }
+
     .quick-access button {
       margin: 1rem;
       padding: 1rem 2rem;
@@ -85,9 +119,11 @@
       cursor: pointer;
       border-radius: 8px;
     }
+
     .quick-access button:hover {
       background-color: #444;
     }
+
     footer {
       text-align: center;
       padding: 1rem;
@@ -99,25 +135,27 @@
 <body>
 
   <!-- HEADER -->
-  <header>
-    <img src="website-logo.jpg" alt="Kuya Nick Logo">
-    <h1>Nick’s Literary Works</h1>
-    <p class="tagline">“Ink the truth, shape the soul—stories that linger beyond the final page.”</p>
+  <header class="site-header">
+    <div class="branding">
+      <img src="website-logo.jpg" alt="Kuya Nick Logo">
+      <div class="title-group">
+        <h1>Nick’s <span class="highlight">Literary Works</span></h1>
+        <p class="tagline">“Ink the truth, shape the soul—stories that linger beyond the final page.”</p>
+      </div>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="store.html">Store</a></li>
+        <li><a href="readfree.html">Read for Free</a></li>
+        <li><a href="updates.html">Updates</a></li>
+        <li><a href="account.html">My Account</a></li>
+        <li><a href="about.html">About the Author</a></li>
+        <li><a href="admin.html">Admin</a></li>
+        <li><a href="contact.html">Contact & Support</a></li>
+      </ul>
+    </nav>
   </header>
-
-  <!-- NAVIGATION -->
-  <nav>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="store.html">Store</a></li>
-      <li><a href="readfree.html">Read for Free</a></li>
-      <li><a href="updates.html">Updates</a></li>
-      <li><a href="account.html">My Account</a></li>
-      <li><a href="about.html">About the Author</a></li>
-      <li><a href="admin.html">Admin</a></li>
-      <li><a href="contact.html">Contact & Support</a></li>
-    </ul>
-  </nav>
 
   <!-- MAIN CONTENT -->
   <main>
