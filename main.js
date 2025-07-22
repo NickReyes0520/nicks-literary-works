@@ -24,3 +24,16 @@ document.getElementById("google-login").addEventListener("click", () => {
     .then(result => console.log("Logged in as", result.user))
     .catch(error => alert(error.message));
 });
+
+// src/main.js
+import { app } from "./firebase-config.js";
+
+document.addEventListener("DOMContentLoaded", () => {
+  const main = document.getElementById("content");
+  main.innerHTML = `
+    <section>
+      <h2>Featured Works</h2>
+      <p>Stay tuned! My literary collection will be displayed here soon.</p>
+    </section>
+  `;
+});
