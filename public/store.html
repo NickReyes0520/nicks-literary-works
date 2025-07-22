@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kuya Nick’s Literary Works</title>
   <link rel="icon" href="/publisher-logo.png" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="/styles/store.css">
   <script type="module" src="/store.js" defer></script>
 </head>
 <body>
@@ -19,40 +19,41 @@
     </nav>
   </header>
 
-  <main>
-    <section class="store-container">
-      <h2>🛒 Browse Available Books</h2>
-      <div class="book-card" data-book-id="book-001" data-book-title="Why Employees Can’t Be Blamed for Being Employees" data-price="500">
-        <img src="/images/top-pick.jpg" alt="Book Cover">
-        <h3>Why Employees Can’t Be Blamed for Being Employees</h3>
-        <h4 class="subtitle">Challenging the Criticisms and Celebrating Their True Impact</h4>
-        <p>ePUB/PDF: ₱200</p>
-        <p>Physical Copy: ₱500</p>
-        <div class="actions">
-          <button class="preview-btn">📖 Preview First 10 Pages</button>
-          <button class=add-cart-btn">🛒 Add to Cart</button>
-          <button class="physical-copy-btn">📦 I’d like a physical copy (₱500)</button>
-      </div>
-    </section>
-  </main>
+<main>
+  <section class="store-container">
+    <h2>🛒 Browse Available Books</h2>
 
-<!-- Physical Copy Modal -->
-<div id="physical-modal" class="modal hidden">
-  <div class="modal-content">
-    <span class="close-btn">&times;</span>
-    <h3>Request a Physical Copy</h3>
-    <p>🛡️ Your personal information will remain confidential and used solely for delivery processing. Proceeding will add this item to your cart, but no purchase will be made unless you confirm it in the cart.</p>
-    <form id="physical-form">
-      <input type="text" name="name" placeholder="Full Name" required />
-      <input type="tel" name="phone" placeholder="Phone Number" required />
-      <textarea name="address" placeholder="Delivery Address" required></textarea>
-      <input type="hidden" name="bookId" />
-      <input type="hidden" name="bookTitle" />
-      <input type="hidden" name="price" />
-      <button type="submit">Add to Cart</button>
-    </form>
+    <div class="book-card">
+      <img src="/images/top-pick.jpg" alt="Book Cover" />
+      <h3>Why Employees Can’t Be Blamed for Being Employees</h3>
+      <h4 class="subtitle">Challenging the Criticisms and Celebrating Their True Impact</h4>
+      <p>ePUB/PDF: ₱200</p>
+      <p>Physical Copy: ₱500</p>
+
+      <div class="actions">
+        <button class="preview-btn">📖 Preview First 10 Pages</button>
+        <button class="add-cart-btn">🛒 Add to Cart</button>
+        <button class="physical-copy-btn" data-book-id="top-pick">📦 I’d like a physical copy (₱500)</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal here -->
+  <div id="physical-modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h3>Request a Physical Copy</h3>
+      <p>🛡️ Your personal information will remain confidential and used solely for delivery processing. Proceeding will add this item to your cart, but no purchase will be made unless you confirm it in the cart.</p>
+      <form id="physical-form">
+        <input type="text" name="name" placeholder="Full Name" required />
+        <input type="tel" name="phone" placeholder="Phone Number" required />
+        <textarea name="address" placeholder="Delivery Address" required></textarea>
+        <input type="hidden" name="bookId" />
+        <button type="submit">Add to Cart</button>
+      </form>
+    </div>
   </div>
-</div>
+</main>
 
   <footer>
     <p>&copy; Nick Reyes. All rights reserved.</p>
