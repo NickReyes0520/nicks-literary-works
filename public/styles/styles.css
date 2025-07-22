@@ -67,11 +67,6 @@ a {
   flex-wrap: wrap;
 }
 
-.featured-books {
-  flex: 1;
-  min-width: 300px;
-}
-
 .carousel-section {
   flex: 1;
   min-width: 300px;
