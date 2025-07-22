@@ -1,3 +1,7 @@
+body {
+  background-color: #adef8f !important;
+}
+
 .book-card img {
   max-width: 150px;
   height: auto;
