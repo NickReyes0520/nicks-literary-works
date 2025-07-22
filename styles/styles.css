@@ -81,33 +81,54 @@ header {
   color: #ccc;
 }
 
-/* Top bar: search + hamburger */
-.top-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* NEW NAVIGATION WRAPPER */
+.full-nav {
   background-color: #2f2f2f;
-  padding: 0.5rem 1rem;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
-.search-bar {
+/* Updated container for tab groups */
+.nav-columns {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
   flex-grow: 1;
-  height: 40px;
-  padding: 0 1rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 4px;
-  margin-right: 1rem;
 }
 
-.hamburger {
-  font-size: 28px;
-  background: none;
+/* Tab groups */
+.nav-col {
+  display: flex;
+  gap: 1rem;
+}
+
+/* EXTRA ICONS (search + hamburger) */
+.nav-extras {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-extras .search-bar {
+  height: 40px;
+  padding: 0 10px;
   border: none;
-  color: white;
-  cursor: pointer;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.nav-extras .hamburger {
   height: 40px;
   width: 40px;
+  font-size: 22px;
+  background-color: #555;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
 /* NAVIGATION TABS */
@@ -147,17 +168,23 @@ header {
 
 /* ====== RESPONSIVE DESIGN ====== */
 @media (max-width: 768px) {
-  .top-bar {
+  .full-nav {
     flex-direction: column;
     align-items: stretch;
-  }
-
-  .search-bar {
-    margin: 0 0 0.5rem 0;
   }
 
   .nav-columns {
     flex-direction: column;
     align-items: center;
+    gap: 1rem;
+  }
+
+  .nav-extras {
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
+  .nav-extras .search-bar {
+    width: 100%;
   }
 }
