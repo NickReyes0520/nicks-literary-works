@@ -40,4 +40,61 @@ async function loadBooks() {
   });
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('physical-modal');
+  const form = document.getElementById('physical-form');
+  const closeBtn = modal.querySelector('.close-btn');
+
+  // Open modal on physical-copy-btn click
+  document.querySelectorAll('.physical-copy-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const card = btn.closest('.book-card');
+      const bookId = card.dataset.bookId;
+      const bookTitle = card.dataset.bookTitle;
+      const price = card.dataset.price;
+
+      // Populate hidden fields in the form
+      form.bookId.value = bookId;
+      form.bookTitle.value = bookTitle;
+      form.price.value = price;
+
+      modal.classList.remove('hidden');
+    });
+  });
+
+  // Close modal
+  closeBtn.addEventListener('click', () => {
+    modal.classList.add('hidden');
+    form.reset();
+  });
+
+  // Submit form: Add to cart
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const order = {
+      bookId: form.bookId.value,
+      title: form.bookTitle.value,
+      type: 'physical',
+      price: parseFloat(form.price.value),
+      name: form.name.value,
+      phone: form.phone.value,
+      address: form.address.value
+    };
+
+    // Store in localStorage or Firestore cart collection
+    addToCart(order);
+
+    alert(`📦 "${order.title}" physical copy added to cart!`);
+    modal.classList.add('hidden');
+    form.reset();
+  });
+
+  function addToCart(item) {
+    const existingCart = JSON.parse(localStorage.getItem('cart')) || [];
+    existingCart.push(item);
+    localStorage.setItem('cart', JSON.stringify(existingCart));
+  }
+});
+
 loadBooks();
