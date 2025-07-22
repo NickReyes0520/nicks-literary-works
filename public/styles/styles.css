@@ -57,6 +57,86 @@ a {
   color: #ccc;
 }
 
+.home-featured-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  padding: 40px;
+  flex-wrap: wrap;
+}
+
+/* Featured Books Section */
+.featured-books {
+  flex: 1;
+  min-width: 300px;
+  max-width: 40%;
+  background-color: #f8f8f8;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.featured-books h2 {
+  font-size: 1.8em;
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: bold;
+  border-bottom: 2px solid #888;
+  padding-bottom: 10px;
+}
+
+.featured-book {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 25px;
+  gap: 15px;
+}
+
+.featured-book img {
+  width: 90px;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.15);
+}
+
+.featured-book-details {
+  flex: 1;
+}
+
+.featured-book-details h3 {
+  font-size: 1.1em;
+  margin: 0;
+  color: #222;
+}
+
+.featured-book-details h4 {
+  font-size: 0.95em;
+  font-weight: normal;
+  color: #666;
+  margin: 4px 0 6px;
+  font-style: italic;
+}
+
+.featured-book-details p {
+  font-size: 0.9em;
+  color: #444;
+  line-height: 1.4;
+}
+
+.featured-books {
+  flex: 1;
+  min-width: 300px;
+}
+
+.carousel-section {
+  flex: 1;
+  min-width: 300px;
+  max-width: 55%;
+}
+
 /* ====== NAVIGATION BAR ====== */
 .main-nav {
   background-color: #2f2f2f;
