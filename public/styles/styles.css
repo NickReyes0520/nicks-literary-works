@@ -60,8 +60,9 @@ a {
 /* ====== HOME FEATURED SECTION ====== */
 .home-featured-section {
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
   align-items: flex-start;
+  justify-content: space-between;
   gap: 40px;
   padding: 40px;
   flex-wrap: nowrap;
@@ -120,8 +121,8 @@ a {
 .carousel-section {
   flex: 1;
   max-width: 60%;
-  padding: 20px;
   background-color: #fff;
+  padding: 20px;
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
 }
