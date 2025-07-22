@@ -67,6 +67,11 @@ a {
   flex-wrap: wrap;
 }
 
+.featured-books {
+  flex: 1;
+  min-width: 300px;
+}
+
 .carousel-section {
   flex: 1;
   min-width: 300px;
@@ -131,11 +136,6 @@ a {
   font-size: 0.95em;
   line-height: 1.6;
   color: #444;
-}
-
-.featured-books {
-  flex: 1;
-  min-width: 300px;
 }
 
 @media screen and (max-width: 768px) {
