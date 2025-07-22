@@ -138,6 +138,28 @@ a {
   color: #facc15;
 }
 
+/* Make navigation links look like buttons */
+.nav-columns a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #3b3b3b; /* slightly lighter than dark gray */
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: 500;
+}
+
+.nav-columns a:hover {
+  background-color: #555;
+  transform: translateY(-2px);
+}
+
+.nav-columns a:active {
+  background-color: #444;
+  transform: translateY(0);
+}
+
 /* ====== RESPONSIVE DESIGN ====== */
 @media (max-width: 768px) {
   .nav-top {
