@@ -67,6 +67,12 @@ a {
   flex-wrap: wrap;
 }
 
+.carousel-section {
+  flex: 1;
+  min-width: 300px;
+  max-width: 55%;
+}
+
 /* Featured Books Section */
 .featured-books {
   flex: 1;
@@ -153,12 +159,6 @@ a {
     width: 120px;
     height: auto;
   }
-}
-
-.carousel-section {
-  flex: 1;
-  min-width: 300px;
-  max-width: 55%;
 }
 
 /* ====== NAVIGATION BAR ====== */
