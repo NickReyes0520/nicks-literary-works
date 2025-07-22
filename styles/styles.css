@@ -164,3 +164,29 @@ a {
   max-width: 1000px;
   margin: 0 auto;
 }
+
+/* 🔄 Updated nav-top styles */
+.nav-top.full-width {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  background-color: #2f2f2f;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.nav-top.full-width > .search-bar {
+  flex: 1;
+  margin-right: 1rem;
+}
+
+/* ✅ Alignment container for search + tabs */
+.main-nav,
+.nav-top.full-width,
+.nav-columns {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ☑️ Remove any old .nav-top selector above */
