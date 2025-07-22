@@ -4,32 +4,47 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nick's Literary Store</title>
-  <link rel="icon" href="/website-logo.jpg" />
-  <link rel="stylesheet" href="style.css" />
-  <script type="module" src="store.js" defer></script>
+  <title>Nick’s Bookstore</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="store.js"></script>
+  <!-- Firebase App (the core Firebase SDK) -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
 </head>
 <body>
   <header>
-    <h1>📚 Welcome to Nick's Literary Store</h1>
+    <h1>Nick’s Literary Works</h1>
     <nav>
       <a href="index.html">Home</a>
-      <a href="readfree.html">Read Free</a>
-      <a href="account.html">Account</a>
+      <a href="store.html">Store</a>
+      <a href="login.html">Login</a>
     </nav>
   </header>
 
-  <main>
-    <section class="store-container">
-      <h2>🛒 Browse Available Books</h2>
-      <div class="product-grid" id="product-grid">
-        <!-- Products will be loaded here dynamically -->
-      </div>
-    </section>
+  <main id="store">
+    <h2>Available Books</h2>
+    <div id="book-list" class="book-grid"></div>
   </main>
 
+  <!-- Physical Copy Modal -->
+  <div id="physical-modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h3>Request a Physical Copy</h3>
+      <p>Your information will remain confidential. This form only adds the item to your cart.</p>
+      <form id="physical-form">
+        <input type="text" name="name" placeholder="Full Name" required />
+        <input type="tel" name="phone" placeholder="Phone Number" required />
+        <textarea name="address" placeholder="Delivery Address" required></textarea>
+        <input type="hidden" name="bookId" />
+        <button type="submit">Add to Cart</button>
+      </form>
+    </div>
+  </div>
+
   <footer>
-    <p>&copy; 2025 Nick's Literary Works. All rights reserved.</p>
+    <p>&copy; 2025 Nick’s Literary Works. All rights reserved.</p>
   </footer>
 </body>
 </html>
