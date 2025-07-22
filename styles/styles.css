@@ -99,34 +99,6 @@ a {
   color: #000;
 }
 
-/* MOBILE STYLES */
-@media (max-width: 900px) {
-  .site-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .header-right {
-    width: 100%;
-    align-items: flex-start;
-  }
-
-  .top-bar {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .main-nav ul.nav-columns {
-    flex-direction: column;
-    gap: 2.0rem;
-  }
-
-  .nav-col {
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-}
-
 /* WRAPS search + nav in unified background */
 .nav-wrapper {
   background-color: #333; /* dark gray background */
@@ -255,26 +227,4 @@ a {
   padding: 1rem;
   font-size: 0.9rem;
   background: #eee;
-}
-
-/* RESPONSIVE TWEAKS (optional) */
-@media (max-width: 768px) {
-  .site-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .main-nav ul {
-    justify-content: center;
-    padding: 1rem;
-  }
-
-  .logo-container {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .brand-text h1 {
-    font-size: 1.8rem;
-  }
 }
