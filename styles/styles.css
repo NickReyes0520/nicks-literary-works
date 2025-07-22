@@ -15,7 +15,7 @@ a {
 .site-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   background: #fcd34d;
   padding: 1.5rem 2rem;
   border-bottom: 4px solid #000;
@@ -23,6 +23,13 @@ a {
 }
 
 /* Logo + Branding */
+.branding {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex: 1;
+}
+
 .logo-container {
   display: flex;
   align-items: center;
@@ -35,7 +42,7 @@ a {
   border-radius: 8px;
 }
 
-.brand-text h1 {
+.title-group h1 {
   font-family: 'Playfair Display', serif;
   font-size: 2.2rem;
   margin: 0;
@@ -43,7 +50,7 @@ a {
   color: #222;
 }
 
-.brand-text .highlight {
+.title-group .highlight {
   color: #444;
   font-weight: 700;
 }
@@ -55,31 +62,83 @@ a {
   color: #444;
 }
 
-/* NAVIGATION */
-.main-nav ul {
+.header-right {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  align-items: center;
-  list-style: none;
-  margin: 0;
-  padding: 1rem 2rem;
-  background-color: #2c2c2c;
-  gap: 1.2rem;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1rem;
 }
 
-.main-nav li {
-  margin: 0;
+.top-bar {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.search-bar {
+  padding: 0.5rem;
+  font-size: 0.95rem;
+  border: 1px solid #333;
+  border-radius: 6px;
+}
+
+.hamburger {
+  font-size: 1.5rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+/* NAVIGATION */
+.main-nav ul.nav-columns {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .main-nav a {
-  color: #ffd700;
+  color: #222;
   font-weight: bold;
+  text-decoration: none;
+  padding: 0.3rem 0.5rem;
   transition: color 0.3s ease;
 }
 
 .main-nav a:hover {
-  color: white;
+  color: #000;
+}
+
+/* MOBILE STYLES */
+@media (max-width: 900px) {
+  .site-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-right {
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .top-bar {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .main-nav ul.nav-columns {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .nav-col {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
 }
 
 /* CAROUSEL */
