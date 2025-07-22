@@ -132,7 +132,7 @@ a {
 
   .main-nav ul.nav-columns {
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 2.0rem;
   }
 
   .nav-col {
