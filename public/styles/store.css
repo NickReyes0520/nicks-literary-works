@@ -58,28 +58,36 @@ main {
 #book-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
+  gap: 2rem;
+  padding: 2rem;
 }
 
 .book-card {
-  background-color: white;
+  background-color: #fff;
   border: 1px solid #ddd;
-  padding: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease;
+  text-align: center;
+}
+
+.book-card:hover {
+  transform: scale(1.02);
 }
 
 .book-card img {
   width: 100%;
+  max-width: 180px; /* Limits image size */
   height: auto;
-  border-radius: 6px;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  object-fit: cover;
 }
 
 .book-card h3 {
-  margin: 0.5rem 0 0.2rem;
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
 }
 
 .book-card .subtitle {
@@ -87,6 +95,27 @@ main {
   color: #555;
   margin-bottom: 0.5rem;
   text-align: center;
+}
+
+.book-card p {
+  font-size: 0.95rem;
+  color: #444;
+  margin-bottom: 0.75rem;
+}
+
+.book-card button {
+  background-color: #1e88e5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.book-card button:hover {
+  background-color: #1565c0;
 }
 
 .actions {
