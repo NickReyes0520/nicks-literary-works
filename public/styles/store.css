@@ -235,6 +235,12 @@ main {
   margin-top: 1rem;
 }
 
+.actions .pricing {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem; /* Much tighter spacing between prices */
+}
+
 .actions button {
   padding: 0.6rem 1rem;
   border: none;
