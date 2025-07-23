@@ -33,6 +33,26 @@ nav a {
   font-weight: bold;
 }
 
+.nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-buttons a {
+  background-color: #facc15;
+  color: #000;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-buttons a:hover {
+  background-color: #f59e0b;
+  color: #fff;
+}
+
 .cart-icon {
   margin-left: auto;
   font-size: 1.2rem;
