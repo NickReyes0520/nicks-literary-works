@@ -20,7 +20,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // DOM Elements
-const productGrid = document.getElementById("product-grid");
+const bookGrid = document.getElementById("book-grid");
 const searchInput = document.getElementById("search-input");
 const categoryFilter = document.getElementById("category-filter");
 const cartCount = document.getElementById("cart-count");
@@ -35,10 +35,10 @@ async function loadBooks() {
 }
 
 function renderBooks(data) {
-  productGrid.innerHTML = "";
+  bookGrid.innerHTML = "";
   data.forEach((book) => {
     const card = document.createElement("div");
-    card.className = "product-card";
+    card.className = "book-card";
     card.dataset.bookId = book.id;
     card.dataset.bookTitle = book.title;
     card.dataset.price = book.price;
@@ -56,7 +56,7 @@ function renderBooks(data) {
       </div>
     `;
 
-    productGrid.appendChild(card);
+    bookGrid.appendChild(card);
   });
   attachEventListeners();
 }
@@ -64,7 +64,7 @@ function renderBooks(data) {
 function attachEventListeners() {
   document.querySelectorAll('.physical-copy-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
-      const card = btn.closest('.product-card');
+      const card = btn.closest('.book-card');
       document.querySelector('#physical-form [name="bookId"]').value = card.dataset.bookId;
       document.querySelector('#physical-form [name="bookTitle"]').value = card.dataset.bookTitle;
       document.querySelector('#physical-form [name="price"]').value = card.dataset.price;
@@ -74,7 +74,7 @@ function attachEventListeners() {
 
   document.querySelectorAll('.add-cart-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
-      const card = btn.closest('.product-card');
+      const card = btn.closest('.book-card');
       const item = {
         bookId: card.dataset.bookId,
         title: card.dataset.bookTitle,
