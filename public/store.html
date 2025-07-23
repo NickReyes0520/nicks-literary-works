@@ -19,12 +19,25 @@
     <h1>Welcome to Nick’s Publishing Sanctuary</h1>
     <nav>
       <a href="index.html">Home</a>
-      <a href="readfree.html">Read for Free</a>
-      <a href="account.html">My Account</a>
+      <a href="readfree.html">Read Free</a>
+      <a href="account.html">Account</a>
+      <div class="cart-icon">🛒 <span id="cart-count">0</span></div>
     </nav>
   </header>
 
 <main>
+
+  <section class="store-controls">
+    <input type="text" id="searchBar" placeholder="Search by title or subtitle..." />
+    <select id="categoryFilter">
+      <option value="all">All Categories</option>
+      <option value="theology">Theology</option>
+      <option value="social">Social Commentary</option>
+      <option value="personal">Personal Reflection</option>
+      <option value="science">Science & Philosophy</option>
+    </select>
+  </section>
+  
   <section class="store-container">
     <h2>🛒 Browse Available Books</h2>
 
