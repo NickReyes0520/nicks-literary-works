@@ -247,7 +247,7 @@ img {
 }
 
 .nav-col li a:hover {
-  text-decoration: underline;
+  text-decoration: none;
   color: #facc15;
 }
 
@@ -260,7 +260,7 @@ img {
   text-decoration: none;
   border-radius: 6px;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  font-weight: 500;
+  font-weight: bold;
 }
 
 .nav-columns a:hover {
