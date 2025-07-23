@@ -203,6 +203,36 @@ img {
   justify-content: center;
 }
 
+.nav-search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.nav-search-wrapper .search-bar {
+  padding: 0.5rem 1rem 0.5rem 2.2rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 9999px;
+  font-size: 0.95rem;
+  background-color: white;
+  color: #333;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  outline: none;
+}
+
+.nav-search-wrapper .search-bar:focus {
+  border-color: #facc15;
+  box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.4);
+}
+
+.nav-search-wrapper .search-icon {
+  position: absolute;
+  left: 0.75rem;
+  font-size: 1rem;
+  color: #888;
+  pointer-events: none;
+}
+
 /* Navigation Tabs */
 .nav-columns {
   display: flex;
