@@ -238,8 +238,8 @@ main {
 .actions .pricing {
   display: flex;
   flex-direction: column;
-  margin-bottom: 0.50rem;
-  margin-top: 0.50rem;
+  margin-bottom: 0.150rem;
+  margin-top: 0.15rem;
 }
 
 .actions button {
