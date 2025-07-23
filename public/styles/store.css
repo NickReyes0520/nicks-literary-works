@@ -1,123 +1,127 @@
 /* store.css */
-
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fdfdfd;
   margin: 0;
-  padding: 0;
-  background-color: #fefefe;
   color: #333;
 }
 
 header {
-  background-color: #222;
-  color: #fff;
-  padding: 1rem 2rem;
+  background-color: #006d77;
+  color: white;
+  padding: 1rem;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 1.5rem;
+nav {
+  display: flex;
+  gap: 1rem;
 }
 
 nav a {
-  color: #fff;
-  margin-left: 1.2rem;
+  color: white;
   text-decoration: none;
   font-weight: bold;
 }
 
-nav a:hover {
-  text-decoration: underline;
+.cart-icon {
+  margin-left: auto;
+  font-size: 1.2rem;
+  cursor: pointer;
 }
 
 main {
   padding: 2rem;
 }
 
-.store-container h2 {
-  font-size: 2rem;
+.store-controls {
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 1.5rem;
 }
 
-.books-grid {
+#searchBar, #categoryFilter {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.store-container h2 {
+  color: #006d77;
+  margin-bottom: 1rem;
+}
+
+#book-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
 }
 
 .book-card {
-  background: #fff;
+  background-color: white;
   border: 1px solid #ddd;
   padding: 1rem;
   border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: transform 0.2s ease;
-}
-
-.book-card:hover {
-  transform: translateY(-5px);
 }
 
 .book-card img {
-  max-width: 100%;
+  width: 100%;
   height: auto;
-  border-radius: 5px;
+  border-radius: 6px;
 }
 
 .book-card h3 {
-  margin: 0.5rem 0 0.25rem;
-  font-size: 1.2rem;
-  text-align: center;
+  margin: 0.5rem 0 0.2rem;
 }
 
 .book-card .subtitle {
-  font-size: 0.95rem;
-  color: #666;
+  font-size: 0.9rem;
+  color: #555;
   margin-bottom: 0.5rem;
   text-align: center;
 }
 
 .actions {
-  margin-top: 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  width: 100%;
+  margin-top: 1rem;
 }
 
 .actions button {
-  padding: 0.6rem;
+  padding: 0.6rem 1rem;
   border: none;
-  background-color: #4caf50;
+  border-radius: 6px;
+  background-color: #83c5be;
   color: white;
   font-weight: bold;
   cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease-in-out;
 }
 
 .actions button:hover {
-  background-color: #43a047;
+  background-color: #006d77;
 }
 
 .modal {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.6);
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.4);
   display: flex;
-  justify-content: center;
   align-items: center;
-  z-index: 1000;
+  justify-content: center;
+  z-index: 999;
 }
 
 .modal.hidden {
@@ -125,43 +129,22 @@ main {
 }
 
 .modal-content {
-  background: white;
+  background-color: white;
   padding: 2rem;
   border-radius: 10px;
-  max-width: 500px;
   width: 90%;
-  position: relative;
+  max-width: 400px;
 }
 
 .modal-content .close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
+  float: right;
   font-size: 1.5rem;
   cursor: pointer;
 }
 
-.modal-content form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.modal-content input,
-.modal-content textarea {
-  padding: 0.6rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.modal-content button[type="submit"] {
-  background-color: #1976d2;
-}
-
 footer {
-  background-color: #222;
-  color: #fff;
   text-align: center;
   padding: 1rem;
+  background-color: #eee;
   margin-top: 3rem;
 }
