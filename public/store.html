@@ -28,22 +28,42 @@
   <section class="store-container">
     <h2>🛒 Browse Available Books</h2>
 
-    <div class="book-card">
-      <img src="/images/top-pick.jpg" alt="Book Cover" />
-      <h3>Why Employees Can’t Be Blamed for Being Employees</h3>
-      <h4 class="subtitle">Challenging the Criticisms and Celebrating Their True Impact</h4>
-      <p>ePUB/PDF: ₱200</p>
-      <p>Physical Copy: ₱500</p>
+    <div class="books-grid">
+      <!-- Book Card 1 -->
+      <div class="book-card">
+        <img src="/images/top-pick.jpg" alt="Book Cover" />
+        <h3>Why Employees Can’t Be Blamed for Being Employees</h3>
+        <h4 class="subtitle">Challenging the Criticisms and Celebrating Their True Impact</h4>
+        <p>ePUB/PDF: ₱200</p>
+        <p>Physical Copy: ₱500</p>
 
-      <div class="actions">
-        <button class="preview-btn">📖 Preview First 10 Pages</button>
-        <button class="add-cart-btn">🛒 Add to Cart</button>
-        <button class="physical-copy-btn" data-book-id="top-pick">📦 I’d like a physical copy (₱500)</button>
+        <div class="actions">
+          <button class="preview-btn">📖 Preview First 10 Pages</button>
+          <button class="add-cart-btn">🛒 Add to Cart</button>
+          <button class="physical-copy-btn" data-book-id="top-pick">📦 I’d like a physical copy (₱500)</button>
+        </div>
       </div>
+
+      <!-- Book Card 2 (Duplicate & Edit for New Books) -->
+      <div class="book-card">
+        <img src="/images/book2.jpg" alt="Book Cover" />
+        <h3>Title of the Second Book</h3>
+        <h4 class="subtitle">Subtitle of the Second Book</h4>
+        <p>ePUB/PDF: ₱300</p>
+        <p>Physical Copy: ₱600</p>
+
+        <div class="actions">
+          <button class="preview-btn">📖 Preview First 10 Pages</button>
+          <button class="add-cart-btn">🛒 Add to Cart</button>
+          <button class="physical-copy-btn" data-book-id="book2">📦 I’d like a physical copy (₱600)</button>
+        </div>
+      </div>
+
+      <!-- Add more book-cards as needed -->
     </div>
   </section>
 
-  <!-- Modal here -->
+  <!-- Modal for Physical Copy -->
   <div id="physical-modal" class="modal hidden">
     <div class="modal-content">
       <span class="close-btn">&times;</span>
