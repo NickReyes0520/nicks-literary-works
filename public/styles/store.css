@@ -124,9 +124,30 @@ main {
   cursor: pointer;
 }
 
-.store-container h2 {
-  color: #006d77;
-  margin-bottom: 1rem;
+.copyright-disclaimer {
+  text-align: center;
+  background-color: #fff7db;
+  border: 2px dashed #facc15;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border-radius: 1rem;
+  font-size: 1rem;
+  color: #4b5563;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.copyright-disclaimer h3 {
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+  color: #b45309;
+  letter-spacing: 1px;
+}
+
+.copyright-disclaimer p {
+  font-style: italic;
+  margin: 0 auto;
+  max-width: 800px;
+  line-height: 1.6;
 }
 
 .books-grid {
