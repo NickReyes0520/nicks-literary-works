@@ -6,6 +6,12 @@ body {
   color: #333;
 }
 
+img {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
 header {
   background-color: #006d77;
   color: white;
