@@ -162,6 +162,7 @@ img {
 /* Search + Hamburger layout */
 .nav-top.full-width {
   display: flex;
+  gap: 1rem;
   align-items: center;
   justify-content: space-between;
   padding: 0 2rem;
