@@ -238,7 +238,9 @@ main {
 .actions .pricing {
   display: flex;
   flex-direction: column;
-  gap: 0.1rem; /* Much tighter spacing between prices */
+  gap: 0.1rem;
+  margin-bottom: 0.50rem;
+  margin-top: 0.50rem;
 }
 
 .actions button {
