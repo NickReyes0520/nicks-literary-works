@@ -162,7 +162,7 @@ main {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  min-height: 460px; /* Adjust this value as needed */
+  min-height: 520px;
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 1rem;
@@ -170,6 +170,12 @@ main {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   transition: transform 0.3s ease;
   text-align: center;
+}
+
+@media (max-width: 768px) {
+  .book-card {
+    min-height: 520px;
+  }
 }
 
 .book-card:hover {
