@@ -17,6 +17,12 @@ a {
   color: inherit;
 }
 
+img {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
 /* ====== SITE HEADER ====== */
 .site-header {
   background-color: #2f2f2f;
