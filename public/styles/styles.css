@@ -201,6 +201,7 @@ img {
 
 .nav-search-wrapper .search-bar {
   padding: 0 1rem;
+  height: 44px;
   border: none;
   border-radius: 6px;
   font-size: 1rem;
