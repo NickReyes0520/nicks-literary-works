@@ -83,7 +83,7 @@ main {
   width: 100%;
   padding: 0.6rem 1rem 0.6rem 2.5rem;
   border: 2px solid #e5e7eb;
-  border-radius: 9999px;
+  border-radius: 6px;
   font-size: 1rem;
   background-color: white;
   color: #333;
@@ -109,7 +109,7 @@ main {
 #categoryFilter {
   padding: 0.6rem 1rem;
   border: 2px solid #e5e7eb;
-  border-radius: 9999px;
+  border-radius: 6px;
   font-size: 1rem;
   background-color: white;
   color: #333;
