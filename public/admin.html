@@ -14,65 +14,66 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
 </head>
+  
 <body>
   <header class="admin-header">
     <h1>📚 Admin Book Editor Portal</h1>
     <p class="subheading">Manage and Create Your Books Right Here</p>
   </header>
 
-  <nav class="admin-nav">
-    <button onclick="showPanel('editor')">✍️ Book Editor</button>
-    <button onclick="showPanel('cover')">🎨 Cover Designer</button>
-    <button onclick="showPanel('layout')">🧾 Layout & Structure</button>
-    <button onclick="showPanel('images')">🖼️ Image Insertion</button>
-    <button onclick="showPanel('pdf')">📄 PDF Editor</button>
-  </nav>
+  <div class="admin-container">
+    <nav class="admin-nav">
+      <button onclick="showPanel('editor')">✍️ Book Editor</button>
+      <button onclick="showPanel('cover')">🎨 Cover Designer</button>
+      <button onclick="showPanel('layout')">🧾 Layout & Structure</button>
+      <button onclick="showPanel('images')">🖼️ Image Insertion</button>
+      <button onclick="showPanel('pdf')">📄 PDF Editor</button>
+    </nav>
 
-  <main class="admin-main">
-    <!-- WYSIWYG Editor -->
-    <section id="editor" class="admin-panel">
-      <h2>✍️ Write and Format Your Book</h2>
-      <div id="quillEditor"></div>
-      <button onclick="saveTextAsFile()">💾 Save as HTML</button>
-    </section>
+    <main class="admin-main">
+      <!-- WYSIWYG Editor -->
+      <section id="editor" class="admin-panel editor-section active">
+        <h2>✍️ Write and Format Your Book</h2>
+        <div id="quillEditor"></div>
+        <button onclick="saveTextAsFile()">💾 Save as HTML</button>
+      </section>
 
-    <!-- Cover Designer Placeholder -->
-    <section id="cover" class="admin-panel hidden">
-      <h2>🎨 Design Your Book Cover</h2>
-      <p>[Canvas-based editor placeholder – to be integrated with fabric.js or similar]</p>
-    </section>
+      <!-- Cover Designer Placeholder -->
+      <section id="cover" class="admin-panel cover-section">
+        <h2>🎨 Design Your Book Cover</h2>
+        <p>[Canvas-based editor placeholder – to be integrated with fabric.js or similar]</p>
+      </section>
 
-    <!-- Book Structure Management -->
-    <section id="layout" class="admin-panel hidden">
-      <h2>🧾 Organize Parts & Chapters</h2>
-      <button onclick="addChapter()">➕ Add Chapter</button>
-      <ul id="chapterList"></ul>
-    </section>
+      <!-- Book Structure Management -->
+      <section id="layout" class="admin-panel layout-section">
+        <h2>🧾 Organize Parts & Chapters</h2>
+        <button onclick="addChapter()">➕ Add Chapter</button>
+        <ul id="chapterList"></ul>
+      </section>
 
-    <!-- Image Insertion -->
-    <section id="images" class="admin-panel hidden">
-      <h2>🖼️ Insert Images</h2>
-      <input type="file" id="imageUpload" accept="image/*" />
-      <div id="imagePreview"></div>
-    </section>
+      <!-- Image Insertion -->
+      <section id="images" class="admin-panel image-section">
+        <h2>🖼️ Insert Images</h2>
+        <input type="file" id="imageUpload" accept="image/*" />
+        <div id="imagePreview"></div>
+      </section>
 
-    <!-- PDF Editor -->
-    <section id="pdf" class="admin-panel hidden">
-      <h2>📄 PDF Editor</h2>
-      <input type="file" id="pdfUpload" accept="application/pdf" />
-      <div id="pdfControls"></div>
-      <canvas id="pdfCanvas"></canvas>
-    </section>
-  </main>
+      <!-- PDF Editor -->
+      <section id="pdf" class="admin-panel pdf-section">
+        <h2>📄 PDF Editor</h2>
+        <input type="file" id="pdfUpload" accept="application/pdf" />
+        <div id="pdfControls"></div>
+        <canvas id="pdfCanvas"></canvas>
+      </section>
+    </main>
+  </div>
 
   <script>
-    // Tab Switching
     function showPanel(panelId) {
-      document.querySelectorAll('.admin-panel').forEach(p => p.classList.add('hidden'));
-      document.getElementById(panelId).classList.remove('hidden');
+      document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById(panelId).classList.add('active');
     }
 
-    // Quill Editor
     const quill = new Quill('#quillEditor', {
       theme: 'snow'
     });
@@ -82,7 +83,6 @@
       saveAs(blob, 'my-book.html');
     }
 
-    // Chapter management
     function addChapter() {
       const ul = document.getElementById('chapterList');
       const li = document.createElement('li');
@@ -90,7 +90,6 @@
       ul.appendChild(li);
     }
 
-    // Image upload preview
     document.getElementById('imageUpload').addEventListener('change', e => {
       const file = e.target.files[0];
       const reader = new FileReader();
@@ -104,4 +103,5 @@
     });
   </script>
 </body>
+
 </html>
