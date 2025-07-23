@@ -120,11 +120,12 @@ a {
 /* Carousel Section */
 .carousel-section {
   flex: 1;
-  max-width: 50%;
+  width: 100%;
   background-color: #fff;
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  margin-top: 40px
 }
 
 .styled-box {
