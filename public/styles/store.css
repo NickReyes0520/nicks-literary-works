@@ -66,15 +66,22 @@ main {
 .store-controls {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
   gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
   margin: 2rem 0;
   padding: 0 1rem;
 }
 
-.store-controls input[type="search"],
-.store-controls select {
-  padding: 0.6rem 1rem;
+.search-wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+}
+
+.search-wrapper input[type="search"] {
+  width: 100%;
+  padding: 0.6rem 1rem 0.6rem 2.5rem;
   border: 2px solid #e5e7eb;
   border-radius: 9999px;
   font-size: 1rem;
@@ -84,13 +91,30 @@ main {
   outline: none;
 }
 
-.store-controls input[type="search"]:focus,
-.store-controls select:focus {
+.search-wrapper input[type="search"]:focus {
   border-color: #facc15;
   box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.4);
 }
 
-.store-controls select {
+.search-icon {
+  position: absolute;
+  left: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.1rem;
+  color: #999;
+  pointer-events: none;
+}
+
+#categoryFilter {
+  padding: 0.6rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 9999px;
+  font-size: 1rem;
+  background-color: white;
+  color: #333;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  outline: none;
   appearance: none;
   background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
   background-repeat: no-repeat;
@@ -98,13 +122,6 @@ main {
   background-size: 1rem;
   padding-right: 2.5rem;
   cursor: pointer;
-}
-
-#searchBar, #categoryFilter {
-  padding: 0.5rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
 }
 
 .store-container h2 {
