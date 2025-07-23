@@ -155,7 +155,6 @@ main {
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 2rem;
   padding: 2rem 0;
-  align-items: stretch;
 }
 
 .book-card {
@@ -163,7 +162,6 @@ main {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  gap: 1rem;
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 1rem;
@@ -173,10 +171,15 @@ main {
   text-align: center;
 }
 
-@media (max-width: 768px) {
-  .book-card {
-    min-height: 520px;
-  }
+.book-card .content {
+  flex-grow: 1;
+}
+
+.book-card .actions {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
 }
 
 .book-card:hover {
@@ -202,17 +205,6 @@ main {
   color: #555;
   margin-bottom: 0.5rem;
   text-align: center;
-}
-
-.book-card .content {
-  flex-grow: 1;
-}
-
-.book-card .actions {
-  margin-top: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
 }
 
 .book-card p {
