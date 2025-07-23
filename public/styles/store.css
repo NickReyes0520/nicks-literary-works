@@ -43,7 +43,7 @@ nav a {
   background-color: #8eceff;
   color: #000;
   padding: 0.5rem 1rem;
-  border-radius: 9999px;
+  border-radius: 6px;
   font-weight: 600;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
