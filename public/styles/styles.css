@@ -71,7 +71,7 @@ a {
 /* Featured Books Section */
 .featured-books {
   flex: 1;
-  max-width: 40%;
+  max-width: 50%;
   background-color: #f8f8f8;
   padding: 25px;
   border-radius: 12px;
@@ -120,7 +120,7 @@ a {
 /* Carousel Section */
 .carousel-section {
   flex: 1;
-  max-width: 60%;
+  max-width: 50%;
   background-color: #fff;
   padding: 20px;
   border-radius: 12px;
@@ -137,7 +137,9 @@ a {
 
 .featured-books,
 .carousel-and-below {
+  flex: 1;
   max-height: 100%;
+  max-width: 50%;
   overflow: visible;
 }
 
@@ -346,6 +348,7 @@ a {
   background-color: #fff;
   padding: 50px 20px;
   margin-top: 40px;
+  width: 100%;
 }
 
 .testimonials h2 {
