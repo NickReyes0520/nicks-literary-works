@@ -1,36 +1,13 @@
-/* ====== GLOBAL RESETS ====== */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-/* ====== GENERAL STYLING ====== */
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f5f5f5;
-  color: #333;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-img {
-  pointer-events: none;
-  user-select: none;
-  -webkit-user-drag: none;
-}
-
 /* ====== SITE HEADER ====== */
 .site-header {
   background-color: #2f2f2f;
   color: white;
-  padding: 1.5rem 2rem;
+  padding: 1rem 2rem; /* Reduced vertical padding */
   display: flex;
   justify-content: space-between;
+  align-items: center; /* Ensure vertical alignment */
   flex-wrap: wrap;
+  height: 120px; /* Compresses the height visually */
 }
 
 /* Branding / Logo */
@@ -41,13 +18,13 @@ img {
 }
 
 .branding img {
-  height: 90px;
+  height: 100px; /* Slightly larger for prominence */
   width: auto;
 }
 
 .title-group h1 {
   margin: 0;
-  font-size: 2.2rem;
+  font-size: 2.4rem; /* Slightly larger for better branding */
   font-weight: 700;
   color: #fff;
 }
@@ -57,8 +34,8 @@ img {
 }
 
 .title-group .tagline {
-  margin-top: 0.25rem;
-  font-size: 1rem;
+  margin-top: 0.2rem;
+  font-size: 1.15rem; /* Slightly increased */
   font-style: italic;
   color: #ccc;
 }
