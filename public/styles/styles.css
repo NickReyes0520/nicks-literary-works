@@ -175,16 +175,6 @@ img {
   margin-right: 1rem;
 }
 
-.search-bar {
-  height: 44px;
-  padding: 0 1rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 6px;
-  background-color: #444;
-  color: #fff;
-}
-
 .search-bar::placeholder {
   color: #ccc;
 }
@@ -210,13 +200,12 @@ img {
 }
 
 .nav-search-wrapper .search-bar {
-  padding: 0.5rem 1rem 0.5rem 2.2rem;
-  border: 2px solid #e5e7eb;
-  border-radius: 9999px;
-  font-size: 0.95rem;
-  background-color: white;
-  color: #333;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  padding: 0 1rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: #444;
+  color: #fff;
   outline: none;
 }
 
@@ -227,7 +216,7 @@ img {
 
 .nav-search-wrapper .search-icon {
   position: absolute;
-  left: 0.75rem;
+  right: 0.75rem;
   font-size: 1rem;
   color: #888;
   pointer-events: none;
