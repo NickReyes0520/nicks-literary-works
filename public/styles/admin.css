@@ -71,6 +71,15 @@ main {
   text-align: center;
 }
 
+#login-form {
+  margin-top: 1.5rem;
+}
+
+#login-status {
+  color: red;
+  font-weight: bold;
+}
+
 /* Center only the access message card */
 #access-message {
   text-align: center;
