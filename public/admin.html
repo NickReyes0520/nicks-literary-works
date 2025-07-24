@@ -15,21 +15,22 @@
     <h1>Welcome to Admin’s Backend Portal</h1>
     <nav class="nav-buttons" id="nav-buttons">
       <a href="index.html">Back to Home</a>
-      <a href="virlib.html" class="admin-only">Virtual Library</a>
-      <a href="bookeditor.html" class="admin-only">Book Editing Studio</a>
-      <a href="pdfeditor.html" class="admin-only">PDF Viewer/Editor</a>
+      <a href="virlib.html" class="admin-only" style="display: none;">Virtual Library</a>
+      <a href="bookeditor.html" class="admin-only" style="display: none;">Book Editing Studio</a>
+      <a href="pdfeditor.html" class="admin-only" style="display: none;">PDF Viewer/Editor</a>
       <a href="settings.html">⚙️ Site Settings</a>
     </nav>
   </header>
 
   <main>
     <section id="access-message" class="card">
-      <p>This portal is for administrator access only. You may continue to adjust site settings.</p>
+      <p>This portal is for administrator access only.</p>
+      <p>You may continue to adjust site settings.</p>
     </section>
 
     <section id="login-form" class="card">
       <h2>🔒 Admin Login</h2>
-      <form id="admin-login-form">
+      <form id="admin-login-form" novalidate>
         <div class="form-group">
           <label for="username">👤 Username</label>
           <input type="text" id="username" required />
@@ -40,6 +41,9 @@
         </div>
         <button type="submit">Login</button>
         <p id="login-status"></p>
+      </form>
+
+      <form id="admin-login-form" novalidate>
       </form>
     </section>
   </main>
