@@ -46,3 +46,17 @@ nav a {
   background-color: #5cc057;
   color: #fff;
 }
+
+main {
+  padding: 1rem;
+  text-align: center;
+}
+
+#login-form {
+  margin-top: 1.5rem;
+}
+
+#login-status {
+  color: red;
+  font-weight: bold;
+}
