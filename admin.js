@@ -28,11 +28,16 @@ document.addEventListener("DOMContentLoaded", () => {
       document.querySelectorAll(".admin-only").forEach(btn => btn.style.display = "inline-block");
       document.getElementById("access-message").style.display = "none";
       document.getElementById("login-form").style.display = "none";
-      document.getElementById("login-success").style.display = "flex"; // Show the success overlay
+      document.getElementById("login-status").textContent = "";
 
+      // ✅ Show welcome message and overlay
+      document.getElementById("admin-welcome").style.display = "block";
+      document.getElementById("login-success").style.display = "flex";
+
+      // 🧹 Optionally remove success overlay after animation
       setTimeout(() => {
-        document.getElementById("login-success").style.display = "none"; // Hide it after animation
-      }, 3500); // Wait for animation to finish before removing
+        document.getElementById("login-success").style.display = "none";
+      }, 3500);
     }
     
     // Simple admin credentials check
