@@ -4,104 +4,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Book Editor</title>
-  <link rel="stylesheet" href="/styles/admin.css">
+  <title>Admin’s Backend Portal</title>
 
-  
-  <!-- Include libraries for WYSIWYG, PDF editing, and more -->
-  <link href="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.snow.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="/website-logo.jpg" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/styles/admin.css" />
+
+  <script type="module" src="/store.js" defer></script>
 </head>
-  
-<body>
-  <header class="admin-header">
-    <h1>📚 Admin Book Editor Portal</h1>
-    <p class="subheading">Manage and Create Your Books Right Here</p>
-  </header>
 
-  <div class="admin-container">
-    <nav class="admin-nav">
-      <button onclick="showPanel('editor')">✍️ Book Editor</button>
-      <button onclick="showPanel('cover')">🎨 Cover Designer</button>
-      <button onclick="showPanel('layout')">🧾 Layout & Structure</button>
-      <button onclick="showPanel('images')">🖼️ Image Insertion</button>
-      <button onclick="showPanel('pdf')">📄 PDF Editor</button>
+<body>
+  <header>
+    <h1>Welcome to Admin’s Backend Portal</h1>
+    <nav class="nav-buttons">
+      <a href="index.html">Back to Home</a>
+      <a href="free.html">Book Editing Studio</a>
+      <a href="account.html">PDF Viewer/Editor</a>
+      <a href="cart.html">⚙️ Site Settings</a>
     </nav>
 
-    <main class="admin-main">
-      <!-- WYSIWYG Editor -->
-      <section id="editor" class="admin-panel editor-section active">
-        <h2>✍️ Write and Format Your Book</h2>
-        <div id="quillEditor"></div>
-        <button onclick="saveTextAsFile()">💾 Save as HTML</button>
-      </section>
-
-      <!-- Cover Designer Placeholder -->
-      <section id="cover" class="admin-panel cover-section">
-        <h2>🎨 Design Your Book Cover</h2>
-        <p>[Canvas-based editor placeholder – to be integrated with fabric.js or similar]</p>
-      </section>
-
-      <!-- Book Structure Management -->
-      <section id="layout" class="admin-panel layout-section">
-        <h2>🧾 Organize Parts & Chapters</h2>
-        <button onclick="addChapter()">➕ Add Chapter</button>
-        <ul id="chapterList"></ul>
-      </section>
-
-      <!-- Image Insertion -->
-      <section id="images" class="admin-panel image-section">
-        <h2>🖼️ Insert Images</h2>
-        <input type="file" id="imageUpload" accept="image/*" />
-        <div id="imagePreview"></div>
-      </section>
-
-      <!-- PDF Editor -->
-      <section id="pdf" class="admin-panel pdf-section">
-        <h2>📄 PDF Editor</h2>
-        <input type="file" id="pdfUpload" accept="application/pdf" />
-        <div id="pdfControls"></div>
-        <canvas id="pdfCanvas"></canvas>
-      </section>
-    </main>
-  </div>
-
-  <script>
-    function showPanel(panelId) {
-      document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
-      document.getElementById(panelId).classList.add('active');
-    }
-
-    const quill = new Quill('#quillEditor', {
-      theme: 'snow'
-    });
-
-    function saveTextAsFile() {
-      const blob = new Blob([quill.root.innerHTML], { type: 'text/html;charset=utf-8' });
-      saveAs(blob, 'my-book.html');
-    }
-
-    function addChapter() {
-      const ul = document.getElementById('chapterList');
-      const li = document.createElement('li');
-      li.textContent = `Chapter ${ul.children.length + 1}`;
-      ul.appendChild(li);
-    }
-
-    document.getElementById('imageUpload').addEventListener('change', e => {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        const img = document.createElement('img');
-        img.src = event.target.result;
-        img.style.maxWidth = '300px';
-        document.getElementById('imagePreview').appendChild(img);
-      };
-      reader.readAsDataURL(file);
-    });
-  </script>
+  </header>
 </body>
-
-</html>
