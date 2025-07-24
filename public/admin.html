@@ -61,9 +61,14 @@
       }
     }
 
-    // Hide admin-only buttons by default
     window.onload = () => {
       document.querySelectorAll(".admin-only").forEach(btn => btn.style.display = "none");
+
+      // ✅ Bind login to form submit
+      document.getElementById("admin-login-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+        login();
+      });
     };
   </script>
 </body>
