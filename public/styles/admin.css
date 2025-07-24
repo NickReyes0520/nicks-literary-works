@@ -63,13 +63,27 @@ main {
   max-width: 400px;
   width: 100%;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  text-align: center;
 }
 
 .card h2 {
   margin-top: 0;
   color: #333;
   text-align: center;
+}
+
+/* Center only the access message card */
+#access-message {
+  text-align: center;
+}
+
+/* Center the heading inside the login card */
+#login-form h2 {
+  text-align: center;
+}
+
+/* Keep form content left-aligned */
+#admin-login-form {
+  text-align: left;
 }
 
 .form-group {
