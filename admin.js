@@ -1,5 +1,3 @@
-/* admin.js */
-
 if (username === "nicks-literary-works" && password === "nickreyes0520") {
   document.querySelectorAll(".admin-only").forEach(btn => btn.style.display = "inline-block");
   document.getElementById("access-message").style.display = "none";
