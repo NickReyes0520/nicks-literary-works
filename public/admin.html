@@ -44,5 +44,27 @@
       </form>
     </section>
   </main>
+
+  <!-- Login Script -->
+  <script>
+    function login() {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value;
+
+      if (username === "nicks-literary-works" && password === "nickreyes0520") {
+        document.querySelectorAll(".admin-only").forEach(btn => btn.style.display = "inline-block");
+        document.getElementById("access-message").style.display = "none";
+        document.getElementById("login-form").style.display = "none";
+        document.getElementById("login-status").textContent = "";
+      } else {
+        document.getElementById("login-status").textContent = "❌ Invalid credentials.";
+      }
+    }
+
+    // Hide admin-only buttons by default
+    window.onload = () => {
+      document.querySelectorAll(".admin-only").forEach(btn => btn.style.display = "none");
+    };
+  </script>
 </body>
 </html>
