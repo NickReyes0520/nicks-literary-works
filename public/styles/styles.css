@@ -422,6 +422,7 @@ img {
   font-weight: bold;
   text-align: right;
   margin-top: 1px;
+  margin-right: 30px;
   color: #444;
 }
 
@@ -431,7 +432,7 @@ img {
 }
 
 .author-photo {
-  max-width: 170px;
+  max-width: 250px;
   margin-bottom: 1px;
 }
 
