@@ -36,13 +36,16 @@ img {
 /* Branding / Logo */
 .branding {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 20px;
+  text-align: center;
+  flex: 1;
 }
 
-.branding img {
+.branding img.logo {
   height: 90px;
   width: auto;
+  margin-bottom: 0.5rem;
 }
 
 .title-group h1 {
@@ -61,6 +64,20 @@ img {
   font-size: 1rem;
   font-style: italic;
   color: #ccc;
+}
+
+/* Baybayin + English Subtitle */
+.baybayin-text {
+  font-family: 'Noto Sans Baybayin', sans-serif;
+  font-size: 1.2rem;
+  color: #fff;
+  margin-top: 0.75rem;
+}
+
+.baybayin-translation {
+  font-size: 0.85rem;
+  color: #f3f3f3;
+  margin-top: 0.25rem;
 }
 
 /* ====== HOME FEATURED SECTION ====== */
