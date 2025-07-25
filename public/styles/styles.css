@@ -421,7 +421,7 @@ img {
   font-size: 18px;
   font-weight: bold;
   text-align: right;
-  margin-top: 1px;
+  margin-top: 0.1rem;
   margin-right: 30px;
   color: #444;
 }
@@ -433,7 +433,7 @@ img {
 
 .author-photo {
   max-width: 250px;
-  margin-bottom: 1px;
+  margin-bottom: 0.1rem;
 }
 
 /* Testimonials */
