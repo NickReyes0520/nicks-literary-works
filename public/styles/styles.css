@@ -417,6 +417,7 @@ img {
 }
 
 .author-signature-block {
+  max-width: 120px;
   text-align: right;
   margin-top: 20px;
 }
