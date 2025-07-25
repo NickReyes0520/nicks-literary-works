@@ -394,7 +394,6 @@ img {
 }
 
 .author-desk h2 {
-  font-family: 'Cambria', serif;
   font-size: 28px;
   font-weight: bold;
   margin-bottom: 20px;
@@ -406,7 +405,7 @@ img {
 }
 
 .author-note {
-  font-family: 'Cambria', serif;
+  font-family: 'Segoe Script', cursive;
   font-size: 18px;
   font-weight: bold;
   line-height: 1.6;
