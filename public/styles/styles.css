@@ -416,16 +416,6 @@ img {
   text-align: left;
 }
 
-.author-signature {
-  font-family: 'Brush Script MT', cursive;
-  font-size: 18px;
-  font-weight: bold;
-  text-align: right;
-  margin-top: none;
-  margin-right: 50px;
-  color: #444;
-}
-
 .author-signature-block {
   text-align: right;
   margin-top: 20px;
@@ -434,6 +424,32 @@ img {
 .author-photo {
   max-width: 250px;
   margin-bottom: none;
+}
+
+.signature-overlay {
+  position: relative;
+  display: inline-block;
+  text-align: right;
+}
+
+.signature-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px; /* Adjust as needed */
+  pointer-events: none;
+  z-index: 2;
+}
+
+.author-signature {
+  position: relative;
+  z-index: 1;
+  font-family: 'Brush Script MT', cursive;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: right;
+  margin-right: 50px;
+  color: #444;
 }
 
 /* Testimonials */
