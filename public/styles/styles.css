@@ -421,38 +421,6 @@ img {
   margin-top: 20px;
 }
 
-.author-photo {
-  max-width: 250px;
-  margin-bottom: none;
-}
-
-.signature-overlay {
-  position: relative;
-  display: inline-block;
-  text-align: right;
-}
-
-.signature-image {
-  position: absolute;
-  top: 15;
-  left: 5;
-  width: 250px;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.author-signature {
-  position: relative;
-  z-index: 1;
-  font-family: 'Brush Script MT', cursive;
-  font-size: 18px;
-  font-weight: bold;
-  text-align: right;
-  margin-top: 20rem;
-  margin-right: 50px;
-  color: #444;
-}
-
 /* Testimonials */
 .testimonials {
   background-color: #fff;
