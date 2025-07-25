@@ -431,10 +431,8 @@ img {
 }
 
 .author-photo {
-  max-width: 120px;
-  border-radius: 10px;
-  margin-bottom: 5px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  max-width: 170px;
+  margin-bottom: 1px;
 }
 
 /* Testimonials */
