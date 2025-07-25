@@ -436,7 +436,7 @@ img {
   position: absolute;
   top: 0;
   left: 0;
-  width: 120px; /* Adjust as needed */
+  width: 250px;
   pointer-events: none;
   z-index: 2;
 }
@@ -448,6 +448,7 @@ img {
   font-size: 18px;
   font-weight: bold;
   text-align: right;
+  margin-top: 200px;
   margin-right: 50px;
   color: #444;
 }
