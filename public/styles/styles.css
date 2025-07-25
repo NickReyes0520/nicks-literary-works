@@ -314,6 +314,28 @@ img {
   color: #facc15;
 }
 
+/* Make buttons flexible and centered on smaller screens */
+@media (max-width: 768px) {
+  .nav-columns {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .nav-col {
+    width: 100%;
+    align-items: center;
+  }
+
+  .nav-col li a {
+    width: 90%;
+    max-width: 320px;
+    height: 48px;
+    font-size: 1rem;
+  }
+}
+
 /* Make navigation links look like buttons */
 .nav-columns a {
   display: inline-block;
