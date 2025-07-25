@@ -68,8 +68,7 @@ img {
 .title-group .tagline {
   margin-top: 0.25rem;
   font-size: 1rem;
-  font-style: italic;
-  color: #ccc;
+  color: #444;
 }
 
 /* Baybayin + English Subtitle */
@@ -95,6 +94,7 @@ img {
 }
 
 .baybayin-translation {
+  font-family: 'Courier New', Courier, monospace;
   font-size: 0.85rem;
   color: #444;
   margin-top: 0.25rem;
