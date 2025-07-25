@@ -417,9 +417,13 @@ img {
 }
 
 .author-signature-block {
-  max-width: 120px;
   text-align: right;
   margin-top: 20px;
+}
+
+.signature-image {
+  max-width: 120px;
+  margin-bottom: 5px;
 }
 
 /* Testimonials */
