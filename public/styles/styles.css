@@ -45,7 +45,7 @@ img {
 .branding img.logo {
   height: 120px;
   width: auto;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.1rem;
 }
 
 @media (max-width: 600px) {
