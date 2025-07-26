@@ -135,12 +135,13 @@ nav a {
   height: 270px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   background-color: #f3f3f3;
   border-radius: 8px;
   border: 2px dashed #ccc;
-  padding: 0;
+  padding: 0.5rem;
   box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  box-sizing: border-box;
 }
 
 .action {
@@ -151,16 +152,22 @@ nav a {
   justify-content: center;
   cursor: pointer;
   border: 1px solid #ccc;
-  margin: 0.3rem 0;
+  margin: 0.4rem 0;
   background-color: #fff;
   border-radius: 6px;
+  padding: 0.5rem 0.4rem;
+  box-sizing: border-box;
 }
 
 .action span {
-  font-size: 2rem;
+  font-size: 1.5rem;
+  line-height: 1;
+  margin-bottom: 0.3rem;
 }
 
 .action p {
-  margin: 0.3rem 0 0;
+  font-size: 0.9rem;
+  margin: 0;
   font-weight: bold;
+  text-align: center;
 }
