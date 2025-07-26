@@ -220,7 +220,7 @@ img {
   justify-content: space-between;
   padding: 0 2rem;
   background-color: #2f2f2f;
-  max-width: 100%;
+  max-width: 100%; 
   box-sizing: border-box;
 }
 
@@ -280,7 +280,7 @@ img {
 /* Navigation Tabs */
 .nav-columns {
   background-color: #2f2f2f;
-  padding: 1rem 2rem;
+  padding: 1rem 1rem;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -412,7 +412,7 @@ img {
 .nav-top.full-width,
 .nav-columns {
   max-width: 1000px;
-  margin: 0 auto;
+  margin: none;
 }
 
 /* Author's Desk */
