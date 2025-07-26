@@ -542,3 +542,17 @@ img {
     max-width: 100%;
   }
 }
+
+/* Secure Image Canvas Styling */
+.secure-image canvas {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.logo-image canvas {
+  height: 90px !important;
+  width: auto !important;
+}
