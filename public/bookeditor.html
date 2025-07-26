@@ -27,28 +27,29 @@
     </nav>
   </header>
 
-  <main class="editor-container">
-    <!-- Toolbar -->
-    <div class="editor-toolbar">
-      <select id="fontSelect">
-        <option value="Arial">Arial</option>
-        <option value="Times New Roman">Times New Roman</option>
-        <option value="Georgia">Georgia</option>
-      </select>
-      <button onclick="execCmd('bold')"><b>B</b></button>
-      <button onclick="execCmd('italic')"><i>I</i></button>
-      <button onclick="execCmd('underline')"><u>U</u></button>
-      <input type="color" id="fontColor" title="Font Color" onchange="execCmd('foreColor', this.value)">
-      <button onclick="execCmd('justifyLeft')">Left</button>
-      <button onclick="execCmd('justifyCenter')">Center</button>
-      <button onclick="execCmd('justifyRight')">Right</button>
-      <button onclick="addChapter()">+ Chapter</button>
-      <button onclick="insertImage()">Insert Image</button>
-    </div>
+  <main class="editor-dashboard">
+    <section class="book-actions">
+      <button onclick="location.href='manuscript.html'">➕ Create a Book</button>
+      <button onclick="importBook()">📂 Import a Book</button>
+    </section>
 
-    <!-- Editable Content -->
-    <div id="editor" class="editor-content" contenteditable="true">
-      <h2>Start writing your book here...</h2>
-    </div>
+    <section class="bookshelf">
+      <h2>Your Bookshelf</h2>
+      <div class="book-grid">
+        <!-- Example Book Card -->
+        <div class="book-card">
+          <img src="/covers/book1.jpg" alt="Book Cover" />
+          <div class="book-info">
+            <h3>Why Employees Can't Be Blamed</h3>
+            <p>Nick Reyes</p>
+          </div>
+          <div class="book-actions">
+            <button onclick="location.href='managebook.html'">⚙️ Manage</button>
+            <button onclick="location.href='manuscript.html'">📝 Write</button>
+          </div>
+        </div>
+        <!-- More book cards dynamically loaded -->
+      </div>
+    </section>
   </main>
 </body>
