@@ -1,20 +1,18 @@
-function execCmd(command, value = null) {
-  document.execCommand(command, false, value);
-}
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-function addChapter() {
-  const editor = document.getElementById('editor');
-  const chapter = document.createElement('h2');
-  chapter.textContent = 'New Chapter';
-  editor.appendChild(chapter);
-}
+const firebaseConfig = {
+  // your config here...
+};
 
-function insertImage() {
-  const url = prompt('Enter image URL:');
-  if (url) execCmd('insertImage', url);
-}
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-// Handle font selection
-document.getElementById('fontSelect').addEventListener('change', function() {
-  execCmd('fontName', this.value);
-});
+// Example: Load books
+async function loadBooks() {
+  const querySnapshot = await getDocs(collection(db, "books"));
+  querySnapshot.forEach((doc) => {
+    console.log(doc.id, " => ", doc.data());
+    // Dynamically populate your book cards based on this data
+  });
+}
