@@ -1,0 +1,54 @@
+<!-- Editing Studio -->
+<!-- Book Editor Dashboard -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Editing Studio</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="/publisher-logo.png" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/styles/bookeditor.css" />
+
+  <script type="module" src="/bookeditor.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <h1>You’re in the Admin’s Editing Studio</h1>
+    <nav class="nav-buttons">
+      <a href="admin.html">Back to Admin Panel</a>
+      <a href="#" class="active">Book Editor</a>
+      <a href="#">PDF Editor</a>
+      <a href="#">Image Editor</a>
+    </nav>
+  </header>
+
+  <main class="editor-container">
+    <!-- Toolbar -->
+    <div class="editor-toolbar">
+      <select id="fontSelect">
+        <option value="Arial">Arial</option>
+        <option value="Times New Roman">Times New Roman</option>
+        <option value="Georgia">Georgia</option>
+      </select>
+      <button onclick="execCmd('bold')"><b>B</b></button>
+      <button onclick="execCmd('italic')"><i>I</i></button>
+      <button onclick="execCmd('underline')"><u>U</u></button>
+      <input type="color" id="fontColor" title="Font Color" onchange="execCmd('foreColor', this.value)">
+      <button onclick="execCmd('justifyLeft')">Left</button>
+      <button onclick="execCmd('justifyCenter')">Center</button>
+      <button onclick="execCmd('justifyRight')">Right</button>
+      <button onclick="addChapter()">+ Chapter</button>
+      <button onclick="insertImage()">Insert Image</button>
+    </div>
+
+    <!-- Editable Content -->
+    <div id="editor" class="editor-content" contenteditable="true">
+      <h2>Start writing your book here...</h2>
+    </div>
+  </main>
+</body>
