@@ -138,6 +138,24 @@ nav a {
   background-color: #48a146;
 }
 
+.overlay button:nth-of-type(1) {
+  background-color: #ddd3d3;
+  color: #000;
+}
+
+.overlay button:nth-of-type(2) {
+  background-color: #7ec8ff;
+  color: #000;
+}
+
+.overlay button:nth-of-type(1):hover {
+  background-color: #c4bcbc;
+}
+
+.overlay button:nth-of-type(2):hover {
+  background-color: #66b4ed;
+}
+
 .dual-action {
   width: 180px;
   height: 270px;
@@ -150,6 +168,26 @@ nav a {
   padding: 0.5rem;
   box-shadow: 0 0 10px rgba(0,0,0,0.05);
   box-sizing: border-box;
+}
+
+.create-button {
+  background-color: #8eceff;
+  color: #000;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.import-button {
+  background-color: #fedf7e;
+  color: #000;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .action {
