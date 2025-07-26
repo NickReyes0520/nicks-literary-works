@@ -12,16 +12,140 @@
   
   <!-- Stylesheet -->
   <link rel="stylesheet" href="styles/styles.css" />
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fffef8;
+    }
+
+    /* --- HEADER STYLING --- */
+    .site-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fcd34d;
+      padding: 20px 40px;
+      border-bottom: 4px solid #000;
+      flex-wrap: wrap;
+    }
+
+    .branding {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .branding img {
+      height: 90px;
+      width: auto;
+    }
+
+    .title-group h1 {
+      font-family: 'Cambria', serif;
+      margin: 0;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #222;
+    }
+
+    .title-group .highlight {
+      color: #333;
+      font-weight: bold;
+    }
+
+    .title-group .tagline {
+      font-family: 'Segoe Script', cursive;
+      margin: 5px 0 0;
+      font-size: 1rem;
+      color: #444;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 0;
+      margin: 0;
+      background-color: #333;
+      padding: 1rem 2rem;
+    }
+
+    nav li a {
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    nav li a:hover {
+      color: #ffd700;
+    }
+
+    /* --- CAROUSEL & QUICK ACCESS --- */
+    .carousel, .quick-access {
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .carousel-slide {
+      display: none;
+    }
+
+    .carousel-slide.active {
+      display: block;
+    }
+
+    .carousel img {
+      max-width: 100%;
+      height: auto;
+      max-height: 400px;
+      object-fit: contain;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      margin: 1rem auto;
+      display: block;
+    }
+
+    .quick-access button {
+      margin: 1rem;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      background-color: #222;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+
+    .quick-access button:hover {
+      background-color: #444;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #333;
+      color: white;
+    }
+  </style>
 </head>
 <body>
 
 <!-- HEADER -->
 <header class="site-header">
+  <!-- Branding: Now stacked vertically and centered -->
   <div class="branding">
-    <div class="secure-image logo-image" data-src="website-logo.jpg"></div>
+    <img src="website-logo.jpg" alt="Kuya Nick Logo" class="logo">
+    
     <div class="title-group">
       <h1>Nick’s <span class="highlight">Literary Works</span></h1>
       <p class="tagline">“Ink the truth, shape the soul—stories that linger beyond the final page.”</p>
+
+      <!-- Baybayin Section -->
       <p class="baybayin-text">ᜑᜒᜋ᜔ᜉᜒᜎᜈ᜔ ᜈᜅ᜔ ᜀᜃ᜔ᜎᜆᜈ᜔ ᜀᜆ᜔ ᜉᜎᜒᜋ᜔ᜊᜄᜈ᜔ ᜈᜒ ᜃᜓᜌ ᜈᜒᜃ᜔</p>
       <p class="baybayin-translation">HAVEN OF KUYA NICK’S LIBRARY AND PUBLISHING DOMAIN</p>
     </div>
@@ -58,72 +182,72 @@
 <!-- MAIN CONTENT -->
 <main>
   <section class="home-featured-carousel-wrapper">
-    <!-- Featured Books -->
+    <!-- Featured Books (Left Panel) -->
     <div class="featured-books">
       <h2>📚 Featured Books</h2>
 
       <div class="featured-book">
-        <div class="secure-image" data-src="/images/numbers-between.jpg"></div>
+        <img src="/images/numbers-between.jpg" alt="The Numbers Between 21 and 22">
         <div class="featured-book-details">
           <h3>The Numbers Between 21 and 22</h3>
           <h4>Discovering My Reality Through Numerology</h4>
-          <p>This book is a personal and reflective journey...</p>
+          <p>This book is a personal and reflective journey into the space between youth and wisdom. In this heartfelt testimony, the author unpacks a transformative period of life, where maturity meets self-awareness, and acceptance becomes the path to inner peace. Guided by the symbolic language of numerology, the book explores how numbers can illuminate our realities, reveal patterns within chaos, and help us understand ourselves with grace and intention. A story of awakening, healing, and embracing what it means to grow.</p>
         </div>
       </div>
 
       <div class="featured-book">
-        <div class="secure-image" data-src="/images/silent-languages.jpg"></div>
+        <img src="/images/silent-languages.jpg" alt="Silent Languages of Love">
         <div class="featured-book-details">
           <h3>Silent Languages of Love</h3>
-          <p>This explores the unspoken expressions that speak louder than words...</p>
+          <p>This explores the unspoken expressions that speak louder than words. From the gentle touch of a parent, to an employee’s devotion, to nature’s quiet generosity, this book celebrates the countless ways love is conveyed through action, presence, and care. It’s a heartfelt tribute to those who struggle to say “I love you,” but show it in every silent, profound way possible; proving that real love doesn’t always speak; sometimes, it simply shows up. Whether it’s the quiet strength of a caregiver, the resilience of a partner in hard times, or the subtle kindness of a stranger’s smile, every chapter reminds us: love doesn’t always announce itself.</p>
         </div>
       </div>
 
       <div class="featured-book">
-        <div class="secure-image" data-src="/images/significance-hand.jpg"></div>
+        <img src="/images/significance-hand.jpg" alt="The Significance of the Right Hand">
         <div class="featured-book-details">
           <h3>The Significance of the Right Hand</h3>
           <h4>Even if You’re Left-Handed</h4>
-          <p>This is a delightfully informative journey into the everyday rituals...</p>
+          <p>This is a delightfully informative journey into the everyday rituals, customs, and traditions that favor the right hand, no matter your dominant side. From military salutes and oath takings to handshakes and pledges of allegiance, this book uncovers the historical, social, and sometimes symbolic reasons why the right hand reigns in specific moments. Whether you're right-handed, left-handed, or ambidextrous, discover how these seemingly small gestures reveal bigger truths about culture and identity, with a smile along the way.</p>
         </div>
       </div>
 
       <div class="featured-book">
-        <div class="secure-image" data-src="/images/war-battlefield.jpg"></div>
+        <img src="/images/war-battlefield.jpg" alt="War in a Quiet Battlefield">
         <div class="featured-book-details">
           <h3>War in a Quiet Battlefield</h3>
-          <p>This is a poignant tribute to those who fight their hardest battles in silence...</p>
+          <p>This is a poignant tribute to those who fight their hardest battles in silence. It follows the journey of individuals who bear life’s heaviest burdens not for glory, but to provide, protect, and love. With no room for breakdowns and no audience for despair, they carry the weight alone, wielding quiet strength like a sword, defending their families, partners, and purpose through storms only they truly know. This is a story of unseen heroes, and the war they silently endure to make others feel safe, secured, and protected. Each page honors the sacred silence of those who fight so that others may rest, heal, and grow. Their war is unseen. Their victories, unsung.</p>
         </div>
       </div>
 
       <div class="featured-book">
-        <div class="secure-image" data-src="/images/faces-justice.jpg"></div>
+        <img src="/images/faces-justice.jpg" alt="The Two Faces of Justice">
         <div class="featured-book-details">
           <h3>The Two Faces of Justice</h3>
           <h4>The Sad Reality of Our Society</h4>
-          <p>This piece exposes a painful truth: that justice often bends toward those with wealth...</p>
+          <p>This piece exposes a painful truth: that justice often bends toward those with wealth and influence, while the poor struggle to be heard. In this bold and empathetic reflection, the author confronts the imbalance in our legal systems, where money speaks louder than merit, and silence meets those with the least. Combining real-world insights with actionable guidance, this book offers both awareness and hope, empowering readers to recognize injustices and navigate the societal maze with resilience and understanding.</p>
         </div>
       </div>
     </div>
 
-    <!-- Carousel -->
+    <!-- Carousel Books (Right Panel) -->
     <div class="carousel-and-below">
       <section class="carousel-section">
         <section class="carousel">
           <div class="carousel-slide active">
             <h2>✨ Books That May Catch Your Eye ✨</h2>
-            <div class="secure-image" data-src="/images/book-month.jpg"></div>
-            <p>“A quiet study of symbolism and choice...”</p>
+            <img src="/images/book-month.jpg" alt="Book of the Month">
+            <p>“A quiet study of symbolism and choice—uncovering the power behind everyday motions, no matter where you stand.”</p>
           </div>
           <div class="carousel-slide">
             <h2>✨ Books That May Catch Your Eye ✨</h2>
-            <div class="secure-image" data-src="/images/new-release.jpg"></div>
-            <p>“Zero isn’t absence—it’s invitation...”</p>
+            <img src="/images/new-release.jpg" alt="New Release">
+            <p>“Zero isn’t absence—it’s invitation. This book traces the arc from void to possibility, showing how the simplest symbol holds infinite depth.”</p>
           </div>
           <div class="carousel-slide">
             <h2>✨ Books That May Catch Your Eye ✨</h2>
-            <div class="secure-image" data-src="/images/top-pick.jpg"></div>
-            <p>“This book reclaims the power of being an employee...”</p>
+            <img src="/images/top-pick.jpg" alt="Readers' Top Pick">
+            <p>“This book reclaims the power of being an employee—honoring the builders, thinkers, and quiet courage behind everyday roles.”</p>
           </div>
         </section>
 
@@ -133,69 +257,151 @@
         </div>
       </section>
 
-      <!-- Author’s Desk -->
+      <!-- From the Author’s Desk -->
       <section class="author-desk styled-box">
         <h2>📝 From the Author’s Desk</h2>
         <div class="author-content">
-          <p class="author-note">“Every story I write...”</p>
+          <p class="author-note">
+            “Every story I write, and every deep dive into research, carries a piece of my soul. Whether I’m exploring social issues, theological reflections, personal perspectives, or the shared wisdom of science and philosophy; each page becomes a mirror of my pursuit: of meaning, truth, and compassion. Thank you for walking this journey with me.”
+          </p>
           <div class="author-signature-block">
-            <div class="secure-image" data-src="nick-sign.png"></div>
+            <img src="nick-sign.png" alt="Nick Reyes" class="signature-image">
           </div>
         </div>
       </section>
 
-      <!-- Testimonials -->
+      <!-- Testimonials Section -->
       <section class="testimonials styled-box">
         <h2>💬 What Other Authors Are Saying</h2>
 
+        <!-- Testimonial 1 -->
         <div class="testimonial">
           <div class="testimonial-photo">
-            <div class="secure-image" data-src="images/testimonial1.jpg"></div>
+            <img src="images/testimonial1.jpg" alt="Reader Photo 1">
             <p class="commenter-name">Robbie G.</p>
+            <p class="commenter-name-title"><i>Writer/Author</i></p>
           </div>
-          <div class="testimonial-text"><p>“I’m not sure if I was one of the first to read...”</p></div>
+          <div class="testimonial-text">
+            <p>“I’m not sure if I was one of the first to read Nick’s earlier book release, but one thing for me is certain; his work is nothing short of remarkable. His storytelling radiates brilliance, and his creative writing skills are simply next level.”</p>
+          </div>
         </div>
 
+        <!-- Testimonial 2 (Corrected) -->
         <div class="testimonial reverse">
           <div class="testimonial-photo">
-            <div class="secure-image" data-src="images/testimonial2.jpg"></div>
+            <img src="images/testimonial2.jpg" alt="Reader Photo 2">
             <p class="commenter-name">Almira Mae T.</p>
+            <p class="commenter-name-title"><i>Manga Editor</i></p>
           </div>
-          <div class="testimonial-text"><p>“Ay grabe ah, this good dude has a website pala?!”</p></div>
+          <div class="testimonial-text">
+            <p>“Ay grabe ah, this good dude has a website pala?! That being said, his readers now have even more ways to dive into his masterpieces, lalo na syempre pag may mga bagong pasabog! Alam n’yo na.”</p>
+          </div>
         </div>
 
+        <!-- Testimonial 3 -->
         <div class="testimonial">
           <div class="testimonial-photo">
-            <div class="secure-image" data-src="images/testimonial3.jpg"></div>
+            <img src="images/testimonial3.jpg" alt="Reader Photo 3">
             <p class="commenter-name">Marky L.</p>
+            <p class="commenter-name-title"><i>Writer/Author</i></p>
           </div>
-          <div class="testimonial-text"><p>“Back then, the author and I moved in small circles...”</p></div>
+          <div class="testimonial-text">
+            <p>“Back then, the author and I moved in small circles, bound by the stories we dreamed. Today, Nick’s publishing sanctuary stands as his haven, and a tribute to the creativity we’ve long held in common.”</p>
+          </div>
         </div>
 
+        <!-- Testimonial 4 (Corrected) -->
         <div class="testimonial reverse">
           <div class="testimonial-photo">
-            <div class="secure-image" data-src="images/testimonial4.jpg"></div>
+            <img src="images/testimonial4.jpg" alt="Reader Photo 4">
             <p class="commenter-name">John Paul F.</p>
+            <p class="commenter-name-title"><i>Novelist</i></p>
           </div>
-          <div class="testimonial-text"><p>“As a novelist, I humbly admit that my writing...”</p></div>
+          <div class="testimonial-text">
+            <p>“As a novelist, I humbly admit that my writing is galaxies away from Nick’s creative brilliance. If my pen could borrow even a fraction of his magic, I’d probably have ten books out by now… and a fan club to boot! Every page he writes feels like a heart-to-heart. Definitely a must-read for truth-seekers and daydreamers alike. Sana all na lang talaga.”</p>
+          </div>
         </div>
 
+        <!-- Testimonial 5 -->
         <div class="testimonial">
           <div class="testimonial-photo">
-            <div class="secure-image" data-src="images/testimonial5.jpg"></div>
+            <img src="images/testimonial5.jpg" alt="Reader Photo 5">
             <p class="commenter-name">Harold A.</p>
+            <p class="commenter-name-title"><i>Creative Writer</i></p>
           </div>
-          <div class="testimonial-text"><p>“You can really see the influence of Nick’s literary heroes...”</p></div>
+          <div class="testimonial-text">
+            <p>“You can really see the influence of Nick’s literary heroes in how he writes; with depth, style, and soul. And now that he’s built his own publishing empire? Boom! It’s the official hangout for all the masterpieces he’s birthed. I’ve read a few, and let me tell you, even his random topics hit hard; timely, relevant, and genuinely enriching.”</p>
+          </div>
         </div>
+        
       </section>
     </div>
   </section>
 </main>
 
-<footer>
-  <p>&copy; Kuya Nick’s Literary Works. All rights reserved.</p>
-</footer>
+  <footer>
+    <p>&copy; Kuya Nick’s Literary Works. All rights reserved.</p>
+  </footer>
 
-<script src="scripts/script.js"></script>
+  <script>
+    const slides = document.querySelectorAll(".carousel-slide");
+    let currentSlide = 0;
+    let isTouching = false;
+    let startX = 0;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.remove("active");
+        if (i === index) slide.classList.add("active");
+      });
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    // Auto Slide
+    setInterval(nextSlide, 5000);
+
+    // Touch Events for Mobile
+    const carousel = document.querySelector(".carousel");
+
+    carousel.addEventListener("touchstart", (e) => {
+      isTouching = true;
+      startX = e.touches[0].clientX;
+    });
+
+    carousel.addEventListener("touchmove", (e) => {
+      if (!isTouching) return;
+      let deltaX = e.touches[0].clientX - startX;
+      if (Math.abs(deltaX) > 50) {
+        if (deltaX > 0) prevSlide();
+        else nextSlide();
+        isTouching = false;
+      }
+    });
+
+    carousel.addEventListener("touchend", () => {
+      isTouching = false;
+    });
+  </script>
+
+  <script>
+    // Disable right-click (context menu) on all <img> elements
+    document.querySelectorAll("img").forEach(img => {
+      img.addEventListener("contextmenu", e => e.preventDefault());
+      img.addEventListener("mousedown", e => {
+        if (e.button === 2) e.preventDefault(); // Extra desktop protection
+      });
+      img.addEventListener("touchstart", e => e.preventDefault()); // Block long-press menus on mobile
+    });
+  </script>
+
 </body>
 </html>
