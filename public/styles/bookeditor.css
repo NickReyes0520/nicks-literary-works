@@ -109,8 +109,16 @@ nav a {
   font-size: 1.2rem;
   word-wrap: break-word;
   margin: 0;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.5rem;
   text-align: center;
+}
+
+.overlay-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: auto; /* Push buttons to the bottom */
+  gap: 0.3rem;       /* Controls spacing between Manage and Write */
 }
 
 .overlay button {
