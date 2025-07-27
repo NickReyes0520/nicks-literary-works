@@ -167,12 +167,13 @@ nav a {
   border: 2px solid #3f1467;
   padding: 0.5rem;
   box-shadow: 0 0 10px rgba(0,0,0,0.05);
-  background-color: #999999;
+  background-color: #d2d2d2;
   box-sizing: border-box;
 }
 
 .action.create {
   background-color: #2986cc;
+  border: 2px solid #000;
   color: #000;
   border: none;
   padding: 0.6rem 1rem;
@@ -183,6 +184,7 @@ nav a {
 
 .action.import {
   background-color: #ce7e00;
+  border: 2px solid #000;
   color: #000;
   border: none;
   padding: 0.6rem 1rem;
