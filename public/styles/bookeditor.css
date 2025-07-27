@@ -120,9 +120,9 @@ nav a {
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  gap: 0.5rem; /* space between Manage and Write */
+  gap: 0.5rem;
   width: 100%;
-  margin-top: auto; /* pushes it to the bottom */
+  margin-top: auto;
 }
 
 .overlay button {
@@ -133,7 +133,7 @@ nav a {
   border-radius: 6px;
   margin: 0;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 700;
   transition: background-color 0.3s ease;
 }
 
