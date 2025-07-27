@@ -167,10 +167,11 @@ nav a {
   border: 2px solid #ccc;
   padding: 0.5rem;
   box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  background-color: #999999;
   box-sizing: border-box;
 }
 
-.create-button {
+.action.create {
   background-color: #8eceff;
   color: #000;
   border: none;
@@ -180,7 +181,7 @@ nav a {
   cursor: pointer;
 }
 
-.import-button {
+.action.import {
   background-color: #fedf7e;
   color: #000;
   border: none;
