@@ -164,7 +164,7 @@ nav a {
   flex-direction: column;
   justify-content: space-around;
   border-radius: 8px;
-  border: 2px solid #ccc;
+  border: 2px solid #3f1467;
   padding: 0.5rem;
   box-shadow: 0 0 10px rgba(0,0,0,0.05);
   background-color: #999999;
