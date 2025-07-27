@@ -172,7 +172,7 @@ nav a {
 }
 
 .action.create {
-  background-color: #8eceff;
+  background-color: #2986cc;
   color: #000;
   border: none;
   padding: 0.6rem 1rem;
@@ -182,7 +182,7 @@ nav a {
 }
 
 .action.import {
-  background-color: #fedf7e;
+  background-color: #ce7e00;
   color: #000;
   border: none;
   padding: 0.6rem 1rem;
