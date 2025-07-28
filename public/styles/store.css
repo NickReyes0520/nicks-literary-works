@@ -29,6 +29,7 @@ header {
   align-items: center;
   text-align: center;
   flex: 1;
+  gap: 10px;
 }
 
 .branding img.logo {
