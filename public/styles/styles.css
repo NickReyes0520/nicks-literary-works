@@ -54,15 +54,20 @@ img {
   flex: 1;
 }
 
-.branding img.logo {
-  height: 120px;
+.branding img {
+  height: 120px; /* Increased from 90px */
   width: auto;
-  margin-bottom: 0.1rem;
+}
+
+.branding img.logo {
+  height: 150px; /* Increased from 120px */
+  width: auto;
+  margin-bottom: 0.2rem; /* Slightly increased to keep spacing graceful */
 }
 
 @media (max-width: 600px) {
   .branding img.logo {
-    height: 90px;
+    height: 120px; /* Slightly larger for small screens too */
   }
 }
 
