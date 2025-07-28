@@ -37,7 +37,7 @@ img {
 
 /* ====== SITE HEADER ====== */
 .site-header {
-  background-color: #2f2f2f;
+  background: linear-gradient(to right, #ead1dc, #fff2cc);
   color: white;
   padding: 1.5rem 2rem;
   display: flex;
