@@ -8,8 +8,19 @@
 /* ====== GENERAL STYLING ====== */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f5f5f5;
   color: #333;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+
+  /* Forest photo as background */
+  background-image: url('/images/gentle-stream.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  /* Apply blur effect */
+  backdrop-filter: blur(8px);
 }
 
 a {
@@ -180,7 +191,7 @@ img {
 .carousel-section {
   flex: 1;
   width: 100%;
-  background-color: #ffe8e8;
+  background-color: #fff6fa;
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
