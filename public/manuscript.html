@@ -66,15 +66,25 @@
     <main class="editor-main">
       <!-- Ribbon Toolbar -->
       <div id="toolbar">
-        <select class="ql-font"></select>
-        <select class="ql-size"></select>
-        <button class="ql-bold"></button>
-        <button class="ql-italic"></button>
-        <button class="ql-underline"></button>
-        <button class="ql-align" value=""></button>
-        <button class="ql-align" value="center"></button>
-        <button class="ql-align" value="right"></button>
-        <button class="ql-image"></button>
+        <span class="ql-formats">
+          <select class="ql-font"></select>
+          <select class="ql-size"></select>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-bold"></button>
+          <button class="ql-italic"></button>
+          <button class="ql-underline"></button>
+          <button class="ql-strike"></button>
+        </span>
+        <span class="ql-formats">
+          <select class="ql-align"></select>
+          <button class="ql-indent" value="-1"></button>
+          <button class="ql-indent" value="+1"></button>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-image"></button>
+          <button class="ql-video"></button>
+        </span>
       </div>
 
       <!-- Quill Editor -->
