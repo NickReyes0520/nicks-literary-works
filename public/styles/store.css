@@ -20,7 +20,7 @@ header {
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  border-bottom: 4px solid #741b47;
+  border-bottom: 4px solid #38761d;
 }
 
 nav {
@@ -41,8 +41,8 @@ nav a {
 }
 
 .nav-buttons a {
-  background-color: #3d85c6;
-  color: #000;
+  background-color: #0b5394;
+  color: #fff;
   padding: 0.5rem 1rem;
   border-radius: 6px;
   font-weight: 600;
@@ -50,7 +50,7 @@ nav a {
 }
 
 .nav-buttons a:hover {
-  background-color: #0b5394;
+  background-color: #073763;
   color: #fff;
 }
 
