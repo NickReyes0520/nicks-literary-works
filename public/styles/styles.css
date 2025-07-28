@@ -11,13 +11,14 @@ body {
   color: #333;
   margin: 0;
   padding: 0;
-  height: 100vh;
+  min-height: 100vh;
 
   /* Forest photo as background */
   background-image: url('/images/gentle-stream.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  background-attachment: fixed;
 
   /* Apply blur effect */
   backdrop-filter: blur(8px);
