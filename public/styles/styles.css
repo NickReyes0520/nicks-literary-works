@@ -218,9 +218,9 @@ img {
   gap: 1rem;
   align-items: center;
   justify-content: space-between;
-  padding: 0 2rem;
+  padding: 0 1rem;
   background-color: #2f2f2f;
-  max-width: 100%; 
+  max-width: 100%;
   box-sizing: border-box;
 }
 
@@ -254,7 +254,7 @@ img {
 }
 
 .nav-search-wrapper .search-bar {
-  padding: 0 1rem;
+  padding: 0 2.7rem;
   height: 44px;
   border: none;
   border-radius: 6px;
@@ -280,12 +280,12 @@ img {
 /* Navigation Tabs */
 .nav-columns {
   background-color: #2f2f2f;
-  padding: 1rem 2rem;
+  padding: 0rem 1rem;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   list-style: none;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .nav-col {
@@ -411,8 +411,8 @@ img {
 .main-nav,
 .nav-top.full-width,
 .nav-columns {
-  max-width: 1000px;
-  margin: 0 auto;
+  max-width: 500px;
+  margin: 0;
 }
 
 /* Author's Desk */
