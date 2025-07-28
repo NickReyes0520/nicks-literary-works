@@ -1,7 +1,7 @@
 /* store.css */
 body {
   font-family: 'Segoe UI', sans-serif;
-  background-color: #fdfdfd;
+  background: linear-gradient(to right, #00ff99, #3399ff);
   margin: 0;
   color: #333;
 }
@@ -20,6 +20,7 @@ header {
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
+  border-bottom: 4px solid #174f79;
 }
 
 nav {
