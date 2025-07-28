@@ -23,6 +23,40 @@ header {
   border-bottom: 4px solid #000000;
 }
 
+.branding {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+}
+
+.branding img.logo {
+  height: 120px;
+  width: auto;
+  margin-bottom: 0.1rem;
+}
+
+@media (max-width: 600px) {
+  .branding img.logo {
+    height: 90px;
+  }
+}
+
+.title-group h1 {
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.title-group .tagline {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  font-style: italic;
+  color: #f3f6f4;
+}
+
 nav {
   display: flex;
   gap: 1rem;
