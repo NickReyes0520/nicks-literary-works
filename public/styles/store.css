@@ -13,14 +13,14 @@ img {
 }
 
 header {
-  background-color: #741b47;
+  background-color: #38761d;
   color: white;
   padding: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  border-bottom: 4px solid #38761d;
+  border-bottom: 4px solid #741b47;
 }
 
 nav {
