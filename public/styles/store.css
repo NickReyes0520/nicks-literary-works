@@ -329,6 +329,6 @@ main {
 footer {
   text-align: center;
   padding: 1rem;
-  background-color: #eee;
-  margin-top: 3rem;
+  background-color: #333;
+  color: white;
 }
