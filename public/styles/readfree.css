@@ -7,13 +7,51 @@ body {
 }
 
 header {
-  background-color: #c90076;
+  background-color: #2e6118;
   color: white;
   padding: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
+  border-bottom: 4px solid #bf9000;
+}
+
+.branding {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+  gap: 10px;
+}
+
+.branding img.logo {
+  height: 120px;
+  width: auto;
+  margin-bottom: 0.1rem;
+  border-radius: 6px;
+}
+
+@media (max-width: 600px) {
+  .branding img.logo {
+    height: 90px;
+  }
+}
+
+.title-group h1 {
+  font-family: 'Cambria', serif;
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.title-group .tagline {
+  font-family: 'Segoe Script', cursive;
+  margin-top: 0.5rem;
+  font-size: 1.2rem;
+  color: #f3f6f4;
 }
 
 nav {
