@@ -46,3 +46,8 @@ nav a {
   background-color: #2869a4;
   color: #fff;
 }
+
+.nav-buttons a.active {
+  background-color: #2869a4;
+  color: #fff;
+}
