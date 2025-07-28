@@ -215,7 +215,7 @@ main {
 }
 
 .book-card button {
-  background-color: #cfe5c6;
+  background-color: #1e88e5;
   color: white;
   border: none;
   border-radius: 6px;
@@ -247,7 +247,7 @@ main {
   padding: 0.6rem 1rem;
   border: none;
   border-radius: 6px;
-  background-color: #83c5be;
+  background-color: #cfe5c6;
   color: white;
   font-weight: bold;
   cursor: pointer;
