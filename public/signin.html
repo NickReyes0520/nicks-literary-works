@@ -1,0 +1,86 @@
+<!-- My Account Page -->
+<!-- Sign In Dashboard -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Account Authentication</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="/website-logo.jpg" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/styles/signin.css" />
+
+  <script type="module" src="/scripts/signin.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <div class="branding">
+      <img src="website-logo.jpg" alt="Kuya Nick Logo" class="logo">
+      <div class="title-group">
+        <h1>Welcome! Site Access Starts Here</h1>
+        <p class="tagline">New here? Register to explore the site. Already part of the family? Just sign in!</p>
+      </div>
+    </div>
+
+    <div class="navigations">
+      <nav class="nav-buttons">
+        <a href="index.html">Home</a>
+        <a href="account.html" id="navRegister">Register</a>
+        <a href="#" class="active" id="navSignIn">Sign In</a>
+        <a href="profile.html" id="navProfile" style="display: none;">My Profile</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="signin-container">
+    <form id="signinForm">
+      <h2>Sign In</h2>
+
+      <label for="signinUsername">Username</label>
+      <input type="text" id="signinUsername" name="username" required>
+
+      <label for="signinPassword">Password</label>
+      <input type="password" id="signinPassword" name="password" required>
+
+      <button type="submit">Sign In</button>
+
+      <div class="alternative-options">
+        <p><a href="#" id="forgotPasswordLink">Forgot password?</a></p>
+        <p>or</p>
+        <button type="button" id="googleSignIn">Sign in with Google</button>
+      </div>
+    </form>
+
+    <div id="passwordResetModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <h3>Reset Password</h3>
+        <p>Please enter your registered email or phone number to receive an OTP.</p>
+        <input type="text" id="recoveryInput" placeholder="Email or Phone Number" required>
+        <button id="sendOtp">Send OTP</button>
+
+        <div id="otpSection" style="display: none;">
+          <p>Enter the OTP you received:</p>
+          <input type="text" id="otpInput" placeholder="Enter OTP">
+          <button id="verifyOtp">Verify OTP</button>
+        </div>
+
+        <div id="newPasswordSection" style="display: none;">
+          <p>Enter a new password:</p>
+          <input type="password" id="newPassword" placeholder="New Password">
+          <button id="updatePassword">Change Password & Sign In</button>
+        </div>
+
+        <button id="closeModal">Cancel</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; Kuya Nick’s Literary Works. All rights reserved.</p>
+  </footer>
+</body>
+</html>
