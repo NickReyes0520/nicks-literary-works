@@ -254,3 +254,41 @@ onAuthStateChanged(auth, (user) => {
     profileNav.style.display = 'none';
   }
 });
+
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const auth = getAuth();
+const db = getFirestore();
+
+onAuthStateChanged(auth, async (user) => {
+  const navRegister = document.getElementById('navRegister');
+  const navSignIn = document.getElementById('navSignIn');
+  const navProfile = document.getElementById('navProfile');
+
+  if (user) {
+    // Hide guest links
+    if (navRegister) navRegister.style.display = 'none';
+    if (navSignIn) navSignIn.style.display = 'none';
+
+    // Show profile link with @username
+    if (navProfile) {
+      try {
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        const userData = userDoc.exists() ? userDoc.data() : null;
+        const username = userData?.username || user.displayName || "Profile";
+
+        navProfile.textContent = `My Profile (@${username})`;
+        navProfile.href = "profile.html";
+        navProfile.style.display = 'inline-block'; // or 'flex' as needed
+      } catch (error) {
+        console.error("Failed to load username:", error);
+      }
+    }
+  } else {
+    // Show guest links, hide profile
+    if (navRegister) navRegister.style.display = 'inline-block';
+    if (navSignIn) navSignIn.style.display = 'inline-block';
+    if (navProfile) navProfile.style.display = 'none';
+  }
+});
