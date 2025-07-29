@@ -165,3 +165,78 @@ onAuthStateChanged(auth, (user) => {
     navProfileLink.href = "signin.html";
   }
 });
+
+// === STEP 4: PROFILE PAGE LOGIC ===
+
+// Auto-fill profile form with current user info
+firebase.auth().onAuthStateChanged(async (user) => {
+  if (user) {
+    const userDocRef = firebase.firestore().collection('users').doc(user.uid);
+    const userDoc = await userDocRef.get();
+
+    if (userDoc.exists) {
+      const data = userDoc.data();
+      document.getElementById('profile-username').value = data.username || '';
+      document.getElementById('profile-email').value = user.email || '';
+      document.getElementById('profile-bio').value = data.bio || '';
+      document.getElementById('profile-interests').value = data.interests || '';
+      if (data.avatarUrl) {
+        document.getElementById('profile-avatar').src = data.avatarUrl;
+      }
+    }
+  }
+});
+
+// Save profile changes
+const saveProfileBtn = document.getElementById('save-profile-btn');
+saveProfileBtn?.addEventListener('click', async () => {
+  const user = firebase.auth().currentUser;
+  if (!user) return;
+
+  const username = document.getElementById('profile-username').value.trim();
+  const bio = document.getElementById('profile-bio').value.trim();
+  const interests = document.getElementById('profile-interests').value.trim();
+
+  await firebase.firestore().collection('users').doc(user.uid).update({
+    username,
+    bio,
+    interests,
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+  });
+
+  alert('Profile updated successfully!');
+});
+
+// Change avatar
+const changeAvatarBtn = document.getElementById('change-avatar-btn');
+changeAvatarBtn?.addEventListener('click', () => {
+  const fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  fileInput.accept = 'image/*';
+  fileInput.onchange = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const user = firebase.auth().currentUser;
+    const storageRef = firebase.storage().ref();
+    const avatarRef = storageRef.child(`avatars/${user.uid}/${file.name}`);
+    await avatarRef.put(file);
+    const avatarUrl = await avatarRef.getDownloadURL();
+
+    await firebase.firestore().collection('users').doc(user.uid).update({
+      avatarUrl,
+    });
+
+    document.getElementById('profile-avatar').src = avatarUrl;
+    alert('Avatar updated successfully!');
+  };
+  fileInput.click();
+});
+
+// Sign out from profile page
+const signOutBtn = document.querySelector('.signout-btn');
+signOutBtn?.addEventListener('click', () => {
+  firebase.auth().signOut().then(() => {
+    window.location.href = 'account.html';
+  });
+});
