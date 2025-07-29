@@ -39,10 +39,12 @@ img {
 .site-header {
   background: linear-gradient(to right, #b4ec51, #429321);
   color: white;
-  padding: 1.5rem 2rem;
+  padding: 20px 40px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   flex-wrap: wrap;
+  border-bottom: 4px solid #000;
 }
 
 /* Branding / Logo */
@@ -73,16 +75,20 @@ img {
 
 .title-group h1 {
   margin: 0;
+  font-family: 'Cambria', serif;
   font-size: 2.2rem;
   font-weight: 700;
-  color: #fff;
+  color: #222;
 }
 
 .title-group .highlight {
-  color: #facc15;
+  color: #222;
+  font-weight: bold;
 }
 
 .title-group .tagline {
+  font-family: 'Segoe Script', cursive;
+  margin: 5px 0 0;
   margin-top: 0.5rem;
   font-size: 1.2rem;
   font-style: italic;
@@ -217,6 +223,45 @@ img {
   max-height: 100%;
   max-width: 50%;
   overflow: visible;
+}
+
+.carousel, .quick-access {
+  padding: 2rem;
+  text-align: center;
+}
+
+.carousel-slide {
+  display: none;
+}
+
+.carousel-slide.active {
+  display: block;
+}
+
+.carousel img {
+  max-width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  margin: 1rem auto;
+  display: block;
+}
+
+.quick-access button {
+  margin: 1rem;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  background-color: #222;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.quick-access button:hover {
+  background-color: #444;
 }
 
 /* ====== NAVIGATION BAR ====== */
@@ -561,4 +606,11 @@ img {
   .testimonial-text {
     max-width: 100%;
   }
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #333;
+  color: white;
 }
