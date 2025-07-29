@@ -1,26 +1,31 @@
-// account.js
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+// account.js – Final Combined & Cleaned
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
   sendEmailVerification,
-  updateProfile
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  updateProfile,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import {
   getStorage,
   ref as storageRef,
   uploadBytes,
   getDownloadURL
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
-import {
-  getFirestore,
-  doc,
-  setDoc
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+import { getDocs, collection } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// Your Firebase config
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBVhLP24BL4mibJhLuK5H8S4UIyc6SnbkM",
   authDomain: "nicks-literary-works-29a64.firebaseapp.com",
@@ -30,36 +35,62 @@ const firebaseConfig = {
   appId: "1:1030818110758:web:6a47c5af6d6cba8b9635e7"
 };
 
+// Initialize services
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 const provider = new GoogleAuthProvider();
 
-const registerForm = document.getElementById("register-form");
-const googleBtn = document.getElementById("googleSignIn");
+// DOM elements
+const form = document.querySelector("#registration-form");
+const googleBtn = document.querySelector("#google-signin-btn");
+const navProfileLink = document.querySelector("a[href='profile.html']");
 
-registerForm.addEventListener("submit", async (e) => {
+// 🔐 Firestore Security Tip (configure in Firebase console)
+/**
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}
+*/
+
+// ✍️ Email/Password Registration
+form?.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const firstName = registerForm["firstName"].value;
-  const lastName = registerForm["lastName"].value;
-  const username = registerForm["username"].value;
-  const email = registerForm["email"].value;
-  const phone = registerForm["phone"].value;
-  const password = registerForm["password"].value;
-  const gender = registerForm["gender"].value;
-  const birthday = registerForm["birthday"].value;
+  const username = form.username.value.trim();
+  const email = form.email.value.trim();
+  const password = form.password.value;
+  const avatarFile = form.avatar.files[0];
+  const interests = Array.from(form.querySelectorAll("input[name='interests[]']:checked")).map(el => el.value);
 
-  const avatarFile = registerForm["avatar"].files[0];
+  const rawUsername = form.username.value.trim();
+  const username = `@${rawUsername}`;
 
-  const interests = [...registerForm.querySelectorAll("input[name='interests']:checked")].map(el => el.value);
+  // Check length
+  if (rawUsername.length > 14) {
+    alert("❌ Username must be 14 characters or less.");
+    return;
+  }
+
+  // Check uniqueness
+  const usernameQuery = await getDocs(collection(db, "users"));
+  const taken = usernameQuery.docs.some(doc => doc.data().username === username);
+
+  if (taken) {
+    alert("❌ That username is already taken. Try another.");
+    return;
+  }
 
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // Send email verification
     await sendEmailVerification(user);
 
     let avatarURL = "";
@@ -69,65 +100,68 @@ registerForm.addEventListener("submit", async (e) => {
       avatarURL = await getDownloadURL(avatarRef);
     }
 
-    // Update displayName with @username
     await updateProfile(user, {
       displayName: `@${username}`,
       photoURL: avatarURL
     });
 
-    // Save extra data to Firestore
     await setDoc(doc(db, "users", user.uid), {
-      firstName,
-      lastName,
       username: `@${username}`,
       email,
-      phone,
-      gender,
-      birthday,
-      avatar: avatarURL,
       interests,
-      createdAt: new Date()
+      avatarURL,
+      createdAt: serverTimestamp()
     });
 
-    alert("Registration successful! Please verify your email before signing in.");
-    registerForm.reset();
+    alert("✅ Registration successful! Please verify your email before signing in.");
+    form.reset();
   } catch (error) {
-    alert(error.message);
+    alert("❌ Error: " + error.message);
+    console.error(error);
   }
 });
 
-// Google Sign-In Handler
-if (googleBtn) {
-  googleBtn.addEventListener("click", async () => {
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+// 🌐 Google Sign-In
+googleBtn?.addEventListener("click", async () => {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
 
-      const username = prompt("Choose a username (@handle):");
-      const gender = prompt("Enter your gender (Male/Female):");
-      const birthday = prompt("Enter your birthday (YYYY-MM-DD):");
-      const phone = prompt("Enter your phone number (optional):");
+    const username = prompt("Choose a username (@handle):")?.trim() || "user";
+    const gender = prompt("Enter your gender (Male/Female):");
+    const birthday = prompt("Enter your birthday (YYYY-MM-DD):");
+    const phone = prompt("Enter your phone number (optional):");
 
-      await updateProfile(user, {
-        displayName: `@${username}`
-      });
+    await updateProfile(user, {
+      displayName: `@${username}`
+    });
 
-      await setDoc(doc(db, "users", user.uid), {
-        firstName: user.displayName?.split(" ")[0] || "",
-        lastName: user.displayName?.split(" ")[1] || "",
-        username: `@${username}`,
-        email: user.email,
-        phone,
-        gender,
-        birthday,
-        avatar: user.photoURL || "",
-        interests: [],
-        createdAt: new Date()
-      });
+    await setDoc(doc(db, "users", user.uid), {
+      username: `@${username}`,
+      email: user.email,
+      phone,
+      gender,
+      birthday,
+      avatarURL: user.photoURL || "",
+      interests: [],
+      createdAt: serverTimestamp()
+    }, { merge: true });
 
-      alert("Google Sign-Up successful! Your profile is now created.");
-    } catch (error) {
-      alert(error.message);
-    }
-  });
-}
+    alert("✅ Google Sign-Up successful! Your profile is now created.");
+    window.location.href = "profile.html";
+  } catch (error) {
+    alert("❌ Google Sign-In failed: " + error.message);
+    console.error(error);
+  }
+});
+
+// 🔄 Navbar Username Update
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    navProfileLink.textContent = user.displayName || "My Profile";
+    navProfileLink.href = "profile.html";
+  } else {
+    navProfileLink.textContent = "My Profile";
+    navProfileLink.href = "signin.html";
+  }
+});
