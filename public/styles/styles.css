@@ -86,7 +86,7 @@ img {
   margin-top: 0.5rem;
   font-size: 1.2rem;
   font-style: italic;
-  color: #444;
+  color: #5b5b5b;
 }
 
 /* Baybayin + English Subtitle */
@@ -113,7 +113,7 @@ img {
 
 .baybayin-translation {
   font-family: 'Courier New', Courier, monospace;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: #444;
   margin-top: 0.25rem;
 }
