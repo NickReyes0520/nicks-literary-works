@@ -1,26 +1,128 @@
-<!-- User Account Page -->
+<!-- My Account Page -->
+<!-- Registration Dashboard -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My Account | Nick’s Literary Works</title>
-  <link rel="stylesheet" href="styles/style.css">
-  <link rel="icon" href="website-logo.jpg">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Account Authentication</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="/website-logo.jpg" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/styles/account.css" />
+
+  <script type="module" src="/scripts/account.js" defer></script>
 </head>
+
 <body>
   <header>
-    <h1>Login to Your Account</h1>
+    <div class="branding">
+      <img src="/images/website-logo.jpg" alt="Kuya Nick Logo" class="logo">
+      <div class="title-group">
+        <h1>Welcome! Site Access Starts Here</h1>
+        <p class="tagline">New here? Register to explore the site. Already part of the family? Just sign in!</p>
+      </div>
+    </div>
+
+    <div class="navigations">
+      <nav class="nav-buttons">
+        <a href="index.html">Home</a>
+        <a href="#" class="active">Register</a>
+        <a href="signin.html">Sign In</a>
+        <a href="profile.html">My Profile</a>
+      </nav>
+    </div>
   </header>
 
-  <main>
-    <section style="max-width: 400px; margin: auto;">
-      <input id="email" type="email" placeholder="Email" style="width:100%;margin-bottom:1rem;"><br>
-      <input id="password" type="password" placeholder="Password" style="width:100%;margin-bottom:1rem;"><br>
-      <button id="login">Login</button>
-      <button id="google-login">Login with Google</button>
-    </section>
-  </main>
+  <!-- Registration Form -->
+  <main class="registration-container">
+    <form id="register-form" class="registration-form">
+      <h2>Create Your Account</h2>
+      
+      <div class="form-group">
+        <label for="firstName">First Name *</label>
+        <input type="text" id="firstName" name="firstName" required />
+      </div>
 
-  <script type="module" src="auth.js"></script>
+      <div class="form-group">
+        <label for="lastName">Last Name *</label>
+        <input type="text" id="lastName" name="lastName" required />
+      </div>
+
+      <div class="form-group">
+        <label for="avatar">Upload Profile Picture</label>
+        <input type="file" id="avatar" name="avatar" accept="image/*" />
+      </div>
+
+      <div class="form-group">
+        <label for="username">Username (@handle) *</label>
+        <input type="text" id="username" name="username" required />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address *</label>
+        <input type="email" id="email" name="email" required />
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number *</label>
+        <input type="tel" id="phone" name="phone" />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password *</label>
+        <input type="password" id="password" name="password" required />
+      </div>
+
+      <div class="form-group">
+        <label for="gender">Gender *</label>
+        <select id="gender" name="gender" required>
+          <option value="">Select Gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="birthday">Birthday *</label>
+        <input type="date" id="birthday" name="birthday" required />
+      </div>
+
+      <div class="form-group">
+        <label>Book Genre Interests (Optional)</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="interests" value="Fiction" /> Fiction</label>
+          <label><input type="checkbox" name="interests" value="Non-Fiction" /> Non-Fiction</label>
+          <label><input type="checkbox" name="interests" value="Theology" /> Theology</label>
+          <label><input type="checkbox" name="interests" value="Fantasy" /> Fantasy</label>
+          <label><input type="checkbox" name="interests" value="Psychology" /> Psychology</label>
+          <label><input type="checkbox" name="interests" value="Novel" /> Novel</label>
+          <label><input type="checkbox" name="interests" value="Social Commentary" /> Social Commentary</label>
+          <label><input type="checkbox" name="interests" value="Scientific" /> Scientific</label>
+          <label><input type="checkbox" name="interests" value="Philosophy" /> Philosophy</label>
+        </div>
+      </div>
+
+      <div class="form-group disclaimer">
+        <small>
+          Your personal information will be kept strictly confidential and will only be used for book purchase purposes and tracking. As the host of this website, I vow never to breach your privacy and will comply fully with data protection laws.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <button type="submit">Register</button>
+      </div>
+
+      <div class="or-divider">or</div>
+
+      <div class="form-group google-signin">
+        <button type="button" id="googleSignIn">
+          <img src="/images/google-icon.png" alt="Google icon" /> Sign Up with Google
+        </button>
+      </div>
+    </form>
+  </main>
 </body>
 </html>
