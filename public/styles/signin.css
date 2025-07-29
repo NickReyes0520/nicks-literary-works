@@ -170,6 +170,20 @@ form button:hover {
   background-color: #3367D6;
 }
 
+.google-signin img {
+  width: 65px;
+  height: 20px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.or-divider {
+  text-align: center;
+  margin: 1.5rem 0;
+  font-weight: bold;
+  color: #666;
+}
+
 /* Forgot Password Link */
 
 .forgot-password {
