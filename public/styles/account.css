@@ -1,0 +1,198 @@
+/* account.css */
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fdfdfd;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+header {
+  background-color: #990000;
+  color: white;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 4px solid #000000;
+}
+
+.branding {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+  gap: 10px;
+}
+
+.branding img.logo {
+  height: 120px;
+  width: auto;
+  margin-bottom: 0.1rem;
+  border-radius: 6px;
+}
+
+@media (max-width: 600px) {
+  .branding img.logo {
+    height: 90px;
+  }
+}
+
+.title-group h1 {
+  font-family: 'Cambria', serif;
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.title-group .tagline {
+  font-family: 'Segoe Script', cursive;
+  margin-top: 0.5rem;
+  font-size: 1.2rem;
+  color: #f3f6f4;
+}
+
+nav {
+  display: flex;
+  gap: 1rem;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-buttons a {
+  background-color: #f1c232;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-buttons a:hover {
+  background-color: #bf9000;
+  color: #fff;
+}
+
+.nav-buttons a.active {
+  background-color: #bf9000;
+  color: #fff;
+}
+
+/* Registration Form Styles */
+.registration-container {
+  max-width: 720px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.registration-form h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #990000;
+  font-size: 1.8rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.checkbox-group label {
+  font-weight: normal;
+  background-color: #f9f9f9;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button[type="submit"],
+button#googleSignIn {
+  background-color: #990000;
+  color: #fff;
+  padding: 0.75rem 1.2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+button[type="submit"]:hover,
+button#googleSignIn:hover {
+  background-color: #bf0000;
+}
+
+.google-signin img {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.or-divider {
+  text-align: center;
+  margin: 1.5rem 0;
+  font-weight: bold;
+  color: #666;
+}
+
+.disclaimer {
+  font-size: 0.8rem;
+  color: #555;
+  margin-top: 1rem;
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .registration-container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+}
