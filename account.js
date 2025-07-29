@@ -240,3 +240,17 @@ signOutBtn?.addEventListener('click', () => {
     window.location.href = 'account.html';
   });
 });
+
+// Check if user is logged in, then toggle nav visibility
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const auth = getAuth();
+
+onAuthStateChanged(auth, (user) => {
+  const profileNav = document.getElementById('navProfile');
+  if (user && profileNav) {
+    profileNav.style.display = 'inline-block'; // or 'flex' depending on your nav layout
+  } else if (profileNav) {
+    profileNav.style.display = 'none';
+  }
+});
