@@ -37,7 +37,7 @@ img {
 
 /* ====== SITE HEADER ====== */
 .site-header {
-  background-color: #f1c232;
+  background: linear-gradient(to right, #b4ec51, #429321);
   color: white;
   padding: 1.5rem 2rem;
   display: flex;
@@ -94,7 +94,7 @@ img {
   font-family: 'Noto Sans Baybayin', sans-serif;
   font-size: 1.5rem;
   font-weight: bold;
-  color: #a3d65c;
+  color: #0471ee;
   margin-top: 0.75rem;
 
     /* Simulate black stroke using multiple shadows */
