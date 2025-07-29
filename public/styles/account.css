@@ -80,7 +80,7 @@ nav a {
 }
 
 .nav-buttons a {
-  background-color: #f1c232;
+  background-color: #bf9000;
   color: #fff;
   padding: 0.5rem 1rem;
   border-radius: 6px;
@@ -89,12 +89,12 @@ nav a {
 }
 
 .nav-buttons a:hover {
-  background-color: #bf9000;
+  background-color: #7f6000;
   color: #fff;
 }
 
 .nav-buttons a.active {
-  background-color: #bf9000;
+  background-color: #7f6000;
   color: #fff;
 }
 
