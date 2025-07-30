@@ -317,3 +317,31 @@ await updateProfile(auth.currentUser, {
   displayName: yourDisplayName, // e.g., username
   photoURL: "/images/default-photo.jpg"
 });
+
+async function registerUser() {
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const fullPhone = '+63' + phone;
+
+  const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+  const user = userCredential.user;
+
+  // Determine which verification to send
+  if (!user.emailVerified && !phoneIsVerified) {
+    // Send email verification
+    await user.sendEmailVerification();
+    alert('Please check your email to verify your account.');
+  } else if (!phoneIsVerified) {
+    // You can trigger SMS OTP here using Firebase Phone Auth
+    // showRecaptcha();
+    // sendSmsVerification(fullPhone);
+  }
+
+  // Save phone to Firestore users collection
+  await firebase.firestore().collection('users').doc(user.uid).set({
+    email,
+    phone: fullPhone,
+    verified: user.emailVerified || phoneIsVerified,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+  });
+}
