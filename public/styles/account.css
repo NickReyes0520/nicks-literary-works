@@ -310,6 +310,8 @@ button#googleSignIn:hover {
 }
 
 .signout-btn {
+  min-width: 7rem;
+  white-space: nowrap;
   background-color: #dc3545;
   color: white;
   padding: 0.6rem 1.25rem;
