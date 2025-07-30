@@ -292,3 +292,28 @@ onAuthStateChanged(auth, async (user) => {
     if (navProfile) navProfile.style.display = 'none';
   }
 });
+
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const auth = getAuth();
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // Set avatar to user's photoURL if it exists, or default
+    const avatar = document.getElementById("user-avatar");
+    avatar.src = user.photoURL || "/images/default-photo.jpg";
+  } else {
+    // If not logged in, optionally redirect or handle gracefully
+    window.location.href = "signin.html";
+  }
+});
+
+import { getAuth, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const auth = getAuth();
+
+// After successful registration
+await updateProfile(auth.currentUser, {
+  displayName: yourDisplayName, // e.g., username
+  photoURL: "/images/default-photo.jpg"
+});
