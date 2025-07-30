@@ -135,6 +135,31 @@ nav a {
   font-size: 1rem;
 }
 
+.phone-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.country-code {
+  background-color: #f1f1f1;
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+.phone-input-wrapper input {
+  flex: 1;
+}
+
+.note-required {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 1.5rem;
+}
+
 .checkbox-group {
   display: flex;
   flex-wrap: wrap;
