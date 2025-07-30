@@ -1,0 +1,44 @@
+<!-- User Management Dashboard -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin’s User Management</title>
+  <link rel="icon" type="image/jpeg" href="/website-logo.jpg" />
+  <link rel="stylesheet" href="/styles/management.css" />
+  <script type="module" src="/management.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <h1>Welcome to Admin’s Backend Portal</h1>
+    <nav class="nav-buttons" id="nav-buttons">
+      <a href="index.html">Back to Home</a>
+      <a href="library.html">📚 Library</a>
+      <a href="bookeditor.html">📝 Editing Studio</a>
+      <a href="analytics.html">📊 Analytics</a>
+      <a href="approval.html">🆗 Approval</a>
+      <a href="#" class="active">👤 User Management</a>
+      <a href="settings.html">⚙️ Site Settings</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="user-grid" id="userGrid">
+      <!-- User cards will be injected here by management.js -->
+    </section>
+
+    <!-- Modal for detailed view -->
+    <div class="modal" id="userModal">
+      <div class="modal-content">
+        <span class="close-btn" id="closeModal">&times;</span>
+        <div id="userDetails">
+          <!-- User full info will appear here -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>
