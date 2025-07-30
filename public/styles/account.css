@@ -284,6 +284,14 @@ button#googleSignIn:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
+}
+
+.form-actions button {
+  height: 3rem; /* or any consistent value you prefer */
+  padding: 0 1rem; /* optional, adjusts horizontal spacing inside the button */
+  font-size: 1rem; /* optional, ensures text size consistency */
+  line-height: 1; /* helps vertically center the text */
 }
 
 #save-profile-btn {
