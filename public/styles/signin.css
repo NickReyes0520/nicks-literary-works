@@ -150,6 +150,18 @@ form button:hover {
   background-color: #7a0000;
 }
 
+.form-actions {
+  display: flex;
+  gap: 1rem; /* creates the 1rem space between the buttons */
+}
+
+.form-actions button {
+  height: 3rem; /* or any consistent value you prefer */
+  padding: 0 1rem; /* optional, adjusts horizontal spacing inside the button */
+  font-size: 1rem; /* optional, ensures text size consistency */
+  line-height: 1; /* helps vertically center the text */
+}
+
 /* Google Sign In Button */
 
 .google-btn {
