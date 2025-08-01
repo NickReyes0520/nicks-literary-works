@@ -81,12 +81,12 @@ nav a {
 }
 
 .nav-buttons a:hover {
-  background-color: #ca881f;
+  background-color: #b45f06;
   color: #fff;
 }
 
 .nav-buttons a.active {
-  background-color: #ca881f;
+  background-color: #b45f06;
   color: #fff;
 }
 
