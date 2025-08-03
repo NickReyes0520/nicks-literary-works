@@ -130,7 +130,7 @@ main {
 .poem-card {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: stretch; /* make items equal in height */
   background-color: #fffdf7;
   border: 1px solid #e0cfa3;
   border-radius: 1rem;
@@ -145,11 +145,21 @@ main {
 }
 
 .poem-thumb {
-  width: 110px;
-  height: 110px;
+  width: 140px;
+  height: auto;
+  aspect-ratio: 1 / 1.4; /* keeps a nice portrait shape */
   object-fit: cover;
   border-radius: 8px;
   border: 2px solid #f4d48c;
+  flex-shrink: 0;
+  align-self: stretch; /* makes image match the full height of the info section */
+}
+
+.poem-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .poem-info h2 {
