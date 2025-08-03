@@ -69,10 +69,22 @@
       <div class="form-group">
         <label for="phone">Phone Number *</label>
         <div class="phone-input-wrapper">
-          <div class="country-code">
-            🇵🇭 +63
-          </div>
-          <input type="tel" id="phone" name="phone" maxlength="10" placeholder="9123456789" />
+          <select id="country-code" name="country-code" class="country-code-select">
+            <option value="+63" selected>🇵🇭 +63</option>
+            <option value="+1">🇺🇸 +1</option>
+            <option value="+44">🇬🇧 +44</option>
+            <option value="+91">🇮🇳 +91</option>
+            <option value="+81">🇯🇵 +81</option>
+            <!-- Add more countries as needed -->
+          </select>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            maxlength="10"
+            placeholder="9123456789"
+            required
+          />
         </div>
       </div>
 
@@ -107,6 +119,7 @@
           <label><input type="checkbox" name="interests" value="Social Commentary" /> Social Commentary</label>
           <label><input type="checkbox" name="interests" value="Scientific" /> Scientific</label>
           <label><input type="checkbox" name="interests" value="Philosophy" /> Philosophy</label>
+          <label><input type="checkbox" name="interests" value="Random" /> Random</label>
         </div>
       </div>
 
