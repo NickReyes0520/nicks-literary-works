@@ -166,11 +166,13 @@ main {
 }
 
 .book-card h3 {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-size: 1.1rem;
   margin: 0.5rem 0;
 }
 
 .book-card .subtitle {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-size: 0.9rem;
   color: #555;
   margin-top: -0.3rem;    /* Pulls subtitle closer to main title */
