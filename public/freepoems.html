@@ -1,0 +1,55 @@
+<!-- Updated Free Articles Page with Dynamic Article Loading -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nick’s Virtual Freebies</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="/website-logo.jpg" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/styles/freepoems.css" />
+
+  <!-- Firebase & Custom Scripts -->
+  <script type="module" src="/scripts/freepoems.js" defer></script>
+  <script type="module" src="/scripts/firebase-config.js"></script>
+</head>
+
+<body>
+  <header>
+    <div class="branding">
+      <img src="/images/white-logo.png" alt="Kuya Nick Logo" class="logo">
+      <div class="title-group">
+        <h1>Welcome! Enjoy Free Reading on This Page</h1>
+        <p class="tagline">Explore Kuya Nick’s Handpicked Reads and Writings at Your Leisure</p>
+      </div>
+    </div>
+
+    <div class="navigations">
+      <nav class="nav-buttons">
+        <a href="index.html">Home</a>
+        <a href="account.html">My Account</a>
+        <a href="readfree.html">📖 Books</a>
+        <a href="freearticles.html">📰 Articles</a>
+        <a href="#" class="active">📝 Poems</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="copyright-disclaimer">
+      <h3>COPYRIGHT DISCLAIMER</h3>
+      <p><i>© All books and literary works featured on this page are the exclusive intellectual property of the author. Unauthorized reproduction, distribution, or plagiarism in any form, digital or physical, is strictly prohibited by law.</i></p>
+    </section>
+
+    <!-- Poems Section -->
+    <section id="poem-list" class="poem-list"></section>
+  </main>
+
+  <footer>
+    <p>&copy; Nick Reyes. All rights reserved.</p>
+  </footer>
+</body>
+</html>
