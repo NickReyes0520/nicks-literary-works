@@ -163,18 +163,24 @@ nav a {
 
 .phone-input-wrapper {
   display: flex;
-  gap: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
   align-items: center;
 }
 
 .country-code-select {
-  padding: 0.6rem;
+  padding: 0.6rem 2.5rem 0.6rem 0.75rem; /* extra space for chevron */
+  min-width: 120px; /* or adjust wider for visibility */
   border-radius: 6px;
   border: 1px solid #ccc;
   background-color: #f9f9f9;
   font-size: 1rem;
   font-family: inherit;
   appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23666" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 0.8rem center;
+  background-size: 1rem;
   cursor: pointer;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
