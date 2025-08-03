@@ -1,4 +1,4 @@
-<!-- Free Articles Page -->
+<!-- Updated Free Articles Page with Dynamic Article Loading -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +12,9 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="/styles/freearticles.css" />
 
+  <!-- Firebase & Custom Scripts -->
   <script type="module" src="/scripts/freearticles.js" defer></script>
+  <script type="module" src="/scripts/firebase-config.js"></script>
 </head>
 
 <body>
@@ -26,51 +28,36 @@
     </div>
 
     <div class="navigations">
-    <nav class="nav-buttons">
-      <a href="index.html">Home</a>
-      <a href="account.html">My Account</a>
-      <a href="readfree.html">📖 Books</a>
-      <a href="#" class="active">📰 Articles</a>
-      <a href="#">📝 Poems</a>
-    </nav>
+      <nav class="nav-buttons">
+        <a href="index.html">Home</a>
+        <a href="account.html">My Account</a>
+        <a href="readfree.html">📖 Books</a>
+        <a href="#" class="active">📰 Articles</a>
+        <a href="#">📝 Poems</a>
+      </nav>
     </div>
   </header>
 
-<main>
-  
-  <section class="store-container">
+  <main>
     <section class="copyright-disclaimer">
       <h3>COPYRIGHT DISCLAIMER</h3>
-      <p>
-        <i>© All books and literary works featured on this page are the exclusive intellectual property of the author. Unauthorized reproduction, distribution, or plagiarism in any form, digital or physical, is strictly prohibited by law.</i>
-      </p>
+      <p><i>© All books and literary works featured on this page are the exclusive intellectual property of the author. Unauthorized reproduction, distribution, or plagiarism in any form, digital or physical, is strictly prohibited by law.</i></p>
     </section>
 
-    <section class="article-section">
-      <h2>Featured Free Articles</h2>
+    <!-- Article List -->
+    <section id="article-list" class="article-list"></section>
 
-      <article class="article-preview">
-        <h3 class="article-title">The Soul Beneath the Jeepney</h3>
-        <p class="article-teaser">
-          A nostalgic journey through Manila’s streets, uncovering the untold stories behind every horn, chrome, and painted word...
-        </p>
-        <button class="read-more-btn" data-article="article1">Read for Free!</button>
-
-        <div class="full-article" id="article1">
-          <p>
-            <!-- Full article content here -->
-            From the moment you step inside a jeepney, you step into a kaleidoscope of culture...
-          </p>
-        </div>
-      </article>
-
-      <!-- Add more articles in the same pattern -->
-    </section>
-
+    <!-- Article Viewer Modal -->
+    <div id="article-modal" class="modal hidden">
+      <div class="modal-content">
+        <span id="close-modal" class="close-btn">&times;</span>
+        <article id="modal-article"></article>
+      </div>
+    </div>
   </main>
-      
-    <footer>
-      <p>&copy; Nick Reyes. All rights reserved.</p>
-    </footer>
+
+  <footer>
+    <p>&copy; Nick Reyes. All rights reserved.</p>
+  </footer>
 </body>
 </html>
