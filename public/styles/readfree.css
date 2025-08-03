@@ -89,3 +89,136 @@ nav a {
   background-color: #2869a4;
   color: #fff;
 }
+
+.copyright-disclaimer {
+  text-align: center;
+  background-color: #fff7db;
+  border: 2px dashed #facc15;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border-radius: 1rem;
+  font-size: 1rem;
+  color: #4b5563;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.copyright-disclaimer h3 {
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+  color: #b45309;
+  letter-spacing: 1px;
+}
+
+.copyright-disclaimer p {
+  font-style: italic;
+  margin: 0 auto;
+  max-width: 800px;
+  line-height: 1.6;
+}
+
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+.book-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.book-card .content {
+  flex-grow: 1;
+}
+
+.book-card .actions {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.book-card:hover {
+  transform: scale(1.02);
+}
+
+.book-card img {
+  width: 100%;
+  max-width: 180px; /* Limits image size */
+  height: auto;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  object-fit: cover;
+}
+
+.book-card h3 {
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+}
+
+.book-card .subtitle {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.book-card p {
+  font-size: 0.95rem;
+  color: #444;
+  margin-bottom: 0.75rem;
+}
+
+.book-card button {
+  background-color: #5da735;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.book-card button:hover {
+  background-color: #427924;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.actions button {
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #5da735;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.actions button:hover {
+  background-color: #427924;
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #333;
+  color: white;
+}
