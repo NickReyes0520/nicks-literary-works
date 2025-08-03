@@ -31,9 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   buttons.forEach(button => {
     button.addEventListener('click', () => {
-      const poemId = button.getAttribute('data-poem-id');
-      const content = document.getElementById(poemId);
-
+      const card = button.closest('.poem-card');
+      const content = card.querySelector('.poem-content');
       content.classList.toggle('hidden');
     });
   });
