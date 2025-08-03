@@ -131,30 +131,64 @@ main {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  background-color: #fefefe;
-  border: 1px solid #ccc;
+  background-color: #fffdf7;
+  border: 1px solid #e0cfa3;
   border-radius: 1rem;
-  padding: 1rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  gap: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  gap: 1.5rem;
+  transition: box-shadow 0.3s ease;
+}
+
+.poem-card:hover {
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
 }
 
 .poem-thumb {
-  width: 100px;
-  height: 100px;
+  width: 110px;
+  height: 110px;
   object-fit: cover;
   border-radius: 8px;
+  border: 2px solid #f4d48c;
 }
 
-.poem-info {
-  flex: 1;
+.poem-info h2 {
+  font-size: 1.25rem;
+  color: #1e3a8a;
+  margin-bottom: 0.4rem;
+}
+
+.poem-info p {
+  margin: 0.2rem 0;
+  color: #444;
+}
+
+.read-poem-btn {
+  margin-top: 0.5rem;
+  background-color: #1e3a8a;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.read-poem-btn:hover {
+  background-color: #163075;
 }
 
 .poem-content {
+  flex-basis: 100%;
   margin-top: 1rem;
   padding: 1rem;
-  border-left: 4px solid #1e3a8a;
   background: #f9f9f9;
+  border-left: 4px solid #f4d48c;
+  border-radius: 0.5rem;
+  white-space: pre-wrap;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 .hidden {
