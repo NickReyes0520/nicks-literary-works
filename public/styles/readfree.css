@@ -90,6 +90,10 @@ nav a {
   color: #fff;
 }
 
+main {
+    padding: 2rem;
+}
+
 .copyright-disclaimer {
   text-align: center;
   background-color: #fff7db;
