@@ -46,12 +46,16 @@
 
     <!-- Poems Section -->
     <section id="poem-list" class="poem-list">
-      <article class="poem">
-        <h2>PILIPINAS: SA MGA PULO NG DAGAT</h2>
-        <p><strong>Author:</strong> Ronie “Nick” G. Reyes<br>
-           <strong>Date Created:</strong> May 20, 2020</p>
-
-        <pre>
+      <article class="poem-preview">
+        <img src="/images/poem-thumbnail.jpg" alt="Poem Thumbnail" class="poem-thumb">
+        <div class="poem-info">
+          <h2>PILIPINAS: SA MGA PULO NG DAGAT</h2>
+          <p><strong>Author:</strong> Ronie “Nick” G. Reyes</p>
+          <p><strong>Date Created:</strong> May 20, 2020</p>
+          <button class="read-poem-btn" data-poem-id="pilipinas-poem">📖 Read for Free!</button>
+        </div>
+        <div class="poem-content hidden" id="pilipinas-poem">
+          <pre>
     Sa pagsikat ng araw’y unang sinisinagan,
     Pitong libo niyang pulo sa Malayong Silangan.
     Dalisay at luntian tuwing liliwanagan—
@@ -126,7 +130,8 @@
     Na bayan ay tumindig sa maraming habagat.
     Mga pulo at tubig na Kaniyang ‘pinaglapat:
     Bansang Pilipinas, sa mga pulo ng dagat.
-        </pre>
+          </pre>
+        </div>
       </article>
     </section>
 
