@@ -25,3 +25,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     poemList.appendChild(card);
   });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const buttons = document.querySelectorAll('.read-poem-btn');
+
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      const poemId = button.getAttribute('data-poem-id');
+      const content = document.getElementById(poemId);
+
+      content.classList.toggle('hidden');
+    });
+  });
+});
