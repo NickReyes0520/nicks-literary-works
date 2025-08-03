@@ -185,16 +185,6 @@ nav a {
   outline: none;
 }
 
-.phone-input-wrapper input[type="tel"] {
-  flex: 1;
-  padding: 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-family: inherit;
-  background-color: #f9f9f9;
-}
-
 .note-required {
   font-size: 0.9rem;
   color: #666;
