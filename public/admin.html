@@ -7,7 +7,7 @@
   <title>Admin’s Backend Portal</title>
   <link rel="icon" type="image/jpeg" href="/website-logo.jpg" />
   <link rel="stylesheet" href="/styles/admin.css" />
-  <script type="module" src="/admin.js" defer></script>
+  <script type="module" src="/scripts/admin.js" defer></script>
 </head>
 
 <body>
@@ -16,7 +16,7 @@
     <nav class="nav-buttons" id="nav-buttons">
       <a href="index.html">Back to Home</a>
       <a href="library.html" class="admin-only">📚 Library</a>
-      <a href="bookeditor.html" class="admin-only">📝 Editing Studio</a>
+      <a href="bookeditor.html" class="admin-only">🖍️ Editing Studio</a>
       <a href="analytics.html" class="admin-only">📊 Analytics</a>
       <a href="approval.html" class="admin-only">🆗 Approval</a>
       <a href="management.html" class="admin-only">👤 User Management</a>
@@ -31,7 +31,7 @@
     </section>
 
     <section id="login-form" class="card">
-      <h2>🔒 Admin Login</h2>
+      <h2>🔐 Admin Login</h2>
       <form id="admin-login-form">
         <div class="form-group">
           <label for="username">👤 Username</label>
@@ -52,34 +52,7 @@
     </section>
   </main>
 
-  <!-- Login Script -->
-  <script>
-    function login() {
-      const username = document.getElementById("username").value.trim();
-      const password = document.getElementById("password").value;
-
-      if (username === "nicks-literary-works" && password === "nickreyes0520") {
-        document.querySelectorAll(".admin-only").forEach(btn => btn.style.display = "inline-block");
-        document.getElementById("access-message").style.display = "none";
-        document.getElementById("login-form").style.display = "none";
-        document.getElementById("login-status").textContent = "";
-      } else {
-        document.getElementById("login-status").textContent = "❌ Invalid credentials.";
-      }
-    }
-
-    window.onload = () => {
-      document.querySelectorAll(".admin-only").forEach(btn => btn.style.display = "none");
-
-      // ✅ Bind login to form submit
-      document.getElementById("admin-login-form").addEventListener("submit", function(event) {
-        event.preventDefault();
-        login();
-      });
-    };
-  </script>
-
-  <!-- 🔄 Success Animation (moved outside the form) -->
+  <!-- 🔄 Success Animation -->
   <div id="login-success" class="success-overlay" style="display: none;">
     <h2>✅ Admin Access Granted</h2>
     <p>Welcome, Nick! All backend tools are now unlocked.</p>
