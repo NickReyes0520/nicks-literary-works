@@ -52,7 +52,6 @@
           <p><strong>Author:</strong> Ronie “Nick” G. Reyes</p>
           <p><strong>Date Created:</strong> 05-20-2020</p>
           <button class="read-poem-btn" data-target="pilipinas-poem">Read for Free!</button>
-          <div class="poem-content hidden" id="pilipinas-poem">
             <pre>
     Sa pagsikat ng araw’y unang sinisinagan,
     Pitong libo niyang pulo sa Malayong Silangan.
@@ -129,7 +128,6 @@
     Mga pulo at tubig na Kaniyang ‘pinaglapat:
     Bansang Pilipinas, sa mga pulo ng dagat.
             </pre>
-          </div>
         </div>
       </article>
 
@@ -140,7 +138,6 @@
           <p><strong>Author:</strong> Ronie “Nick” G. Reyes</p>
           <p><strong>Date Created:</strong> 03-15-2020</p>
           <button class="read-poem-btn" data-target="chess-poem">Read for Free!</button>
-          <div class="poem-content hidden" id="chess-poem">
             <pre>
     Each soul on earth is placed with care and firm design,
     No role too small, no crown too great, no greater sign.
@@ -202,7 +199,6 @@
     Let not the world define your worth or steal your peace—
     We all move just like chess pieces, meant to cease.
             </pre>
-          </div>
         </div>
       </article>
 
@@ -213,7 +209,6 @@
           <p><strong>Author:</strong> Ronie “Nick” G. Reyes</p>
           <p><strong>Date Created:</strong> 06-17-2017</p>
           <button class="read-poem-btn" data-target="bridge-poem">Read for Free!</button>
-          <div class="poem-content hidden" id="bridge-poem">
             <pre>
     Habang naglalakad sa dalampasigan,
     Tanaw din ang araw sa ‘di kalayuan.
@@ -275,7 +270,6 @@
     Ang tulay sa tubig na s’yang nilakaran
     Siya kong gunita sa dalampasigan.
             </pre>
-          </div>
         </div>
       </article>
 
@@ -286,7 +280,6 @@
           <p><strong>Author:</strong> Ronie “Nick” G. Reyes</p>
           <p><strong>Date Created:</strong> 04-01-2017</p>
           <button class="read-poem-btn" data-target="scientific-poem">Read for Free!</button>
-          <div class="poem-content hidden" id="scientific-poem">
             <pre>
     Before the time-space fabric ever came to be,
     He voiced the laws that birthed reality’s decree.
@@ -348,11 +341,18 @@
     Through science we can trace His shadow, not His face—
     Yet faith and thought together lead to truth and grace.
             </pre>
-          </div>
         </div>
       </article>
     </section>
   </main>
+
+    <div id="poem-modal" class="modal hidden">
+      <div class="modal-content">
+        <span id="close-modal">&times;</span>
+        <h2 id="modal-title"></h2>
+        <pre id="modal-text"></pre>
+      </div>
+    </div>
 
   <footer>
     <p>&copy; Nick Reyes. All rights reserved.</p>
