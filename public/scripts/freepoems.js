@@ -26,14 +26,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 });
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function() {
   const buttons = document.querySelectorAll('.read-poem-btn');
 
   buttons.forEach(button => {
-    button.addEventListener('click', () => {
-      const card = button.closest('.poem-card');
-      const content = card.querySelector('.poem-content');
-      content.classList.toggle('hidden');
+    button.addEventListener('click', function() {
+      const targetId = this.getAttribute('data-target');
+      const content = document.getElementById(targetId);
+      content.classList.toggle('show');
     });
   });
 });
