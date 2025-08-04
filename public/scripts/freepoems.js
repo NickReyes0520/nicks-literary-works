@@ -12,6 +12,69 @@ document.addEventListener('DOMContentLoaded', function() {
     'scientific-poem': `Before the time-space fabric ever came to be,\nHe voiced the laws that birthed reality’s decree.\nThe constants fixed—like pi and Planck’s elusive length—\nRevealed the Artisan behind all cosmic strength.`
   };
 
+  const fullPoemContents = {
+    "pilipinas": [
+      "Sa pagsikat ng araw’y unang sinisinagan,\nPitong libo niyang pulo sa Malayong Silangan.\nDalisay at luntian tuwing liliwanagan—\nLupain ng pag-ibig, pag-asa’t katapangan.",
+      "Sa Dagat Pasipiko’y hiyas ang kapuluan;\nMula Luzon, Visayas, at Mindanao ay nariyan.\nWatawat niya’y dakila sa diwang makabayan,\nMaging dagat niya’t bundok, hanggang sa kapatagan.",
+      "Lupang pinagdanakan ng dugo ng magiting,\nAt ng mga bayaning ‘di na natin kapiling.\nLiglig sa kayumihan at pag-asang kasiping,\nHitik sa yamang likas at makulay na sining.",
+      "Perlas ng Silanganan, kung ito ay tawagin—\nKariktan niya’y salamin na mahirap basagin.\nTila ba kabundukan na ‘di kayang patagin,\nNgunit mga dayuha’y nagawa siyang bihagin.",
+      "Nanangis sa hilahil ang bayan kong minahal;\nInalipin sa dusa’t niyurakan ang dangal.\nPananakop at hirap ay lalo pang tumagal,\nBawat bibig ay tikom, waring may mga busal.",
+      "Hanggang mga bayani ay natutong lumaban,\nAt baguhin ang palad ng kawawa kong bayan.\nMula kay Lapu-Lapu, na nagwagi sa Mactan—\nDayuhan ay nalipol; pag-asa ay nahagkan.",
+      "Nang ang mga Kastila’y lubusang pumarito,\nGinamit ni Rizal ang natatanging talino.\nSa Noli Me Tangere’t El Filibusterismo,\nKaaway ay nilupig na parang ipo-ipo.",
+      "At nang siya ay pumanaw, si Bonifacio’y nariyan;\nMapayapang labana’y kaniya nang tinuldukan.\nBilang tagatatag at ama ng Katipunan,\nKalaban niya’y ginupo alang-alang sa bayan.",
+      "At nang mga Kastila’y unti-unting natalo,\nBansa’y ‘pinagbili sa mga Amerikano.\nPanibagong banyaga at bagong mga tao—\nBagong mang-aalipin at bagong mga amo.",
+      "Sa muling pagdirigma, gaya ng sinauna,\nMay isang heneral na tumindig at nanguna.\nKilala sa tapang, at bayan ang inuuna:\nNag-iisang mabangis na si Antonio Luna.",
+      "At maging sa paglipas ng marami pang taon,\nAng bansang Pilipinas ay sinakop ng Hapon.\nDigmaan ay sumiklab, tila alab ng dragon;\nBayan ay naalipin sa mahabang panahon.",
+      "Bagama’t lumipas na’ng maraming mga araw,\nAt ang mga bayani’y malaon nang pumanaw,\nSa’ting mga gunita’y lagi nawang dumalaw—\nAng diwang Pilipinong walang makaaagaw.",
+      "Ngunit ang Pilipinas ay sadyang pinagpala:\nLaya’t kapayapaan ngayo’y tinatamasa.\nLaging may gabay ng Dios na hindi nagsasawa,\nNa maiwawangis sa ‘di natutuyong sapa.",
+      "Sa bisa ng hula sa Banal na Kasulatan,\nPanukala ng Dios ay nagkaro’ng katuparan.\nLingkod Niya ay nagmula sa pinili Niyang bayan—\nGawain Niya’y lumitaw sa Malayong Silangan.",
+      "Sa kabutihan ng Dios ay Kaniyang minarapat\nNa bayan ay tumindig sa maraming habagat.\nMga pulo at tubig na Kaniyang ‘pinaglapat:\nBansang Pilipinas, sa mga pulo ng dagat."
+    ],
+    "chess": [
+      "Each soul on earth is placed with care and firm design,\nNo role too small, no crown too great, no greater sign.\nA pawn may rise through trials fierce, beyond the board,\nAnd reach the rank of king or queen with God's accord.",
+      "The rook stands firm, a fortress at the battle's side,\nWhile knights move strange, but still in grace they do abide.\nThe bishop leans with purpose on its slanted way,\nAnd every move is part of what the Lord would say.",
+      "We envy those whose path seems brighter than our own,\nBut fail to see how deeply their seeds had been sown.\nThe king may wear the weight of war upon his head,\nWhile pawns in peace may find the softer path instead.",
+      "Comparison is theft of joy, a silent snare,\nIt blinds our eyes from knowing how much we all bear.\nEach soul was crafted by a Master’s perfect hand,\nA piece placed right where only it was meant to stand.",
+      "Some move with speed and gain the glory in one dash,\nWhile others crawl through fire, rain, and bitter ash.\nBut still they move, and that’s what matters in the end—\nTheir road may twist, but it was shaped by God to bend.",
+      "The board is wide, the night is cold, the game is long,\nYet still we play, and still we sing our sacred song.\nNot all are made for shining light or winning praise—\nSome light the stars unseen through dark and winding days.",
+      "Let not your heart grow weary when your turn is slow,\nFor every pause contains a place you need to grow.\nAnd if you feel forgotten in the heat of play,\nKnow God sees all and leads your soul a better way.",
+      "The Grandmaster, unseen, commands with holy eyes,\nHe knows the fall, the rise, the hows, the whens, the whys.\nNo move is made that lies beyond His grand intent,\nFor even loss becomes a sacred instrument.",
+      "A queen may fall so justice learns to stand again,\nA pawn may die to spare a brother soul from pain.\nThe knight may leap through chaos just to guard the weak,\nThe bishop prays where none can hear the words they speak.",
+      "The world is cruel, the tempter’s voice is sharp and sly,\nBut God is near, His wisdom reaching from on high.\nThough trials press and life may pin you to a wall,\nNo piece is lost who answers to the Master's call.",
+      "So move with grace, and never doubt the path you're in,\nFor He who guides you also knows how you will win.\nThe crown you seek is not of gold or fleeting fame—\nIt’s peace that stays and joy that glorifies His name.",
+      "In every check, in every fall, in every fight,\nYou are still His, and you’re moving toward the Light.\nLet not the world define your worth or steal your peace—\nWe all move just like chess pieces, meant to cease."
+    ],
+    "bridge": [
+      "Habang naglalakad sa dalampasigan,\nTanaw din ang araw sa ‘di kalayuan.\nMay ngiti pang tangan sa bawat pagdaan\nSa baybaying lupa nitong kamunduhan.",
+      "Sa daraanan ko’y may hanging malamig,\nSabay sa lagaslas ng magulong tubig.\nAnupa’t malawak; magkabilang panig\nBawat kalupaan ng bunying daigdig.",
+      "Akin pang natanaw na isang himpilan\nSa malayong lupa; kabilang tawiran.\nYaring tulay lamang ang siyang dugtungan;\nSa aking pagtawid, siya kong tuntungan.",
+      "Tatawid pa lamang ay humahasik na\nLagaslas ng tubig sa tuyo kong paa.\nNagtitilamsik din sa gawi ng mata\nAng butil ng tubig, sa lakas ng alsa.",
+      "Sa aking pagtapak sa kahoy na tulay,\nPagkapit sa lubid ang tangi kong gabay.\nSa lakas ng hangin na winawagayway\nAng tawirang tulay sa’king paglalakbay.",
+      "Paang nanginginig, tuluyang naglakad.\nKahit umuuga’y tuloy sa pag-usad;\nAnupa’t tapaka’y ‘di ga’nong malapad\nSa yaring tawiran na walang katulad.",
+      "Sa kalagitnaan ng aking pagdaan,\nPaghampas ng tubig ay naglalakasan.\nManapa’y patuloy na nagtatalsikan,\nMagulong tubig sa tulay kong daanan.",
+      "Sari-saring ingay at paglalagaslas\nNitong katubigan sa bawat paghampas.\nAnupa’t kaba ko’y mas lalong lumakas—\nBaka itong tulay ay dagling mapigtas.",
+      "Tibay nitong loob ang siyang gumabay\nSa paang hahakbang sa haba ng tulay.\nSa nginig ng puso’y siyang umalalay\nAt nagpanumbalik ng lahat kong tibay.",
+      "Ngayon na’y narating ang kabilang lupa,\nMagmula sa tulay na aking nakita.\nTubig ma’y kaypanglaw sa gawing ibaba,\nMayro’ng tulay pa ring sa’ti’y inihanda.",
+      "Aking natutunan sa bagay na ito,\nLakip ang pag-usad dito sa’ting mundo:\nNa walang matibay na tinik at bato\nKung hulma sa tibay ang mga paa mo.",
+      "Aking lilisanin, bunying kalupaan,\nDala ko ang tanda sa’king dinaanan.\nAng tulay sa tubig na s’yang nilakaran\nSiya kong gunita sa dalampasigan."
+    ],
+    "godScientific": [
+      "Before the time-space fabric ever came to be,\nHe voiced the laws that birthed reality’s decree.\nThe constants fixed—like pi and Planck’s elusive length—\nRevealed the Artisan behind all cosmic strength.",
+      "From quarks to galaxies, the blueprint was designed,\nNot chaos, but a Logos—mind within the mind.\nDark energy obeys His silent, unseen will,\nA whispered Word the Higgs field must obey still.",
+      "The second law, where entropy expands the night,\nYet order comes through life—His fingerprint in light.\nThe DNA unwinds like sacred written codes,\nInstructions sent across epigenetic roads.",
+      "The fine-tuned force that lets the atoms hold their form\nCould not emerge from vacuum, chance, or quantum storm.\nIf gravity were off by just a fraction’s shade,\nNo stars, no life, no earth would ever have been made.",
+      "He is the Prime Mover—uncaused and self-sustained,\nThe Source from which beings and mass-energy reigned.\nAquinas saw in causeless cause a boundless Flame,\nWhich science echoes, though it dare not speak the Name.",
+      "The anthropic principle—truth profound, refined—\nDeclares the universe is tailored for mankind.\nSuch elegance implies a Master Architect,\nWhose purpose lies in more than cause and mere effect.",
+      "The quantum realm, where logic seems to fade and bend,\nStill bows to math and order, structured end to end.\nUncertainty’s not lawless—it just veils the face\nOf One whose thoughts uphold all time, all truth, all space.",
+      "Relativity bends time-space within its arc,\nYet light still travels constant, echoing the spark.\nLet there be light!—and photons danced upon command,\nThe very phrase the cosmos must still understand.",
+      "The brain, that storm of neurons, dreams, and spark and will,\nReflects design too complex chance could ever fill.\nFree thought defies determinism's cruel domain,\nSuggesting soul and Spirit still behind the brain.",
+      "The constants, laws, and beauty scientists admire,\nPoint past the veil to something deeper and higher.\nNo theorem can contain the depth of His design—\nYet every law discovered whispers the Divine.",
+      "From black hole hearts to spiral arms in starry seas,\nCreation speaks of One whom mortal eyes can’t seize.\nBut reason, faith, and wonder find Him ever near—\nThe God who moves the stars and wipes away our fear.",
+      "So praise the Lord of quanta, atoms, space, and time—\nThe Logic, Life, and Love behind the great design.\nThrough science we can trace His shadow, not His face—\nYet faith and thought together lead to truth and grace."
+    ]
+  // other full poems to come
+  };
+
   buttons.forEach(button => {
     button.addEventListener('click', function() {
       const targetId = this.dataset.target;
