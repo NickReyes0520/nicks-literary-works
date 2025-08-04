@@ -121,88 +121,75 @@ main {
 }
 
 .poem-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
-  padding: 1rem;
 }
 
 .poem-card {
   display: flex;
-  flex-direction: row;
-  align-items: stretch; /* make items equal in height */
-  background-color: #fffdf7;
-  border: 1px solid #e0cfa3;
+  align-items: flex-start;
+  background-color: #fefefe;
+  border: 1px solid #ccc;
   border-radius: 1rem;
-  padding: 1.5rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  padding: 1rem;
   gap: 1.5rem;
-  transition: box-shadow 0.3s ease;
-}
-
-.poem-card:hover {
-  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
 .poem-thumb {
-  width: 140px;
-  height: auto;
-  aspect-ratio: 1 / 1.4; /* keeps a nice portrait shape */
+  width: 120px;
+  height: 120px;
   object-fit: cover;
   border-radius: 8px;
-  border: 2px solid #f4d48c;
   flex-shrink: 0;
-  align-self: stretch; /* makes image match the full height of the info section */
 }
 
 .poem-info {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
 .poem-info h2 {
-  font-size: 1.25rem;
+  margin: 0;
+  font-size: 1.4rem;
   color: #1e3a8a;
-  margin-bottom: 0.4rem;
 }
 
 .poem-info p {
-  margin: 0.2rem 0;
-  color: #444;
+  margin: 0.25rem 0;
+  font-size: 1rem;
+  color: #333;
 }
 
 .read-poem-btn {
-  margin-top: 0.5rem;
-  background-color: #1e3a8a;
+  margin-top: 0.75rem;
+  background-color: #d4a017;
   color: white;
-  padding: 0.4rem 0.8rem;
   border: none;
+  padding: 0.5rem 1rem;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 0.95rem;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
 }
 
 .read-poem-btn:hover {
-  background-color: #163075;
+  background-color: #b07c00;
 }
 
 .poem-content {
-  flex-basis: 100%;
-  margin-top: 1rem;
+  margin-top: 0.75rem;
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 6px;
   padding: 1rem;
-  background: #f9f9f9;
-  border-left: 4px solid #f4d48c;
-  border-radius: 0.5rem;
-  white-space: pre-wrap;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 1rem;
-  line-height: 1.5;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
 }
 
-.hidden {
-  display: none;
+.poem-content.show {
+  max-height: 500px; /* Adjust as needed */
 }
 
 footer {
