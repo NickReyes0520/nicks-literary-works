@@ -230,6 +230,49 @@ main {
 .modal.hidden {
   display: none;
 }
+
+#modal-text {
+  white-space: pre-line; /* preserves line breaks from \n */
+  max-height: 70vh;      /* adjust as needed to control modal height */
+  overflow-y: auto;      /* enables vertical scrolling */
+  padding-right: 1rem;   /* optional: space for scrollbar */
+}
+
+#poem-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+@media screen and (max-width: 768px) {
+  #poem-modal {
+    padding: 1rem;
+    align-items: flex-start;
+  }
+
+  #modal-text {
+    max-height: 60vh;       /* Slightly smaller for smaller screens */
+    font-size: 0.95rem;     /* Optional: slightly smaller text for readability */
+    padding-right: 0.5rem;  /* Adjust for narrower layout */
+  }
+
+  #modal-title {
+    font-size: 1.2rem;      /* Make sure title scales well */
+    margin-bottom: 0.5rem;
+  }
+
+  .modal-content {
+    width: 100%;
+    max-width: 90vw;
+    margin: auto;
+  }
+
+  #close-modal {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+}
   
 footer {
   text-align: center;
