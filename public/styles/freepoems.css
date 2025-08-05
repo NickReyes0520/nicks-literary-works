@@ -155,6 +155,8 @@ main {
   margin: 0;
   font-size: 1.4rem;
   color: #1e3a8a;
+  font-family: "Arial Narrow", Arial, sans-serif;
+  font-weight: bold;
 }
 
 .poem-info p {
