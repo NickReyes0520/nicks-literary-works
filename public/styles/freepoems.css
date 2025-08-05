@@ -199,7 +199,7 @@ main {
 }
 
 .poem-content.show {
-  max-height: 500px; /* Adjust as needed */
+  max-height: 500px;
 }
 
 .modal {
@@ -215,14 +215,37 @@ main {
   z-index: 10;
 }
 
+/* New scroll-style container inside modal */
 .modal-content {
-  background-color: #fff;
-  padding: 2rem;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 600px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-  position: relative;
+  background: linear-gradient(to bottom, #FFD700, #FFF8DC);
+  border: 5px double #B8860B;
+  border-radius: 16px;
+  box-shadow: 0 0 40px rgba(218, 165, 32, 0.6);
+  padding: 40px;
+  font-family: 'Cinzel', serif;
+  text-align: center;
+  animation: scrollOpen 1s ease-out forwards;
+  transform-origin: center center;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Scroll animation */
+@keyframes scrollOpen {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+/* Text alignment inside */
+.modal-title,
+.modal-poem {
+  text-align: center;
 }
 
 #close-modal {
