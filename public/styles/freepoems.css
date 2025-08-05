@@ -232,6 +232,9 @@ main {
 }
 
 #modal-text {
+  font-family: 'Segoe Print', cursive;
+  font-size: 1.3rem;
+  line-height: 1.8;
   white-space: pre-line;
   user-select: none;
   -webkit-user-select: none;
