@@ -232,10 +232,25 @@ main {
 }
 
 #modal-text {
-  white-space: pre-line; /* preserves line breaks from \n */
-  max-height: 70vh;      /* adjust as needed to control modal height */
-  overflow-y: auto;      /* enables vertical scrolling */
-  padding-right: 1rem;   /* optional: space for scrollbar */
+  white-space: pre-line;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding-right: 1rem;
+}
+
+#modal-overlay-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 60%;
+  opacity: 0.08; /* Adjust for visibility */
+  pointer-events: none; /* So it doesn’t interfere with clicks */
+  z-index: 2;
 }
 
 @media screen and (max-width: 768px) {
