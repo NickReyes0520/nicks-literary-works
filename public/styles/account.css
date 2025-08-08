@@ -2,10 +2,18 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #fdfdfd;
   color: #333;
   margin: 0;
   padding: 0;
+  min-height: 100vh;
+
+  background-image: url('/images/wallpapers/sky-and-grass.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  backdrop-filter: blur(8px);
 }
 
 img {
