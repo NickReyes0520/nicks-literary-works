@@ -207,6 +207,17 @@ function showModalPrompt(message) {
       resolve(value);
     });
 
+    document.getElementById('googleSignIn').addEventListener('click', async () => {
+      try {
+        const provider = new GoogleAuthProvider();
+        const result = await signInWithPopup(auth, provider);
+        // Handle successful sign-in
+      } catch (error) {
+        console.error("Google Sign-In Error:", error);
+        alert(`Google Sign-In failed: ${error.message}`);
+      }
+    });
+
     modal.addEventListener('click', (e) => {
       if (e.target === modal) {
         document.body.removeChild(modal);
