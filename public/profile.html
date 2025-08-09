@@ -1,17 +1,11 @@
-<!-- profile.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Profile</title>
-
-  <!-- Favicon -->
+  <title>My Profile - Nick's Literary Works</title>
   <link rel="icon" type="image/jpeg" href="/website-logo.jpg" />
-
-  <!-- Stylesheet -->
   <link rel="stylesheet" href="/styles/account.css" />
-
   <script type="module" src="/scripts/profile.js" defer></script>
 </head>
 
@@ -28,7 +22,8 @@
     <div class="navigations">
       <nav class="nav-buttons">
         <a href="index.html">Home</a>
-        <a href="#" class="active">My Profile</a>
+        <a href="store.html">Store</a>
+        <a href="#" class="active" id="navProfile">My Profile</a>
       </nav>
     </div>
   </header>
@@ -37,14 +32,14 @@
     <section class="profile-card">
       <div class="avatar-section">
         <img src="/images/default-photo.jpg" alt="User Avatar" id="user-avatar" />
-        <input type="file" id="avatar-upload" accept="image/*" hidden />
         <button id="change-avatar-btn">Change Avatar</button>
+        <input type="file" id="avatar-upload" accept="image/*" style="display: none;" />
       </div>
 
       <form id="profile-form">
         <div class="form-group">
-          <label for="display-name">Display Name</label>
-          <input type="text" id="display-name" placeholder="Enter your name" required />
+          <label for="display-name">Username</label>
+          <input type="text" id="display-name" disabled />
         </div>
 
         <div class="form-group">
@@ -57,17 +52,23 @@
           <textarea id="user-bio" rows="3" placeholder="Tell us something about yourself..."></textarea>
         </div>
 
+        <div class="form-group">
+          <label>Book Interests</label>
+          <div class="checkbox-group" id="interests-container">
+            <!-- Dynamically populated from profile.js -->
+          </div>
+        </div>
+
         <div class="form-actions">
-          <button type="submit" id="save-profile-btn">Save Changes</button>
+          <button type="button" id="save-profile-btn">Save Changes</button>
           <button type="button" id="sign-out-btn" class="signout-btn">Sign Out</button>
         </div>
       </form>
     </section>
   </main>
 
-    <footer>
-      <p>&copy; Nick’s Literary Works. All rights reserved.</p>
-    </footer>
-  
+  <footer>
+    <p>&copy; Nick's Literary Works. All rights reserved.</p>
+  </footer>
 </body>
 </html>
