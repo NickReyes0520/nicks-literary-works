@@ -58,7 +58,17 @@
 
       <div class="form-group">
         <label for="username">Username (e.g., @booklover123) *</label>
-        <input type="text" id="username" name="username" required />
+        <div class="username-input-wrapper">
+          <span class="at-symbol">@</span>
+          <input 
+            type="text" 
+            id="username" 
+            name="username" 
+            required 
+            placeholder="booklover123"
+            oninput="validateUsername(this)"
+          />
+        </div>
       </div>
 
       <div class="form-group">
