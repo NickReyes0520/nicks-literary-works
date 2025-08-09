@@ -179,7 +179,19 @@ if (googleBtn) {
       // Redirect to profile
       window.location.href = "profile.html";
     } catch (error) {
-      alert(`❌ Google Sign-In failed: ${error.message}`);
+      let errorMessage = `❌ Google Sign-In failed: ${error.message}`; // Generic error
+
+      // --- ADD THESE SPECIFIC ERROR HANDLERS ---
+      if (error.code === 'auth/email-already-in-use') {
+        errorMessage = '❌ The email address associated with this Google account is already in use. Please sign in with your existing account, or use a different Google account if you wish to create a new one.';
+      } else if (error.code === 'auth/account-exists-with-different-credential') {
+        errorMessage = '❌ An account with this email already exists using different sign-in credentials. Please sign in with your existing method.';
+        // For a more advanced solution here, you'd prompt the user to sign in with their existing method
+        // (e.g., email/password) and then use `user.linkWithCredential(error.credential)` to link the Google account.
+      }
+      // --- END ADDITION ---
+
+      alert(errorMessage);
       console.error(error);
     }
   });
