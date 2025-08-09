@@ -161,12 +161,12 @@ function renderUserCard(userData) {
 
   const avatarSrc = userData.avatarURL || userData.photoURL || DEFAULT_AVATAR;
   const usernameDisplay = userData.username || userData.email || 'N/A';
-  const realNameDisplay = `${userData.firstName || ''} ${userData.lastName || ''}`.trim();
+  const realNameDisplay = userData.fullName || 'N/A'; // ✅ Updated line
 
   userCard.innerHTML = `
     <img src="${avatarSrc}" alt="${usernameDisplay}'s avatar" />
     <div class="username">${usernameDisplay}</div>
-    <div class="realname">${realNameDisplay || 'N/A'}</div>
+    <div class="realname">${realNameDisplay}</div>
   `;
 
   userCard.addEventListener('click', () => showUserDetailsModal(userData));
