@@ -1,11 +1,11 @@
-// management.js - Admin User Management Dashboard
+// management.js - Admin User Management Dashboard with Idle Timeout
 
 // --- Firebase Imports ---
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
   getAuth,
   onAuthStateChanged,
-  signOut // Needed for potential sign-out if non-admin
+  signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
   getFirestore,
@@ -15,17 +15,16 @@ import {
   getDoc,
   updateDoc,
   deleteDoc,
-  serverTimestamp // For timestamps on updates
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import {
   getStorage,
   ref as storageRef,
-  deleteObject // For deleting associated avatar from storage
+  deleteObject
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 
 // --- Firebase Configuration ---
-// IMPORTANT: This configuration must be identical across all your Firebase-enabled JS files
 const firebaseConfig = {
   apiKey: "AIzaSyBVhLP24BL4mibJhLuK5H8S4UIyc6SnbkM",
   authDomain: "nicks-literary-works-29a64.firebaseapp.com",
@@ -47,82 +46,121 @@ const userGrid = document.getElementById('userGrid');
 const userModal = document.getElementById('userModal');
 const closeModalBtn = document.getElementById('closeModal');
 const userDetailsDiv = document.getElementById('userDetails');
-const navButtons = document.getElementById('nav-buttons'); // The container for navigation links
+const navButtons = document.getElementById('nav-buttons');
 
 
 // --- Constants ---
-const DEFAULT_AVATAR = '/images/default-photo.jpg'; // Path to your default avatar image
+const DEFAULT_AVATAR = '/images/default-photo.jpg';
+const IDLE_TIMEOUT_MINUTES = 3; // 3 minutes as requested
+const IDLE_TIMEOUT_MS = IDLE_TIMEOUT_MINUTES * 60 * 1000;
+
+
+// --- Idle Timeout Variables ---
+let idleTimeout; // Holds the timeout ID
+
+
+// --- Helper Function: Sign Out ---
+/**
+ * Handles signing out the admin user and redirecting.
+ */
+async function adminSignOut() {
+  clearTimeout(idleTimeout); // Clear any pending timeout
+  try {
+    await signOut(auth);
+    console.log("Admin signed out due to inactivity or explicit action.");
+    alert("You have been signed out due to inactivity or explicit action.");
+    window.location.href = 'index.html'; // Redirect to home page after sign out
+  } catch (error) {
+    console.error("Error signing out admin:", error);
+    alert("Failed to sign out. Please try again.");
+  }
+}
+
+// --- Helper Function: Idle Timer Management ---
+/**
+ * Starts the idle timer. If the timer runs out, the admin will be signed out.
+ */
+function startIdleTimer() {
+  clearTimeout(idleTimeout); // Clear any existing timer before starting a new one
+  idleTimeout = setTimeout(() => {
+    adminSignOut();
+  }, IDLE_TIMEOUT_MS);
+  console.log(`Idle timer started for ${IDLE_TIMEOUT_MINUTES} minutes.`);
+}
+
+/**
+ * Resets the idle timer. Call this on any user activity.
+ */
+function resetIdleTimer() {
+  startIdleTimer(); // Restart the timer
+}
 
 
 // --- ADMIN ACCESS CONTROL ---
-// This listener runs whenever the user's authentication state changes (e.g., login, logout, page load)
 onAuthStateChanged(auth, async (user) => {
   if (user) {
-    // A user is logged in. Now, check if they are an admin.
     try {
       const userDoc = await getDoc(doc(db, 'users', user.uid));
       if (userDoc.exists() && userDoc.data().role === 'admin') {
-        // User is logged in AND their Firestore document has 'role: "admin"'
         console.log("Admin logged in. Loading user management dashboard.");
-        loadAllUsers(); // Proceed to load users
+        loadAllUsers();
+        startIdleTimer(); // Start the idle timer once admin is confirmed
+
+        // Attach activity listeners to the document
+        // Any click, mouse movement, or key press will reset the idle timer
+        document.addEventListener('click', resetIdleTimer);
+        document.addEventListener('mousemove', resetIdleTimer);
+        document.addEventListener('keydown', resetIdleTimer);
+
       } else {
-        // User is logged in but is NOT an admin
         alert("Access Denied: You must be an administrator to view this page. Redirecting to home.");
-        await signOut(auth); // Sign them out of the admin portal
-        window.location.href = 'index.html'; // Redirect non-admins
+        await signOut(auth);
+        window.location.href = 'index.html';
       }
     } catch (error) {
       console.error("Error checking admin role:", error);
       alert("An error occurred while verifying admin access. Redirecting to sign-in.");
       await signOut(auth);
-      window.location.href = 'signin.html'; // Redirect on error
+      window.location.href = 'signin.html';
     }
   } else {
-    // No user is logged in
     alert("Please sign in to access the admin portal. Redirecting to sign-in page.");
-    window.location.href = 'signin.html'; // Redirect to sign-in page
+    window.location.href = 'signin.html';
   }
 });
 
 
 // --- LOAD AND DISPLAY USERS ---
 async function loadAllUsers() {
-  userGrid.innerHTML = '<h2>Loading users...</h2>'; // Show a loading message
+  userGrid.innerHTML = '<h2>Loading users...</h2>';
   try {
     const usersCollectionRef = collection(db, 'users');
     const userSnapshot = await getDocs(usersCollectionRef);
 
     if (userSnapshot.empty) {
-      userGrid.innerHTML = '<h2>No registered users found.</h2>'; // Message if no users
+      userGrid.innerHTML = '<h2>No registered users found.</h2>';
       return;
     }
 
-    userGrid.innerHTML = ''; // Clear the loading message
+    userGrid.innerHTML = '';
     userSnapshot.forEach(doc => {
-      const userData = { id: doc.id, ...doc.data() }; // Get user data and their UID
-      renderUserCard(userData); // Create and append a card for each user
+      const userData = { id: doc.id, ...doc.data() };
+      renderUserCard(userData);
     });
 
   } catch (error) {
     console.error("Error loading users:", error);
-    userGrid.innerHTML = '<h2>Error loading users. Please try again.</h2>'; // Error message
+    userGrid.innerHTML = '<h2>Error loading users. Please try again.</h2>';
   }
 }
 
-/**
- * Creates and appends a user card to the grid.
- * @param {object} userData - The user's data from Firestore.
- */
 function renderUserCard(userData) {
   const userCard = document.createElement('div');
   userCard.className = 'user-card';
-  userCard.dataset.userId = userData.id; // Store UID for easy access
+  userCard.dataset.userId = userData.id;
 
-  // Determine avatar source: first Firestore `avatarURL`, then Firebase Auth `photoURL`, then default
   const avatarSrc = userData.avatarURL || userData.photoURL || DEFAULT_AVATAR;
-  // Determine display username: first Firestore `username` (e.g., @handle), then Firebase Auth email
   const usernameDisplay = userData.username || userData.email || 'N/A';
-  // Combine first and last name for real name display
   const realNameDisplay = `${userData.firstName || ''} ${userData.lastName || ''}`.trim();
 
   userCard.innerHTML = `
@@ -131,21 +169,14 @@ function renderUserCard(userData) {
     <div class="realname">${realNameDisplay || 'N/A'}</div>
   `;
 
-  // Add click listener to open the detailed modal
   userCard.addEventListener('click', () => showUserDetailsModal(userData));
   userGrid.appendChild(userCard);
 }
 
 
 // --- USER DETAILS MODAL ---
-/**
- * Populates and displays the modal with detailed user information.
- * @param {object} userData - The user's data from Firestore.
- */
 function showUserDetailsModal(userData) {
-  userDetailsDiv.innerHTML = ''; // Clear any previously displayed details
-
-  // Safely get user data, providing 'N/A' defaults for missing fields
+  userDetailsDiv.innerHTML = '';
   const avatarSrc = userData.avatarURL || userData.photoURL || DEFAULT_AVATAR;
   const usernameDisplay = userData.username || userData.email || 'N/A';
   const realNameDisplay = `${userData.firstName || ''} ${userData.lastName || ''}`.trim() || 'N/A';
@@ -155,12 +186,9 @@ function showUserDetailsModal(userData) {
   const birthdayDisplay = userData.birthday || 'N/A';
   const bioDisplay = userData.bio || 'N/A';
   const interestsDisplay = userData.interests && userData.interests.length > 0 ? userData.interests.join(', ') : 'None';
-  // Convert Firebase Timestamp to a readable date string
   const createdAtDisplay = userData.createdAt ? new Date(userData.createdAt.toDate()).toLocaleString() : 'N/A';
-  // Determine user status (defaults to 'active' if not set)
   const statusDisplay = userData.status || 'active';
 
-  // Construct the HTML for the modal content
   userDetailsDiv.innerHTML = `
     <div style="text-align: center; margin-bottom: 1.5rem;">
       <img src="${avatarSrc}" alt="${usernameDisplay}'s avatar" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #ce7e00;" />
@@ -188,7 +216,6 @@ function showUserDetailsModal(userData) {
       This section would then display those logged events for this user.
     </p>
     <ul style="list-style-type: none; padding-left: 0; margin-top: 1rem; border-top: 1px solid #eee; padding-top: 1rem;">
-      <!-- Example activity: <li>Purchased "Book Title" on YYYY-MM-DD</li> -->
       <li>No recent activities logged (placeholder)</li>
     </ul>
 
@@ -199,7 +226,7 @@ function showUserDetailsModal(userData) {
         border: none;
         cursor: pointer;
         font-weight: bold;
-        background-color: ${userData.status === 'blocked' ? '#28a745' : '#ffc107'}; /* Green for unblock, yellow for block */
+        background-color: ${userData.status === 'blocked' ? '#28a745' : '#ffc107'};
         color: ${userData.status === 'blocked' ? 'white' : '#333'};
       ">
         ${userData.status === 'blocked' ? 'Unblock User' : 'Block User'}
@@ -210,7 +237,7 @@ function showUserDetailsModal(userData) {
         border: none;
         cursor: pointer;
         font-weight: bold;
-        background-color: #dc3545; /* Red for delete */
+        background-color: #dc3545;
         color: white;
       ">Delete User Data</button>
     </div>
@@ -219,27 +246,23 @@ function showUserDetailsModal(userData) {
     </p>
   `;
 
-  // Add event listeners for the new buttons within the modal
   document.getElementById('blockUnblockBtn').addEventListener('click', () => {
     const newStatus = userData.status === 'blocked' ? 'active' : 'blocked';
     updateUserStatus(userData.id, newStatus);
   });
   document.getElementById('deleteUserBtn').addEventListener('click', () => {
     if (confirm(`Are you sure you want to delete all data for ${usernameDisplay}? This cannot be undone!`)) {
-      deleteUserData(userData.id, userData.avatarURL); // Pass avatarURL for storage deletion
+      deleteUserData(userData.id, userData.avatarURL);
     }
   });
 
-  userModal.style.display = 'block'; // Show the modal
+  userModal.style.display = 'block';
 }
 
-// --- Modal Close Listeners ---
-// Closes the modal when the 'x' button is clicked
+// Close Modal Listeners
 closeModalBtn.addEventListener('click', () => {
   userModal.style.display = 'none';
 });
-
-// Closes the modal when clicking outside of its content
 window.addEventListener('click', (event) => {
   if (event.target === userModal) {
     userModal.style.display = 'none';
@@ -248,72 +271,53 @@ window.addEventListener('click', (event) => {
 
 
 // --- ADMIN ACTIONS ---
-
-/**
- * Updates a user's status (e.g., 'active' or 'blocked') in Firestore.
- * @param {string} userId - The UID of the user to update.
- * @param {string} newStatus - The new status to set ('active' or 'blocked').
- */
 async function updateUserStatus(userId, newStatus) {
   try {
     const userRef = doc(db, 'users', userId);
     await updateDoc(userRef, {
       status: newStatus,
-      updatedAt: serverTimestamp() // Add a timestamp for the last update
+      updatedAt: serverTimestamp()
     });
     alert(`User ${userId} status updated to: ${newStatus}`);
-    userModal.style.display = 'none'; // Close the modal after action
-    loadAllUsers(); // Refresh the user list to reflect changes
+    userModal.style.display = 'none';
+    loadAllUsers();
   } catch (error) {
     console.error("Error updating user status:", error);
     alert(`Failed to update user status: ${error.message}`);
   }
 }
 
-/**
- * Deletes a user's data document from Firestore and their avatar from Storage.
- * This is a "soft delete" as it does NOT delete the user from Firebase Authentication.
- * @param {string} userId - The UID of the user to delete.
- * @param {string} avatarURL - The URL of the user's avatar to delete from Storage (optional).
- */
 async function deleteUserData(userId, avatarURL) {
   try {
-    // Delete user document from Firestore
     const userRef = doc(db, 'users', userId);
     await deleteDoc(userRef);
 
-    // If an avatar exists, attempt to delete it from Firebase Storage
     if (avatarURL && avatarURL.startsWith('https://firebasestorage.googleapis.com/')) {
       try {
         const fileRef = storageRef(storage, avatarURL);
         await deleteObject(fileRef);
         console.log(`Successfully deleted avatar for user ${userId}`);
       } catch (storageError) {
-        // Log storage deletion error, but don't prevent Firestore deletion if avatar not found
         console.warn(`Could not delete avatar for user ${userId}:`, storageError);
       }
     }
 
     alert(`User data for ${userId} successfully deleted from Firestore (and avatar if present).`);
-    userModal.style.display = 'none'; // Close modal
-    loadAllUsers(); // Refresh the user list
+    userModal.style.display = 'none';
+    loadAllUsers();
   } catch (error) {
     console.error("Error deleting user data:", error);
     alert(`Failed to delete user data: ${error.message}`);
   }
 }
 
-
 // --- OPTIONAL: Navigation Highlight ---
-// Ensures the "User Management" button remains active when on this page
 document.addEventListener('DOMContentLoaded', () => {
-  const userManagementLink = navButtons.querySelector('a[href="#"]'); // Find the link with href="#"
+  const userManagementLink = navButtons.querySelector('a[href="#"]');
   if (userManagementLink) {
-    // Remove 'active' class from all other nav links
     Array.from(navButtons.children).forEach(link => {
       link.classList.remove('active');
     });
-    // Add 'active' class to the User Management link
     userManagementLink.classList.add('active');
   }
 });
