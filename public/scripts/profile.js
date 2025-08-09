@@ -61,6 +61,9 @@ async function loadProfileData(user) {
     const userDocRef = doc(db, "users", user.uid);
     const userDoc = await getDoc(userDocRef);
 
+    console.log("Username from Firestore:", userData.username);
+    console.log("Email from Auth:", user.email);
+
     if (userDoc.exists()) {
       const data = userDoc.data();
       displayNameInput.value = userData.username || user.email || '';
