@@ -188,6 +188,24 @@ onAuthStateChanged(auth, async (user) => {
 // ========================
 // HELPER FUNCTIONS
 // ========================
+
+// Username validation helper
+// This function cleans the input value directly on input.
+// It ensures that the @ symbol is not manually typed and enforces rules.
+function validateUsername(input) {
+  // Remove any @ symbols user might try to add
+  input.value = input.value.replace(/@/g, '');
+  
+  // Enforce max length (14 chars as per your existing validation)
+  // This helps prevent issues before form submission.
+  if (input.value.length > 14) {
+    input.value = input.value.slice(0, 14);
+  }
+  
+  // Only allow alphanumeric characters
+  input.value = input.value.replace(/[^a-zA-Z0-9]/g, '');
+}
+
 function showModalPrompt(message) {
   return new Promise(resolve => {
     // Create modal elements
