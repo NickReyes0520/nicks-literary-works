@@ -63,6 +63,9 @@ async function loadProfileData(user) {
     
     if (userDoc.exists()) {
       const userData = userDoc.data();
+
+      console.log("User data loaded from Firestore:", userData);
+      console.log("Email from Firebase Auth user object:", user.email);
       
       // Set basic info
       displayName.value = userData.username || '';
