@@ -311,6 +311,26 @@ async function deleteUserData(userId, avatarURL) {
   }
 }
 
+async function loadAllUsers() {
+  try {
+    const usersCollection = collection(db, 'users');
+    const userSnapshot = await getDocs(usersCollection);
+    
+    if (userSnapshot.empty) {
+      userGrid.innerHTML = '<h2>No registered users found.</h2>';
+      return;
+    }
+    
+    // ... rest of your code ...
+  } catch (error) {
+    if (error.code === 'resource-exhausted') {
+      userGrid.innerHTML = '<h2>Daily quota reached. Try again tomorrow.</h2>';
+    } else {
+      userGrid.innerHTML = '<h2>Error loading users.</h2>';
+    }
+  }
+}
+
 // --- OPTIONAL: Navigation Highlight ---
 document.addEventListener('DOMContentLoaded', () => {
   const userManagementLink = navButtons.querySelector('a[href="#"]');
