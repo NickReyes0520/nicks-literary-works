@@ -1,4 +1,5 @@
-// account.js - Consolidated Version with All Fixes
+// account.js - Consolidated Version with All Fixes and Google Sign-in Username Uniqueness
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
   getAuth,
@@ -17,7 +18,7 @@ import {
   serverTimestamp,
   getDoc,
   collection,
-  getDocs
+  getDocs // Needed for uniqueness check
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import {
   getStorage,
@@ -26,7 +27,7 @@ import {
   getDownloadURL
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
-// Firebase configuration
+// Firebase configuration (keep this consistent across all your JS files)
 const firebaseConfig = {
   apiKey: "AIzaSyBVhLP24BL4mibJhLuK5H8S4UIyc6SnbkM",
   authDomain: "nicks-literary-works-29a64.firebaseapp.com",
@@ -50,6 +51,7 @@ const navRegister = document.getElementById("navRegister");
 const navSignIn = document.getElementById("navSignIn");
 const navProfile = document.getElementById("navProfile");
 
+
 // ========================
 // EMAIL/PASSWORD REGISTRATION
 // ========================
@@ -57,35 +59,35 @@ if (form) {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    // Get form values
     const rawUsername = form.username.value.trim();
-    const username = `@${rawUsername}`;
+    const username = `@${rawUsername}`; // Prepend '@' for consistency
     const email = form.email.value.trim();
     const password = form.password.value;
     const avatarFile = form.avatar.files[0];
     const interests = Array.from(form.querySelectorAll("input[name='interests']:checked")).map(el => el.value);
 
-    // Validate username
+    // Validate username length
+    if (rawUsername.length === 0) { // Check if username is empty
+        alert("❌ Username cannot be empty.");
+        return;
+    }
     if (rawUsername.length > 14) {
       alert("❌ Username must be 14 characters or less.");
       return;
     }
 
-    // Check username uniqueness
+    // Check username uniqueness in Firestore
     const usernameQuery = await getDocs(collection(db, "users"));
-    const taken = usernameQuery.docs.some(doc => doc.data().username === username);
-
+    const taken = usernameQuery.docs.some(doc => doc.data().username === username); // Check for exact match
     if (taken) {
       alert("❌ That username is already taken. Try another.");
       return;
     }
 
     try {
-      // Create user
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Upload avatar if exists
       let avatarURL = "";
       if (avatarFile) {
         const avatarRef = storageRef(storage, `avatars/${user.uid}/${avatarFile.name}`);
@@ -93,15 +95,14 @@ if (form) {
         avatarURL = await getDownloadURL(avatarRef);
       }
 
-      // Update profile and save to Firestore
       await Promise.all([
         updateProfile(user, {
-          displayName: username,
+          displayName: username, // Set display name for Firebase Auth
           photoURL: avatarURL
         }),
         sendEmailVerification(user),
         setDoc(doc(db, "users", user.uid), {
-          username,
+          username, // Store the @username in Firestore
           email,
           firstName: form.firstName.value.trim(),
           lastName: form.lastName.value.trim(),
@@ -123,6 +124,7 @@ if (form) {
   });
 }
 
+
 // ========================
 // GOOGLE SIGN-IN/POPUP
 // ========================
@@ -130,24 +132,48 @@ if (googleBtn) {
   googleBtn.addEventListener("click", async () => {
     try {
       // Create modal for username input
-      const username = await showModalPrompt("Choose a username (without @):");
-      if (!username) return;
+      const rawUsernameInput = await showModalPrompt("Choose a username (without @):");
+      if (!rawUsernameInput) { // If user cancels modal
+          return;
+      }
 
-      // Sign in with Google
+      // Validate username length for Google Sign-in
+      if (rawUsernameInput.length === 0) {
+        alert("❌ Username cannot be empty.");
+        return;
+      }
+      if (rawUsernameInput.length > 14) {
+        alert("❌ Username must be 14 characters or less.");
+        return;
+      }
+
+      const desiredUsername = `@${rawUsernameInput}`; // Prepend '@' for the check and storage
+
+      // --- NEW: Add Username Uniqueness Check for Google Sign-in ---
+      const usernameQuery = await getDocs(collection(db, "users"));
+      const taken = usernameQuery.docs.some(doc => doc.data().username === desiredUsername);
+      if (taken) {
+        alert("❌ That username is already taken. Try another.");
+        return; // Prevent Google Sign-in if username is taken
+      }
+      // --- END NEW ---
+
+      // Sign in with Google (this will create user if new, or sign in if existing)
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
       // Update profile and save to Firestore
       await Promise.all([
         updateProfile(user, {
-          displayName: `@${username}`
+          displayName: desiredUsername, // Set Firebase Auth display name
+          photoURL: user.photoURL || "" // Use Google's photo or empty string
         }),
         setDoc(doc(db, "users", user.uid), {
-          username: `@${username}`,
+          username: desiredUsername, // Store the @username in Firestore
           email: user.email,
-          avatarURL: user.photoURL || "",
+          avatarURL: user.photoURL || "", // Store Google's photo as avatarURL
           createdAt: serverTimestamp()
-        }, { merge: true })
+        }, { merge: true }) // Use merge: true to avoid overwriting if user already exists (e.g. from email/pass)
       ]);
 
       // Redirect to profile
@@ -159,23 +185,26 @@ if (googleBtn) {
   });
 }
 
+
 // ========================
 // AUTH STATE MANAGEMENT
 // ========================
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     // User is signed in
+    // Fetch Firestore document to get the correct username (which includes '@')
     const userDoc = await getDoc(doc(db, "users", user.uid));
-    const username = userDoc.exists() 
-      ? userDoc.data().username 
-      : user.displayName || "My Account";
+    const usernameToDisplay = userDoc.exists()
+      ? userDoc.data().username // Use the @username from Firestore
+      : user.displayName || "My Account"; // Fallback to displayName or generic
 
-    // Update navigation
+    // Update navigation links
     if (navRegister) navRegister.style.display = 'none';
     if (navSignIn) navSignIn.style.display = 'none';
     if (navProfile) {
-      navProfile.textContent = username;
+      navProfile.textContent = usernameToDisplay;
       navProfile.style.display = 'inline-block';
+      navProfile.href = "profile.html"; // Ensure correct href
     }
   } else {
     // User is signed out
@@ -185,30 +214,24 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
+
 // ========================
 // HELPER FUNCTIONS
 // ========================
 
-// Username validation helper
-// This function cleans the input value directly on input.
-// It ensures that the @ symbol is not manually typed and enforces rules.
+// Username validation helper (used by account.html's input)
 function validateUsername(input) {
-  // Remove any @ symbols user might try to add
-  input.value = input.value.replace(/@/g, '');
-  
-  // Enforce max length (14 chars as per your existing validation)
-  // This helps prevent issues before form submission.
+  input.value = input.value.replace(/@/g, ''); // Remove any @ symbol user might type
+  input.value = input.value.replace(/[^a-zA-Z0-9]/g, ''); // Only allow alphanumeric
+
   if (input.value.length > 14) {
-    input.value = input.value.slice(0, 14);
+    input.value = input.value.slice(0, 14); // Enforce max length
   }
-  
-  // Only allow alphanumeric characters
-  input.value = input.value.replace(/[^a-zA-Z0-9]/g, '');
 }
 
+// Modal prompt for Google Sign-in username
 function showModalPrompt(message) {
   return new Promise(resolve => {
-    // Create modal elements
     const modal = document.createElement('div');
     modal.style.cssText = `
       position: fixed;
@@ -252,18 +275,25 @@ function showModalPrompt(message) {
 
     document.body.appendChild(modal);
 
-    // Handle submission
+    document.getElementById('modalInput').focus(); // Focus the input field
+
     document.getElementById('modalSubmit').addEventListener('click', () => {
       const value = document.getElementById('modalInput').value.trim();
       document.body.removeChild(modal);
       resolve(value);
     });
 
-    // Close on click outside
+    // Allow submission on Enter key press
+    document.getElementById('modalInput').addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+            document.getElementById('modalSubmit').click();
+        }
+    });
+
     modal.addEventListener('click', (e) => {
       if (e.target === modal) {
         document.body.removeChild(modal);
-        resolve(null);
+        resolve(null); // Resolve with null if clicked outside
       }
     });
   });
