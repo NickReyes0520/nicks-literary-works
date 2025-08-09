@@ -63,7 +63,7 @@ async function loadProfileData(user) {
 
     if (userDoc.exists()) {
       const data = userDoc.data();
-      displayNameInput.value = data.username || user.displayName || '';
+      displayNameInput.value = userData.username || user.email || '';
       userEmailInput.value = user.email || '';
       userBioInput.value = data.bio || '';
       userAvatar.src = data.avatarURL || user.photoURL || DEFAULT_AVATAR_PATH;
