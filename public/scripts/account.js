@@ -1,5 +1,4 @@
-// account.js – Final Combined & Cleaned
-
+// account.js - Consolidated Version with All Fixes
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
   getAuth,
@@ -15,7 +14,10 @@ import {
   getFirestore,
   doc,
   setDoc,
-  serverTimestamp
+  serverTimestamp,
+  getDoc,
+  collection,
+  getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import {
   getStorage,
@@ -23,7 +25,6 @@ import {
   uploadBytes,
   getDownloadURL
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
-import { getDocs, collection } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -43,305 +44,209 @@ const storage = getStorage(app);
 const provider = new GoogleAuthProvider();
 
 // DOM elements
-const form = document.querySelector("#registration-form");
-const googleBtn = document.querySelector("#google-signin-btn");
-const navProfileLink = document.querySelector("a[href='profile.html']");
+const form = document.getElementById("register-form");
+const googleBtn = document.getElementById("googleSignIn");
+const navRegister = document.getElementById("navRegister");
+const navSignIn = document.getElementById("navSignIn");
+const navProfile = document.getElementById("navProfile");
 
-// 🔐 Firestore Security Tip (configure in Firebase console)
-/**
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-    }
-  }
-}
-*/
+// ========================
+// EMAIL/PASSWORD REGISTRATION
+// ========================
+if (form) {
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-// ✍️ Email/Password Registration
-form?.addEventListener("submit", async (e) => {
-  e.preventDefault();
+    // Get form values
+    const rawUsername = form.username.value.trim();
+    const username = `@${rawUsername}`;
+    const email = form.email.value.trim();
+    const password = form.password.value;
+    const avatarFile = form.avatar.files[0];
+    const interests = Array.from(form.querySelectorAll("input[name='interests']:checked")).map(el => el.value);
 
-  const username = form.username.value.trim();
-  const email = form.email.value.trim();
-  const password = form.password.value;
-  const avatarFile = form.avatar.files[0];
-  const interests = Array.from(form.querySelectorAll("input[name='interests[]']:checked")).map(el => el.value);
-
-  const rawUsername = form.username.value.trim();
-  const username = `@${rawUsername}`;
-
-  // Check length
-  if (rawUsername.length > 14) {
-    alert("❌ Username must be 14 characters or less.");
-    return;
-  }
-
-  // Check uniqueness
-  const usernameQuery = await getDocs(collection(db, "users"));
-  const taken = usernameQuery.docs.some(doc => doc.data().username === username);
-
-  if (taken) {
-    alert("❌ That username is already taken. Try another.");
-    return;
-  }
-
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-
-    await sendEmailVerification(user);
-
-    let avatarURL = "";
-    if (avatarFile) {
-      const avatarRef = storageRef(storage, `avatars/${user.uid}/${avatarFile.name}`);
-      await uploadBytes(avatarRef, avatarFile);
-      avatarURL = await getDownloadURL(avatarRef);
+    // Validate username
+    if (rawUsername.length > 14) {
+      alert("❌ Username must be 14 characters or less.");
+      return;
     }
 
-    await updateProfile(user, {
-      displayName: `@${username}`,
-      photoURL: avatarURL
-    });
+    // Check username uniqueness
+    const usernameQuery = await getDocs(collection(db, "users"));
+    const taken = usernameQuery.docs.some(doc => doc.data().username === username);
 
-    await setDoc(doc(db, "users", user.uid), {
-      username: `@${username}`,
-      email,
-      interests,
-      avatarURL,
-      createdAt: serverTimestamp()
-    });
+    if (taken) {
+      alert("❌ That username is already taken. Try another.");
+      return;
+    }
 
-    alert("✅ Registration successful! Please verify your email before signing in.");
-    form.reset();
-  } catch (error) {
-    alert("❌ Error: " + error.message);
-    console.error(error);
-  }
-});
+    try {
+      // Create user
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
 
-// 🌐 Google Sign-In
-googleBtn?.addEventListener("click", async () => {
-  try {
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
-
-    const username = prompt("Choose a username (@handle):")?.trim() || "user";
-    const gender = prompt("Enter your gender (Male/Female):");
-    const birthday = prompt("Enter your birthday (YYYY-MM-DD):");
-    const phone = prompt("Enter your phone number (optional):");
-
-    await updateProfile(user, {
-      displayName: `@${username}`
-    });
-
-    await setDoc(doc(db, "users", user.uid), {
-      username: `@${username}`,
-      email: user.email,
-      phone,
-      gender,
-      birthday,
-      avatarURL: user.photoURL || "",
-      interests: [],
-      createdAt: serverTimestamp()
-    }, { merge: true });
-
-    alert("✅ Google Sign-Up successful! Your profile is now created.");
-    window.location.href = "profile.html";
-  } catch (error) {
-    alert("❌ Google Sign-In failed: " + error.message);
-    console.error(error);
-  }
-});
-
-// 🔄 Navbar Username Update
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    navProfileLink.textContent = user.displayName || "My Profile";
-    navProfileLink.href = "profile.html";
-  } else {
-    navProfileLink.textContent = "My Profile";
-    navProfileLink.href = "signin.html";
-  }
-});
-
-// === STEP 4: PROFILE PAGE LOGIC ===
-
-// Auto-fill profile form with current user info
-firebase.auth().onAuthStateChanged(async (user) => {
-  if (user) {
-    const userDocRef = firebase.firestore().collection('users').doc(user.uid);
-    const userDoc = await userDocRef.get();
-
-    if (userDoc.exists) {
-      const data = userDoc.data();
-      document.getElementById('profile-username').value = data.username || '';
-      document.getElementById('profile-email').value = user.email || '';
-      document.getElementById('profile-bio').value = data.bio || '';
-      document.getElementById('profile-interests').value = data.interests || '';
-      if (data.avatarUrl) {
-        document.getElementById('profile-avatar').src = data.avatarUrl;
+      // Upload avatar if exists
+      let avatarURL = "";
+      if (avatarFile) {
+        const avatarRef = storageRef(storage, `avatars/${user.uid}/${avatarFile.name}`);
+        await uploadBytes(avatarRef, avatarFile);
+        avatarURL = await getDownloadURL(avatarRef);
       }
+
+      // Update profile and save to Firestore
+      await Promise.all([
+        updateProfile(user, {
+          displayName: username,
+          photoURL: avatarURL
+        }),
+        sendEmailVerification(user),
+        setDoc(doc(db, "users", user.uid), {
+          username,
+          email,
+          firstName: form.firstName.value.trim(),
+          lastName: form.lastName.value.trim(),
+          phone: `${form["country-code"].value}${form.phone.value.trim()}`,
+          gender: form.gender.value,
+          birthday: form.birthday.value,
+          interests,
+          avatarURL,
+          createdAt: serverTimestamp()
+        })
+      ]);
+
+      alert("✅ Registration successful! Please verify your email.");
+      form.reset();
+    } catch (error) {
+      alert(`❌ Error: ${error.message}`);
+      console.error(error);
     }
-  }
-});
-
-// Save profile changes
-const saveProfileBtn = document.getElementById('save-profile-btn');
-saveProfileBtn?.addEventListener('click', async () => {
-  const user = firebase.auth().currentUser;
-  if (!user) return;
-
-  const username = document.getElementById('profile-username').value.trim();
-  const bio = document.getElementById('profile-bio').value.trim();
-  const interests = document.getElementById('profile-interests').value.trim();
-
-  await firebase.firestore().collection('users').doc(user.uid).update({
-    username,
-    bio,
-    interests,
-    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
   });
+}
 
-  alert('Profile updated successfully!');
-});
+// ========================
+// GOOGLE SIGN-IN/POPUP
+// ========================
+if (googleBtn) {
+  googleBtn.addEventListener("click", async () => {
+    try {
+      // Create modal for username input
+      const username = await showModalPrompt("Choose a username (without @):");
+      if (!username) return;
 
-// Change avatar
-const changeAvatarBtn = document.getElementById('change-avatar-btn');
-changeAvatarBtn?.addEventListener('click', () => {
-  const fileInput = document.createElement('input');
-  fileInput.type = 'file';
-  fileInput.accept = 'image/*';
-  fileInput.onchange = async (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
+      // Sign in with Google
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
 
-    const user = firebase.auth().currentUser;
-    const storageRef = firebase.storage().ref();
-    const avatarRef = storageRef.child(`avatars/${user.uid}/${file.name}`);
-    await avatarRef.put(file);
-    const avatarUrl = await avatarRef.getDownloadURL();
+      // Update profile and save to Firestore
+      await Promise.all([
+        updateProfile(user, {
+          displayName: `@${username}`
+        }),
+        setDoc(doc(db, "users", user.uid), {
+          username: `@${username}`,
+          email: user.email,
+          avatarURL: user.photoURL || "",
+          createdAt: serverTimestamp()
+        }, { merge: true })
+      ]);
 
-    await firebase.firestore().collection('users').doc(user.uid).update({
-      avatarUrl,
-    });
-
-    document.getElementById('profile-avatar').src = avatarUrl;
-    alert('Avatar updated successfully!');
-  };
-  fileInput.click();
-});
-
-// Sign out from profile page
-const signOutBtn = document.querySelector('.signout-btn');
-signOutBtn?.addEventListener('click', () => {
-  firebase.auth().signOut().then(() => {
-    window.location.href = 'account.html';
+      // Redirect to profile
+      window.location.href = "profile.html";
+    } catch (error) {
+      alert(`❌ Google Sign-In failed: ${error.message}`);
+      console.error(error);
+    }
   });
-});
+}
 
-// Check if user is logged in, then toggle nav visibility
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-const auth = getAuth();
-
-onAuthStateChanged(auth, (user) => {
-  const profileNav = document.getElementById('navProfile');
-  if (user && profileNav) {
-    profileNav.style.display = 'inline-block'; // or 'flex' depending on your nav layout
-  } else if (profileNav) {
-    profileNav.style.display = 'none';
-  }
-});
-
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-const auth = getAuth();
-const db = getFirestore();
-
+// ========================
+// AUTH STATE MANAGEMENT
+// ========================
 onAuthStateChanged(auth, async (user) => {
-  const navRegister = document.getElementById('navRegister');
-  const navSignIn = document.getElementById('navSignIn');
-  const navProfile = document.getElementById('navProfile');
-
   if (user) {
-    // Hide guest links
+    // User is signed in
+    const userDoc = await getDoc(doc(db, "users", user.uid));
+    const username = userDoc.exists() 
+      ? userDoc.data().username 
+      : user.displayName || "My Account";
+
+    // Update navigation
     if (navRegister) navRegister.style.display = 'none';
     if (navSignIn) navSignIn.style.display = 'none';
-
-    // Show profile link with @username
     if (navProfile) {
-      try {
-        const userDoc = await getDoc(doc(db, "users", user.uid));
-        const userData = userDoc.exists() ? userDoc.data() : null;
-        const username = userData?.username || user.displayName || "Profile";
-
-        navProfile.textContent = `My Profile (@${username})`;
-        navProfile.href = "profile.html";
-        navProfile.style.display = 'inline-block'; // or 'flex' as needed
-      } catch (error) {
-        console.error("Failed to load username:", error);
-      }
+      navProfile.textContent = username;
+      navProfile.style.display = 'inline-block';
     }
   } else {
-    // Show guest links, hide profile
+    // User is signed out
     if (navRegister) navRegister.style.display = 'inline-block';
     if (navSignIn) navSignIn.style.display = 'inline-block';
     if (navProfile) navProfile.style.display = 'none';
   }
 });
 
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+// ========================
+// HELPER FUNCTIONS
+// ========================
+function showModalPrompt(message) {
+  return new Promise(resolve => {
+    // Create modal elements
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    `;
 
-const auth = getAuth();
+    modal.innerHTML = `
+      <div style="
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 400px;
+      ">
+        <p style="margin-bottom: 1rem;">${message}</p>
+        <input type="text" id="modalInput" style="
+          width: 100%;
+          padding: 0.5rem;
+          margin-bottom: 1rem;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+        ">
+        <button id="modalSubmit" style="
+          background: #990000;
+          color: white;
+          border: none;
+          padding: 0.5rem 1rem;
+          border-radius: 4px;
+          cursor: pointer;
+        ">Submit</button>
+      </div>
+    `;
 
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // Set avatar to user's photoURL if it exists, or default
-    const avatar = document.getElementById("user-avatar");
-    avatar.src = user.photoURL || "/images/default-photo.jpg";
-  } else {
-    // If not logged in, optionally redirect or handle gracefully
-    window.location.href = "signin.html";
-  }
-});
+    document.body.appendChild(modal);
 
-import { getAuth, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    // Handle submission
+    document.getElementById('modalSubmit').addEventListener('click', () => {
+      const value = document.getElementById('modalInput').value.trim();
+      document.body.removeChild(modal);
+      resolve(value);
+    });
 
-const auth = getAuth();
-
-// After successful registration
-await updateProfile(auth.currentUser, {
-  displayName: yourDisplayName, // e.g., username
-  photoURL: "/images/default-photo.jpg"
-});
-
-async function registerUser() {
-  const email = document.getElementById('email').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  const fullPhone = '+63' + phone;
-
-  const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
-  const user = userCredential.user;
-
-  // Determine which verification to send
-  if (!user.emailVerified && !phoneIsVerified) {
-    // Send email verification
-    await user.sendEmailVerification();
-    alert('Please check your email to verify your account.');
-  } else if (!phoneIsVerified) {
-    // You can trigger SMS OTP here using Firebase Phone Auth
-    // showRecaptcha();
-    // sendSmsVerification(fullPhone);
-  }
-
-  // Save phone to Firestore users collection
-  await firebase.firestore().collection('users').doc(user.uid).set({
-    email,
-    phone: fullPhone,
-    verified: user.emailVerified || phoneIsVerified,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    // Close on click outside
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        document.body.removeChild(modal);
+        resolve(null);
+      }
+    });
   });
 }
