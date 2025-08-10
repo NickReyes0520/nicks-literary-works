@@ -13,8 +13,45 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="/styles/bookeditor.css" />
 
-  <script type="module" src="/bookeditor.js" defer></script>
+  <script type="module" src="/scripts/bookeditor.js" defer></script>
 </head>
+
+<!-- Create Book Modal -->
+<div id="createBookModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Create New Book</h2>
+    <form id="createBookForm">
+      <label>Book Title</label>
+      <input type="text" id="bookTitle" required>
+      
+      <label>Book Cover</label>
+      <input type="file" id="bookCover" accept="image/*" required>
+      
+      <button type="submit">Create</button>
+    </form>
+  </div>
+</div>
+
+<!-- Import Book Modal -->
+<div id="importBookModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Import Book</h2>
+    <form id="importBookForm">
+      <label>Book Title</label>
+      <input type="text" id="importTitle" required>
+      
+      <label>Manuscript File (.doc, .docx)</label>
+      <input type="file" id="importFile" accept=".doc,.docx" required>
+      
+      <label>Book Cover</label>
+      <input type="file" id="importCover" accept="image/*">
+      
+      <button type="submit">Import</button>
+    </form>
+  </div>
+</div>
 
 <body>
   <header>
