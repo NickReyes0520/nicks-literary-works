@@ -32,113 +32,56 @@
 
   <main>
     <section class="book-grid">
-      <!-- First box: Create + Import -->
+      <!-- This is the ONLY static content in book-grid. It will NOT be cleared by JS. -->
       <div class="book-box dual-action">
-        <!-- REMOVED onclick ATTRIBUTE: Now handled by bookeditor.js event listener -->
         <div class="action create">
           <span>+</span>
           <p>Create Book</p>
         </div>
-        <!-- REMOVED onclick ATTRIBUTE and the extra fileInput: Now handled by bookeditor.js event listener and modal's importFile -->
         <div class="action import">
           <span>↑</span>
           <p>Import Book</p>
         </div>
       </div>
 
-      <!-- Book cover 1 (and others) will be dynamically loaded by bookeditor.js -->
-      <!-- For now, keeping your existing static ones for initial display/testing, but bookeditor.js will replace them -->
-      <div class="book-box">
-        <img src="/images/books/war-battlefield.jpg" alt="Book 1" />
-        <div class="overlay">
-          <h2>War in a Quiet Battlefield</h2>
-          <div class="overlay-buttons">
-            <button onclick="location.href='managebooks.html'">⚙️ Manage</button>
-            <button onclick="location.href='manuscript.html'">✍🏻 Write</button>
-          </div>
-        </div>
-      </div>
+      <!-- ALL dynamic books and the "No books found" message will be rendered here by bookeditor.js -->
+      <!-- Remove ALL static book-box divs (like Book cover 1, 2, 3 etc.) you had previously here. -->
 
-      <div class="book-box">
-        <img src="/images/books/faces-justice.jpg" alt="Book 2" />
-        <div class="overlay">
-          <h2>The Two Faces of Justice</h2>
-          <div class="overlay-buttons">
-            <button onclick="location.href='managebooks.html'">⚙️ Manage</button>
-            <button onclick="location.href='manuscript.html'">✍🏻 Write</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="book-box">
-        <img src="/images/books/kindness-abused.jpg" alt="Book 3" />
-        <div class="overlay">
-          <h2>When One’s Kindness is Abused</h2>
-          <div class="overlay-buttons">
-            <button onclick="location.href='managebooks.html'">⚙️ Manage</button>
-            <button onclick="location.href='manuscript.html'">✍🏻 Write</button>
-          </div>
-        </div>
-      </div>
-
-       <div class="book-box">
-        <img src="/images/books/feeding-sharks.jpg" alt="Book 4" />
-        <div class="overlay">
-          <h2>Feeding Sharks Without Losing Fingers</h2>
-          <div class="overlay-buttons">
-            <button onclick="location.href='managebooks.html'">⚙️ Manage</button>
-            <button onclick="location.href='manuscript.html'">✍🏻 Write</button>
-          </div>
-        </div>
-      </div>
-
-       <div class="book-box">
-        <img src="/images/books/silent-languages.jpg" alt="Book 5" />
-        <div class="overlay">
-          <h2>Silent Languages of Love</h2>
-          <div class="overlay-buttons">
-            <button onclick="location.href='managebooks.html'">⚙️ Manage</button>
-            <button onclick="location.href='manuscript.html'">✍🏻 Write</button>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Repeat .book-box for additional books -->
     </section>
   </main>
 
-  <!-- Create Book Modal (MOVED INSIDE BODY) -->
+  <!-- Create Book Modal (kept inside body, at the end for clean structure) -->
   <div id="createBookModal" class="modal">
     <div class="modal-content">
-      <span class="close create-close">&times;</span> <!-- Added class for specific closing -->
+      <span class="close create-close">&times;</span>
       <h2>Create New Book</h2>
       <form id="createBookForm">
         <label for="bookTitle">Book Title</label>
         <input type="text" id="bookTitle" required>
-        
+
         <label for="bookCover">Book Cover</label>
         <input type="file" id="bookCover" accept="image/*" required>
-        
+
         <button type="submit">Create</button>
       </form>
     </div>
   </div>
 
-  <!-- Import Book Modal (MOVED INSIDE BODY) -->
+  <!-- Import Book Modal (kept inside body, at the end for clean structure) -->
   <div id="importBookModal" class="modal">
     <div class="modal-content">
-      <span class="close import-close">&times;</span> <!-- Added class for specific closing -->
+      <span class="close import-close">&times;</span>
       <h2>Import Book</h2>
       <form id="importBookForm">
         <label for="importTitle">Book Title</label>
         <input type="text" id="importTitle" required>
-        
+
         <label for="importFile">Manuscript File (.doc, .docx)</label>
         <input type="file" id="importFile" accept=".doc,.docx" required>
-        
+
         <label for="importCover">Book Cover (Optional)</label>
         <input type="file" id="importCover" accept="image/*">
-        
+
         <button type="submit">Import</button>
       </form>
     </div>
