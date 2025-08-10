@@ -1,4 +1,4 @@
-// signin.js - Firebase Integrated Version (Corrected)
+// signin.js - Firebase Integrated Version (Updated with Google User Handling)
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
@@ -8,18 +8,19 @@ import {
   GoogleAuthProvider,
   sendPasswordResetEmail,
   onAuthStateChanged,
-  signOut,          // Ensure signOut is imported
-  updateProfile     // Ensure updateProfile is imported (used when setting username)
+  signOut,
+  updateProfile,
+  fetchSignInMethodsForEmail // Added for Google user detection
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
   getFirestore,
   doc,
   getDoc,
-  setDoc,            // Ensure setDoc is imported
-  serverTimestamp    // Ensure serverTimestamp is imported
+  setDoc,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// Initialize Firebase (use same config as account.js)
+// Initialize Firebase 
 const firebaseConfig = {
   apiKey: "AIzaSyBVhLP24BL4mibJhLuK5H8S4UIyc6SnbkM",
   authDomain: "nicks-literary-works-29a64.firebaseapp.com",
@@ -41,50 +42,53 @@ const googleBtn = document.getElementById('googleSignIn');
 const navRegister = document.getElementById('navRegister');
 const navSignIn = document.getElementById('navSignIn');
 const navProfile = document.getElementById('navProfile');
+const signinPasswordField = document.getElementById('signinPassword'); // For visual feedback
 
 // ========================
-// EMAIL/PASSWORD SIGN-IN
+// EMAIL/PASSWORD SIGN-IN (UPDATED)
 // ========================
 if (signInForm) {
   signInForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     
-    // IMPORTANT: Your signin.html has <label for="signinUsername">Username</label>
-    // If this input contains the user's email, ensure it's labelled correctly in HTML (e.g., <input type="email" id="signinEmail">)
-    // For now, assuming 'signinUsername' holds the email for Firebase Auth.
     const email = document.getElementById('signinUsername').value.trim();
     const password = document.getElementById('signinPassword').value;
 
     try {
+      // Check if email is linked to Google
+      const methods = await fetchSignInMethodsForEmail(auth, email);
+      if (methods.includes('google.com')) {
+        alert('You registered with Google. Please click "Continue with Google" instead.');
+        return;
+      }
+
+      // Proceed with normal email/password login
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       
-      // Check if email is verified
       if (!user.emailVerified) {
         alert('Please verify your email before signing in.');
         await signOut(auth);
         return;
       }
 
-      // Check if user account is blocked (important for security)
+      // Check if account is blocked
       const userDocRef = doc(db, "users", user.uid);
       const userDoc = await getDoc(userDocRef);
 
       if (userDoc.exists() && userDoc.data().status === 'blocked') {
-        alert("Your account has been blocked. Please contact support for more information.");
-        await signOut(auth); // Sign out the blocked user immediately
-        return; // Stop further execution
+        alert("Your account has been blocked. Please contact support.");
+        await signOut(auth);
+        return;
       }
 
-      // Successful sign-in
       window.location.href = 'profile.html';
     } catch (error) {
-      // Improved error handling for common Firebase Auth errors
       let errorMessage = `Sign-in failed: ${error.message}`;
       switch (error.code) {
         case 'auth/user-not-found':
         case 'auth/wrong-password':
-        case 'auth/invalid-credential': // Modern Firebase combines these
+        case 'auth/invalid-credential':
           errorMessage = 'Invalid email or password.';
           break;
         case 'auth/invalid-email':
@@ -94,7 +98,7 @@ if (signInForm) {
           errorMessage = 'This account has been disabled.';
           break;
         default:
-          break; // Use generic message for other errors
+          break;
       }
       alert(errorMessage);
       console.error(error);
@@ -103,91 +107,73 @@ if (signInForm) {
 }
 
 // ========================
-// PASSWORD RESET FLOW
+// PASSWORD RESET FLOW (UNCHANGED)
 // ========================
 if (forgotPasswordLink) {
   forgotPasswordLink.addEventListener('click', async (e) => {
     e.preventDefault();
-    
     const email = prompt('Enter your registered email address:');
-    if (!email) return; // User cancelled prompt
+    if (!email) return;
 
     try {
       await sendPasswordResetEmail(auth, email);
       alert('Password reset email sent. Please check your inbox.');
     } catch (error) {
-      alert(`Error sending password reset email: ${error.message}`); // More specific message
+      alert(`Error: ${error.message}`);
       console.error(error);
     }
   });
 }
 
 // ========================
-// GOOGLE SIGN-IN
+// GOOGLE SIGN-IN (UPDATED WITH VISUAL FEEDBACK)
 // ========================
 if (googleBtn) {
   googleBtn.addEventListener('click', async () => {
     try {
       const result = await signInWithPopup(auth, provider);
-      const user = result.user; // User object from Firebase Authentication
+      const user = result.user;
       
-      // Check if user's profile document exists in Firestore
+      // Hide password field for Google users (visual feedback)
+      if (signinPasswordField) signinPasswordField.style.display = 'none';
+
       const userDocRef = doc(db, "users", user.uid);
       const userDoc = await getDoc(userDocRef);
       
-      if (!userDoc.exists()) { // This means it's a first-time Google sign-in for this user
-        // First-time Google sign-in - prompt for username
+      if (!userDoc.exists()) {
         const username = await showModalPrompt('Choose a username (without @):');
-        if (!username) { // If user cancels the prompt
-          await signOut(auth); // Sign out the Firebase Auth user created by signInWithPopup
+        if (!username) {
+          await signOut(auth);
           return;
         }
 
-        // Prepend '@' for consistent username format
         const finalUsername = `@${username}`;
 
-        // Create new document in Firestore and update Firebase Auth profile
         await Promise.all([
-          updateProfile(user, { // Update Firebase Auth profile's displayName
+          updateProfile(user, {
             displayName: finalUsername
           }),
-          setDoc(doc(db, "users", user.uid), { // Create new document in Firestore for this user
+          setDoc(userDocRef, {
             username: finalUsername,
             email: user.email,
-            avatarURL: user.photoURL || "", // Use Google's photoURL as avatar
+            avatarURL: user.photoURL || "",
             createdAt: serverTimestamp()
           })
         ]);
-      } else {
-          // User's document already exists in Firestore (they signed in before with Google or linked accounts)
-          // Check if account is blocked (for existing Google users)
-          if (userDoc.data().status === 'blocked') {
-            alert("Your account has been blocked. Please contact support for more information.");
-            await signOut(auth); // Sign out the blocked user immediately
-            return;
-          }
+      } else if (userDoc.data().status === 'blocked') {
+        alert("Your account has been blocked. Please contact support.");
+        await signOut(auth);
+        return;
       }
 
-      // Successful sign-in, regardless if new or existing user
       window.location.href = 'profile.html';
     } catch (error) {
-      // Improved error handling for common Firebase Auth errors
       let errorMessage = `Google Sign-In failed: ${error.message}`;
-
       if (error.code === 'auth/popup-closed-by-user') {
-        errorMessage = 'Google Sign-In popup was closed.';
-      } else if (error.code === 'auth/cancelled-popup-request') {
-        errorMessage = 'Google Sign-In was cancelled.';
-      } else if (error.code === 'auth/email-already-in-use') {
-        errorMessage = 'The email associated with this Google account is already in use by another sign-in method. Please sign in with your existing account.';
+        errorMessage = 'Popup was closed.';
       } else if (error.code === 'auth/account-exists-with-different-credential') {
-        errorMessage = 'An account with this email already exists using different credentials. Please sign in with your existing method.';
-      } else if (error.code === 'permission-denied') { // This is a Firestore permission error
-          errorMessage = 'Permission denied to access user data. Please check your Firestore rules.';
-      } else if (error.code === 'unavailable') { // Often occurs with network issues or project config problems
-          errorMessage = 'Service unavailable. Please check your internet connection or Firebase project settings.';
+        errorMessage = 'Email already in use with another method.';
       }
-
       alert(errorMessage);
       console.error(error);
     }
@@ -195,47 +181,47 @@ if (googleBtn) {
 }
 
 // ========================
-// AUTH STATE MANAGEMENT
+// AUTH STATE MANAGEMENT (UPDATED)
 // ========================
 onAuthStateChanged(auth, async (user) => {
-  const navRegister = document.getElementById('navRegister');
-  const navSignIn = document.getElementById('navSignIn');
-  const navProfile = document.getElementById('navProfile');
-
   if (user) {
-    // User is signed in
-    let usernameToDisplay = "My Account";
-    try {
-      // Attempt to fetch username from Firestore document
-      const userDoc = await getDoc(doc(db, "users", user.uid));
-      if (userDoc.exists() && userDoc.data().username) {
-        usernameToDisplay = userDoc.data().username; // Use the @username from Firestore
-      } else if (user.displayName) {
-        usernameToDisplay = user.displayName; // Fallback to Firebase Auth displayName
-      }
-    } catch (e) {
-      console.warn("Could not fetch Firestore user doc for nav display:", e);
-      usernameToDisplay = user.displayName || "My Account"; // Fallback on error
+    // Visual feedback: Hide password field for Google users
+    if (user.providerData.some(provider => provider.providerId === 'google.com')) {
+      if (signinPasswordField) signinPasswordField.style.display = 'none';
+    } else {
+      if (signinPasswordField) signinPasswordField.style.display = 'block';
     }
 
-    // Update navigation UI
+    let usernameToDisplay = "My Account";
+    try {
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      if (userDoc.exists() && userDoc.data().username) {
+        usernameToDisplay = userDoc.data().username;
+      } else if (user.displayName) {
+        usernameToDisplay = user.displayName;
+      }
+    } catch (e) {
+      console.warn("Error fetching user doc:", e);
+      usernameToDisplay = user.displayName || "My Account";
+    }
+
     if (navRegister) navRegister.style.display = 'none';
     if (navSignIn) navSignIn.style.display = 'none';
     if (navProfile) {
       navProfile.textContent = usernameToDisplay;
-      navProfile.href = "profile.html"; // Ensure the link points correctly
+      navProfile.href = "profile.html";
       navProfile.style.display = 'inline-block';
     }
   } else {
-    // User is signed out
     if (navRegister) navRegister.style.display = 'inline-block';
     if (navSignIn) navSignIn.style.display = 'inline-block';
     if (navProfile) navProfile.style.display = 'none';
+    if (signinPasswordField) signinPasswordField.style.display = 'block'; // Reset on sign-out
   }
 });
 
 // ========================
-// HELPER FUNCTIONS
+// HELPER FUNCTIONS (UNCHANGED)
 // ========================
 function showModalPrompt(message) {
   return new Promise(resolve => {
@@ -281,8 +267,7 @@ function showModalPrompt(message) {
     `;
 
     document.body.appendChild(modal);
-
-    document.getElementById('modalInput').focus(); // Focus the input field
+    document.getElementById('modalInput').focus();
 
     document.getElementById('modalSubmit').addEventListener('click', () => {
       const value = document.getElementById('modalInput').value.trim();
@@ -290,20 +275,16 @@ function showModalPrompt(message) {
       resolve(value);
     });
 
-    // Allow submission on Enter key press
     document.getElementById('modalInput').addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
-            document.getElementById('modalSubmit').click();
-        }
+      if (event.key === 'Enter') {
+        document.getElementById('modalSubmit').click();
+      }
     });
-
-    // --- CRITICAL FIX: REMOVED THE DUPLICATE googleSignIn EVENT LISTENER FROM HERE ---
-    // document.getElementById('googleSignIn').addEventListener('click', async () => { ... });
 
     modal.addEventListener('click', (e) => {
       if (e.target === modal) {
         document.body.removeChild(modal);
-        resolve(null); // Resolve with null if user clicks outside modal
+        resolve(null);
       }
     });
   });
