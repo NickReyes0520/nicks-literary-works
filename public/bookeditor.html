@@ -13,46 +13,11 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="/styles/bookeditor.css" />
 
+  <!-- Firebase Config (assuming this is where your firebase config lives) -->
   <script type="module" src="/scripts/firebase-config.js" defer></script>
+  <!-- Main Book Editor JavaScript -->
   <script type="module" src="/scripts/bookeditor.js" defer></script>
 </head>
-
-<!-- Create Book Modal -->
-<div id="createBookModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h2>Create New Book</h2>
-    <form id="createBookForm">
-      <label>Book Title</label>
-      <input type="text" id="bookTitle" required>
-      
-      <label>Book Cover</label>
-      <input type="file" id="bookCover" accept="image/*" required>
-      
-      <button type="submit">Create</button>
-    </form>
-  </div>
-</div>
-
-<!-- Import Book Modal -->
-<div id="importBookModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h2>Import Book</h2>
-    <form id="importBookForm">
-      <label>Book Title</label>
-      <input type="text" id="importTitle" required>
-      
-      <label>Manuscript File (.doc, .docx)</label>
-      <input type="file" id="importFile" accept=".doc,.docx" required>
-      
-      <label>Book Cover</label>
-      <input type="file" id="importCover" accept="image/*">
-      
-      <button type="submit">Import</button>
-    </form>
-  </div>
-</div>
 
 <body>
   <header>
@@ -69,18 +34,20 @@
     <section class="book-grid">
       <!-- First box: Create + Import -->
       <div class="book-box dual-action">
-        <div class="action create" onclick="window.location.href='manuscript.html'">
+        <!-- REMOVED onclick ATTRIBUTE: Now handled by bookeditor.js event listener -->
+        <div class="action create">
           <span>+</span>
           <p>Create Book</p>
         </div>
-        <div class="action import" onclick="document.getElementById('fileInput').click()">
+        <!-- REMOVED onclick ATTRIBUTE and the extra fileInput: Now handled by bookeditor.js event listener and modal's importFile -->
+        <div class="action import">
           <span>↑</span>
           <p>Import Book</p>
-          <input type="file" id="fileInput" style="display: none" />
         </div>
       </div>
 
-      <!-- Book cover 1 -->
+      <!-- Book cover 1 (and others) will be dynamically loaded by bookeditor.js -->
+      <!-- For now, keeping your existing static ones for initial display/testing, but bookeditor.js will replace them -->
       <div class="book-box">
         <img src="/images/books/war-battlefield.jpg" alt="Book 1" />
         <div class="overlay">
@@ -92,7 +59,6 @@
         </div>
       </div>
 
-      <!-- Book cover 2 -->
       <div class="book-box">
         <img src="/images/books/faces-justice.jpg" alt="Book 2" />
         <div class="overlay">
@@ -104,7 +70,6 @@
         </div>
       </div>
 
-      <!-- Book cover 3 -->
       <div class="book-box">
         <img src="/images/books/kindness-abused.jpg" alt="Book 3" />
         <div class="overlay">
@@ -116,8 +81,7 @@
         </div>
       </div>
 
-       <!-- Book cover 4 -->
-      <div class="book-box">
+       <div class="book-box">
         <img src="/images/books/feeding-sharks.jpg" alt="Book 4" />
         <div class="overlay">
           <h2>Feeding Sharks Without Losing Fingers</h2>
@@ -128,8 +92,7 @@
         </div>
       </div>
 
-       <!-- Book cover 5 -->
-      <div class="book-box">
+       <div class="book-box">
         <img src="/images/books/silent-languages.jpg" alt="Book 5" />
         <div class="overlay">
           <h2>Silent Languages of Love</h2>
@@ -143,4 +106,44 @@
       <!-- Repeat .book-box for additional books -->
     </section>
   </main>
+
+  <!-- Create Book Modal (MOVED INSIDE BODY) -->
+  <div id="createBookModal" class="modal">
+    <div class="modal-content">
+      <span class="close create-close">&times;</span> <!-- Added class for specific closing -->
+      <h2>Create New Book</h2>
+      <form id="createBookForm">
+        <label for="bookTitle">Book Title</label>
+        <input type="text" id="bookTitle" required>
+        
+        <label for="bookCover">Book Cover</label>
+        <input type="file" id="bookCover" accept="image/*" required>
+        
+        <button type="submit">Create</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Import Book Modal (MOVED INSIDE BODY) -->
+  <div id="importBookModal" class="modal">
+    <div class="modal-content">
+      <span class="close import-close">&times;</span> <!-- Added class for specific closing -->
+      <h2>Import Book</h2>
+      <form id="importBookForm">
+        <label for="importTitle">Book Title</label>
+        <input type="text" id="importTitle" required>
+        
+        <label for="importFile">Manuscript File (.doc, .docx)</label>
+        <input type="file" id="importFile" accept=".doc,.docx" required>
+        
+        <label for="importCover">Book Cover (Optional)</label>
+        <input type="file" id="importCover" accept="image/*">
+        
+        <button type="submit">Import</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- You might want a footer here too -->
 </body>
+</html>
