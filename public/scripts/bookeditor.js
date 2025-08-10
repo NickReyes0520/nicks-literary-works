@@ -103,15 +103,30 @@ if (importBookModal) {
 
 
 // ===============================================
-// 4. LOAD BOOKS FUNCTIONALITY
+// 4. LOAD BOOKS FUNCTIONALITY (UPDATED)
 // ===============================================
 async function loadBooks() {
-  // Clear existing books from the grid to prepare for fresh load
-  bookGrid.innerHTML = '';
-
   if (!auth.currentUser) {
     console.warn("No user signed in. Cannot load books.");
     return;
+  }
+
+  // Identify the static 'dual-action' box
+  const dualActionBox = document.querySelector('.book-box.dual-action');
+
+  // Clear all *other* book boxes from the grid, leaving the dual-action box intact
+  // Iterate backwards to avoid issues with NodeList changing during removal
+  for (let i = bookGrid.children.length - 1; i >= 0; i--) {
+    const child = bookGrid.children[i];
+    if (child !== dualActionBox) { // Ensure we DON'T remove the dual-action box
+      bookGrid.removeChild(child);
+    }
+  }
+
+  // Remove any previous "no books found" message
+  const noBooksMsg = bookGrid.querySelector('.no-books-message');
+  if (noBooksMsg) {
+    bookGrid.removeChild(noBooksMsg);
   }
 
   // Query books belonging to the currently authenticated user
@@ -121,8 +136,12 @@ async function loadBooks() {
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
-      // Display a message if no books are found
-      bookGrid.innerHTML = '<p class="no-books-message" style="width: 100%; text-align: center; margin-top: 50px; color: #555;">No books found. Click "Create Book" or "Import Book" to get started!</p>';
+      // If no dynamic books, add the "no books found" message
+      const msg = document.createElement('p');
+      msg.className = 'no-books-message';
+      msg.style.cssText = 'width: 100%; text-align: center; margin-top: 50px; color: #555;'; // Inline style for quick fix
+      msg.textContent = 'No books found. Click "Create Book" or "Import Book" to get started!';
+      bookGrid.appendChild(msg);
     } else {
       querySnapshot.forEach((doc) => {
         const book = doc.data();
@@ -140,7 +159,7 @@ function renderBook(book) {
   const bookBox = document.createElement('div');
   bookBox.className = 'book-box';
   bookBox.innerHTML = `
-    <img src="${book.coverURL || '/path/to/default-cover.png'}" alt="${book.title || 'Untitled Book'}">
+    <img src="${book.coverURL || '/images/default-cover.png'}" alt="${book.title || 'Untitled Book'}">
     <div class="overlay">
       <h2>${book.title || 'Untitled Book'}</h2>
       <div class="overlay-buttons">
