@@ -73,11 +73,13 @@ function setupCreateBookModal() {
       title,
       coverURL,
       authorId: auth.currentUser.uid,
-      createdAt: serverTimestamp()
+      createdAt: serverTimestamp(),
+      content: "", // Initialize empty content
+      status: "draft" // Default status
     });
     
     createBookModal.style.display = 'none';
-    loadBooks(); // Refresh grid
+    window.location.href = `manuscript.html?bookId=${bookRef.id}`; // AUTO-REDIRECT
   });
 }
 
