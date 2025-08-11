@@ -258,7 +258,14 @@ async function loadBooks() {
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
-      // If no dynamic books, add the "no books found" message
+      // Display a message if no books are found
+      bookGrid.innerHTML = '<p class="no-books-message" style="width: 100%; text-align: center; margin-top: 50px; color: #555;">No books found. Click "Create Book" or "Import Book" to get started!</p>';
+    } else {
+      querySnapshot.forEach((doc) => {
+        const book = doc.data();
+        renderBook(book); // Render each book found
+      });
+    }
       const msg = document.createElement('p');
       msg.className = 'no-books-message';
       msg.style.cssText = 'width: 100%; text-align: center; margin-top: 50px; color: #555;'; // Inline style for quick fix
