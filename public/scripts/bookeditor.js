@@ -161,6 +161,10 @@ async function loadBooks() {
   }
 }
 
+function getDriveThumbnailUrl(fileId) {
+  return `https://drive.google.com/thumbnail?id=${fileId}`;
+}
+
 function renderBook(book) {
   const bookBox = document.createElement('div');
   bookBox.className = 'book-box';
