@@ -14,6 +14,7 @@ import {
   getFirestore, collection, doc, setDoc, getDocs, query, where, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBVhLP24BL4mibJhLuK5H8S4UIyc6SnbkM",
   authDomain: "nicks-literary-works-29a64.firebaseapp.com",
@@ -22,6 +23,19 @@ const firebaseConfig = {
   messagingSenderId: "1030818110758",
   appId: "1:1030818110758:web:6a47c5af6d6cba8b9635e7"
 };
+firebase.initializeApp(firebaseConfig);
+
+// Google Drive API setup
+function initGoogleDrive() {
+  gapi.load("client", () => {
+    gapi.client.init({
+      apiKey: "AIzaSyBT9JEi6PvroCcBSZpfL4ozqKZ9g83lDB0", // Google Drive key
+      discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
+    }).then(() => {
+      console.log("Google Drive API initialized");
+    });
+  });
+}
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
