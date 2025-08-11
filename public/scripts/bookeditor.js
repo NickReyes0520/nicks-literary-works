@@ -1,4 +1,4 @@
-// bookeditor.js - Fully Updated Version
+// bookeditor.js - Using Google Drive for Storage (Temporary Solution)
 
 // ===============================================
 // 1. FIREBASE IMPORTS AND CONFIGURATION
@@ -18,19 +18,15 @@ import {
   where,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import {
-  getStorage,
-  ref,
-  uploadBytes,
-  getDownloadURL
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
-// Firebase Configuration
+// Note: Firebase Storage imports are removed as we are using Google Drive temporarily.
+
+// Firebase Configuration (Keep this for Auth and Firestore)
 const firebaseConfig = {
   apiKey: "AIzaSyBVhLP24BL4mibJhLuK5H8S4UIyc6SnbkM",
   authDomain: "nicks-literary-works-29a64.firebaseapp.com",
   projectId: "nicks-literary-works-29a64",
-  storageBucket: "nicks-literary-works-29a64.appspot.com",
+  storageBucket: "nicks-literary-works-29a64.appspot.com", // This field is no longer actively used for file uploads in this version
   messagingSenderId: "1030818110758",
   appId: "1:1030818110758:web:6a47c5af6d6cba8b9635e7"
 };
@@ -39,10 +35,106 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-const storage = getStorage(app);
+// const storage = getStorage(app); // Firebase Storage is not initialized here
 
 // ===============================================
-// 2. DOM ELEMENTS
+// 2. GOOGLE DRIVE API CONFIGURATION & CLIENT
+// ===============================================
+const GOOGLE_API_KEY = "AIzaSyCUCB0RGXI16eRzk_uLNdgyvBaCJ3t8bDg"; // Your Google API Key
+const GOOGLE_CLIENT_ID = "278892341970-8ugrn87lh2v516oftr1sgftdbcgupufl.apps.googleusercontent.com"; // Your Google Client ID
+const GOOGLE_DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.file'; // Minimal scope for files created by the app
+
+let gapiClientReady = false; // Flag to ensure gapi client is loaded and initialized
+let googleAuthInstance = null; // Stores the gapi.auth2.GoogleAuth object
+
+/**
+ * Initializes the Google API client. This should be called once the gapi.js script is loaded.
+ */
+function initGoogleClient() {
+  return new Promise((resolve, reject) => {
+    // Check if gapi is defined
+    if (typeof gapi === 'undefined') {
+      console.error("Google API client (gapi.js) not loaded. Please ensure script tag is in HTML.");
+      reject("gapi not loaded");
+      return;
+    }
+
+    gapi.load('client:auth2', () => {
+      gapi.client.init({
+        apiKey: GOOGLE_API_KEY,
+        clientId: GOOGLE_CLIENT_ID,
+        discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
+        scope: GOOGLE_DRIVE_SCOPE
+      }).then(() => {
+        googleAuthInstance = gapi.auth2.getAuthInstance();
+        gapiClientReady = true;
+        console.log("Google API client initialized.");
+        resolve();
+      }).catch((error) => {
+        console.error("Error initializing Google API client:", error);
+        reject(error);
+      });
+    });
+  });
+}
+
+/**
+ * Uploads a file to Google Drive.
+ * @param {File} file The file object to upload.
+ * @param {string} folderId The ID of the parent folder in Google Drive (e.g., 'root' for My Drive).
+ * @returns {Promise<Object>} A promise that resolves with the Drive file metadata.
+ */
+async function uploadToDrive(file, folderId = 'root') {
+  if (!gapiClientReady || !googleAuthInstance || !googleAuthInstance.isSignedIn.get()) {
+    console.error("Google Drive API not ready or user not signed in to Google.");
+    throw new Error("Google Drive API not ready or user not signed in.");
+  }
+
+  const accessToken = googleAuthInstance.currentUser.get().getAuthResponse().access_token;
+
+  const metadata = {
+    name: file.name,
+    mimeType: file.type,
+    parents: [folderId]
+  };
+
+  const formData = new FormData();
+  formData.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
+  formData.append('file', file);
+
+  const response = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+    method: 'POST',
+    headers: new Headers({
+      'Authorization': `Bearer ${accessToken}`
+    }),
+    body: formData
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    console.error("Google Drive upload error:", errorData);
+    throw new Error(`Google Drive upload failed: ${errorData.error.message || response.statusText}`);
+  }
+
+  return response.json();
+}
+
+/**
+ * Generates a thumbnail URL for a Google Drive file.
+ * Note: The file must be publicly accessible or accessible to the signed-in user.
+ * For this 'drive.file' scope, it should be accessible to the creating user.
+ * @param {string} fileId The ID of the Google Drive file.
+ * @returns {string} The URL for the file's thumbnail.
+ */
+function getDriveThumbnailUrl(fileId) {
+  // You might want to choose a specific size, e.g., &sz=w200 or &sz=s200
+  // Defaulting to a moderate size for covers.
+  return `https://drive.google.com/thumbnail?id=${fileId}&sz=w300`;
+}
+
+
+// ===============================================
+// 3. DOM ELEMENTS
 // ===============================================
 const bookGrid = document.querySelector('.book-grid');
 const createBookModal = document.getElementById('createBookModal');
@@ -53,16 +145,46 @@ const createCloseBtn = document.querySelector('.close.create-close');
 const importCloseBtn = document.querySelector('.close.import-close');
 
 // ===============================================
-// 3. MODAL OPEN/CLOSE LOGIC
+// 4. MODAL OPEN/CLOSE LOGIC
 // ===============================================
 
 // Open Create Book Modal
-document.querySelector('.action.create').addEventListener('click', () => {
+document.querySelector('.action.create').addEventListener('click', async () => {
+  // Ensure Google client is ready and user is signed in to Google before showing modal
+  if (!gapiClientReady) {
+    alert("Initializing Google API. Please try again in a moment.");
+    await initGoogleClient(); // Attempt to initialize if not ready
+    return;
+  }
+  if (!googleAuthInstance.isSignedIn.get()) {
+    try {
+      await googleAuthInstance.signIn(); // Prompt for Google sign-in
+    } catch (error) {
+      console.error("Google Sign-In failed:", error);
+      alert("Failed to sign in to Google. Please allow popup.");
+      return;
+    }
+  }
   createBookModal.style.display = 'block';
 });
 
 // Open Import Book Modal
-document.querySelector('.action.import').addEventListener('click', () => {
+document.querySelector('.action.import').addEventListener('click', async () => {
+  // Ensure Google client is ready and user is signed in to Google before showing modal
+  if (!gapiClientReady) {
+    alert("Initializing Google API. Please try again in a moment.");
+    await initGoogleClient(); // Attempt to initialize if not ready
+    return;
+  }
+  if (!googleAuthInstance.isSignedIn.get()) {
+    try {
+      await googleAuthInstance.signIn(); // Prompt for Google sign-in
+    } catch (error) {
+      console.error("Google Sign-In failed:", error);
+      alert("Failed to sign in to Google. Please allow popup.");
+      return;
+    }
+  }
   importBookModal.style.display = 'block';
 });
 
@@ -103,7 +225,7 @@ if (importBookModal) {
 
 
 // ===============================================
-// 4. LOAD BOOKS FUNCTIONALITY (UPDATED)
+// 5. LOAD BOOKS FUNCTIONALITY (UPDATED for Google Drive)
 // ===============================================
 async function loadBooks() {
   if (!auth.currentUser) {
@@ -158,8 +280,9 @@ async function loadBooks() {
 function renderBook(book) {
   const bookBox = document.createElement('div');
   bookBox.className = 'book-box';
+  // Use getDriveThumbnailUrl for cover images
   bookBox.innerHTML = `
-    <img src="${book.coverURL || '/images/default-cover.png'}" alt="${book.title || 'Untitled Book'}">
+    <img src="${book.coverDriveId ? getDriveThumbnailUrl(book.coverDriveId) : '/images/default-cover.png'}" alt="${book.title || 'Untitled Book'}">
     <div class="overlay">
       <h2>${book.title || 'Untitled Book'}</h2>
       <div class="overlay-buttons">
@@ -172,7 +295,7 @@ function renderBook(book) {
 }
 
 // ===============================================
-// 5. CREATE BOOK MODAL SUBMISSION
+// 6. CREATE BOOK MODAL SUBMISSION (UPDATED for Google Drive)
 // ===============================================
 document.getElementById('createBookForm').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -192,40 +315,45 @@ document.getElementById('createBookForm').addEventListener('submit', async (e) =
   submitBtn.textContent = 'Creating...'; // Provide feedback
 
   try {
-    // Upload cover to Firebase Storage
-    const coverRef = ref(storage, `covers/${Date.now()}_${coverFile.name}`);
-    await uploadBytes(coverRef, coverFile);
-    const coverURL = await getDownloadURL(coverRef);
+    // Ensure user is signed in to Google
+    if (!googleAuthInstance || !googleAuthInstance.isSignedIn.get()) {
+      alert("Please sign in to your Google account first.");
+      await googleAuthInstance.signIn(); // Prompt for Google sign-in
+    }
+
+    // Upload cover to Google Drive
+    const coverUploadResponse = await uploadToDrive(coverFile, 'root'); // 'root' uploads to My Drive
+    const coverDriveId = coverUploadResponse.id; // Get Drive File ID
 
     // Create a new document reference in the 'books' collection
     const bookRef = doc(collection(db, "books"));
 
-    // Save book data to Firestore
+    // Save book data to Firestore, storing Drive File ID
     await setDoc(bookRef, {
-      id: bookRef.id, // Store the document ID within the document
+      id: bookRef.id,
       title: title,
-      coverURL: coverURL,
-      authorId: auth.currentUser.uid, // Assign the current user as author
+      coverDriveId: coverDriveId, // Store Google Drive File ID
+      authorId: auth.currentUser.uid,
       createdAt: serverTimestamp(),
-      content: "", // Initialize empty content for the new manuscript
-      status: "draft" // Default status for new books
+      content: "",
+      status: "draft"
     });
 
-    createBookModal.style.display = 'none'; // Close the modal
-    document.getElementById('createBookForm').reset(); // Clear form
-    window.location.href = `manuscript.html?bookId=${bookRef.id}`; // AUTO-REDIRECT to manuscript editor
+    createBookModal.style.display = 'none';
+    document.getElementById('createBookForm').reset();
+    window.location.href = `manuscript.html?bookId=${bookRef.id}`;
 
   } catch (error) {
     console.error("Error creating book:", error);
     alert(`Failed to create book: ${error.message}`);
   } finally {
     submitBtn.disabled = false;
-    submitBtn.textContent = originalBtnText; // Restore button text
+    submitBtn.textContent = originalBtnText;
   }
 });
 
 // ===============================================
-// 6. IMPORT BOOK MODAL SUBMISSION
+// 7. IMPORT BOOK MODAL SUBMISSION (UPDATED for Google Drive)
 // ===============================================
 document.getElementById('importBookForm').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -235,7 +363,7 @@ document.getElementById('importBookForm').addEventListener('submit', async (e) =
   const coverInput = document.getElementById('importCover');
 
   const manuscriptFile = manuscriptInput.files[0];
-  const coverFile = coverInput.files[0]; // Cover is optional here
+  const coverFile = coverInput.files[0];
 
   if (!title || !manuscriptFile) {
     alert("Please provide a title and a manuscript file for import.");
@@ -245,41 +373,40 @@ document.getElementById('importBookForm').addEventListener('submit', async (e) =
   const submitBtn = e.target.querySelector('button[type="submit"]');
   const originalBtnText = submitBtn.textContent;
   submitBtn.disabled = true;
-  submitBtn.textContent = 'Importing...'; // Provide feedback
+  submitBtn.textContent = 'Importing...';
 
   try {
-    let coverURL = '';
+    // Ensure user is signed in to Google
+    if (!googleAuthInstance || !googleAuthInstance.isSignedIn.get()) {
+      alert("Please sign in to your Google account first.");
+      await googleAuthInstance.signIn(); // Prompt for Google sign-in
+    }
+
+    let coverDriveId = '';
     // Upload cover if provided
     if (coverFile) {
-      const coverRef = ref(storage, `covers/${Date.now()}_${coverFile.name}`);
-      await uploadBytes(coverRef, coverFile);
-      coverURL = await getDownloadURL(coverRef);
+      const coverUploadResponse = await uploadToDrive(coverFile, 'root');
+      coverDriveId = coverUploadResponse.id;
     }
 
     // Upload manuscript file
-    const manuscriptRef = ref(storage, `manuscripts/${Date.now()}_${manuscriptFile.name}`);
-    await uploadBytes(manuscriptRef, manuscriptFile);
-    const manuscriptURL = await getDownloadURL(manuscriptRef);
-
-    // Note: For .doc/.docx, you'd typically need a server-side process
-    // (e.g., Firebase Cloud Function) to parse the file content into text.
-    // This client-side code just uploads the file.
-    // For now, we'll store the URL to the manuscript file.
+    const manuscriptUploadResponse = await uploadToDrive(manuscriptFile, 'root');
+    const manuscriptDriveId = manuscriptUploadResponse.id;
 
     const bookRef = doc(collection(db, "books"));
     await setDoc(bookRef, {
       id: bookRef.id,
       title: title,
-      coverURL: coverURL, // Will be empty string if no cover uploaded
-      manuscriptURL: manuscriptURL, // URL to the uploaded .doc/.docx
+      coverDriveId: coverDriveId, // Store Google Drive File ID
+      manuscriptDriveId: manuscriptDriveId, // Store Google Drive File ID
       authorId: auth.currentUser.uid,
       createdAt: serverTimestamp(),
-      content: "", // Content will be parsed later from manuscriptURL or edited directly
+      content: "",
       status: "draft"
     });
 
-    importBookModal.style.display = 'none'; // Close modal
-    document.getElementById('importBookForm').reset(); // Clear form
+    importBookModal.style.display = 'none';
+    document.getElementById('importBookForm').reset();
     loadBooks(); // Refresh the book grid to show the newly imported book
     alert("Book imported successfully! (Note: Manuscript content will be editable once parsing is implemented)");
 
@@ -288,19 +415,9 @@ document.getElementById('importBookForm').addEventListener('submit', async (e) =
     alert(`Failed to import book: ${error.message}`);
   } finally {
     submitBtn.disabled = false;
-    submitBtn.textContent = originalBtnText; // Restore button text
+    submitBtn.textContent = originalBtnText;
   }
 });
-
-
-// ===============================================
-// 7. HELPER FUNCTION: Upload File
-// ===============================================
-async function uploadFile(file, path) {
-  const fileRef = ref(storage, path);
-  await uploadBytes(fileRef, file);
-  return await getDownloadURL(fileRef);
-}
 
 
 // ===============================================
@@ -308,11 +425,14 @@ async function uploadFile(file, path) {
 // ===============================================
 onAuthStateChanged(auth, async (user) => {
   if (user) {
-    // User is signed in, load books and set up modal listeners
-    await loadBooks(); // Ensure books are loaded after auth state is determined
-    // Modal setup is already handled by direct event listeners,
-    // but this ensures they are "active" after user logs in.
-    // No specific function calls are needed here for modal setup.
+    // User is signed in, initialize Google API client and load books
+    try {
+      await initGoogleClient(); // Initialize Google API client once Firebase user is authenticated
+      await loadBooks(); // Load books after Firebase auth and Google API are ready
+    } catch (e) {
+      console.error("Initialization error:", e);
+      alert("Failed to initialize required services. Please refresh or check console.");
+    }
   } else {
     // User is signed out, redirect to admin login page
     window.location.href = 'admin.html';
