@@ -36,18 +36,16 @@ const db = getFirestore(app);
 const googleAuthProvider = new GoogleAuthProvider();
 googleAuthProvider.addScope('https://www.googleapis.com/auth/drive.file');
 
-/**
- * Initialize Google Drive API
- */
+/*** Initialize Google Drive API */
 function initGoogleDrive() {
-  return new Promise((resolve) => {
-    gapi.load("client", () => {
-      gapi.client.init({
-        apiKey: "AIzaSyBVhLP24BL4mibJhLuK5H8S4UIyc6SnbkM",
-        discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
-      }).then(resolve);
+    return new Promise((resolve) => {
+        gapi.load("client", () => {
+            gapi.client.init({
+                apiKey: "AIzaSyBVhLP24BL4mibJhLuK5H8S4UIyc6SnbkM",
+                discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
+            }).then(resolve);
+        });
     });
-  });
 }
 
 async function handleGoogleSignIn() {
@@ -122,43 +120,43 @@ async function uploadToDrive(file, folderId = 'root') {
 // 3. BOOK MANAGEMENT FUNCTIONS
 // ===============================================
 async function loadBooks() {
-  const bookGrid = document.querySelector('.book-grid');
-  const dualActionBox = document.querySelector('.book-box.dual-action');
+    const bookGrid = document.querySelector('.book-grid');
+    const dualActionBox = document.querySelector('.book-box.dual-action');
 
-  // Clear existing messages and books
-  const existingMessages = bookGrid.querySelectorAll('.no-books-message');
-  existingMessages.forEach(msg => msg.remove());
+    // Clear existing messages and books
+    const existingMessages = bookGrid.querySelectorAll('.no-books-message');
+    existingMessages.forEach(msg => msg.remove());
 
-  const children = Array.from(bookGrid.children);
-  children.forEach(child => {
-    if (child !== dualActionBox) bookGrid.removeChild(child);
-  });
+    const children = Array.from(bookGrid.children);
+    children.forEach(child => {
+        if (child !== dualActionBox) bookGrid.removeChild(child);
+    });
 
-  if (!auth.currentUser) {
-    const msg = document.createElement('p');
-    msg.className = 'no-books-message';
-    msg.textContent = 'Please sign in to view your books.';
-    bookGrid.appendChild(msg);
-    return;
-  }
-
-  try {
-    const q = query(collection(db, "books"), where("authorId", "==", auth.currentUser.uid));
-    const querySnapshot = await getDocs(q);
-
-    if (querySnapshot.empty) {
-      const msg = document.createElement('p');
-      msg.className = 'no-books-message';
-      msg.style.cssText = 'width: 100%; text-align: center; margin-top: 50px; color: #555;'; // Inline style for quick fix
-      msg.textContent = 'No books found. Click "Create Book" or "Import Book" to get started!';
-      bookGrid.appendChild(msg);
-    } else {
-      querySnapshot.forEach(doc => renderBook(doc.data()));
+    if (!auth.currentUser) {
+        const msg = document.createElement('p');
+        msg.className = 'no-books-message';
+        msg.textContent = 'Please sign in to view your books.';
+        bookGrid.appendChild(msg);
+        return;
     }
-  } catch (error) {
-    console.error("Error loading books:", error);
-    alert("Failed to load books. Please check console for details.");
-  }
+
+    try {
+        const q = query(collection(db, "books"), where("authorId", "==", auth.currentUser.uid));
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+            const msg = document.createElement('p');
+            msg.className = 'no-books-message';
+            msg.style.cssText = 'width: 100%; text-align: center; margin-top: 50px; color: #555;';
+            msg.textContent = 'No books found. Click "Create Book" or "Import Book" to get started!';
+            bookGrid.appendChild(msg);
+        } else {
+            querySnapshot.forEach(doc => renderBook(doc.data()));
+        }
+    } catch (error) {
+        console.error("Error loading books:", error);
+        alert("Failed to load books. Please check console for details.");
+    }
 }
 
 function getDriveThumbnailUrl(fileId) {
@@ -185,34 +183,34 @@ function renderBook(book) {
 // 4. MODAL & FORM HANDLERS
 // ===============================================
 function setupModals() {
-  // Event delegation for book buttons
-  document.querySelector('.book-grid').addEventListener('click', (e) => {
-    if (e.target.closest('.manage-btn')) {
-      const bookId = e.target.closest('.manage-btn').dataset.bookid;
-      window.location.href = `managebooks.html?bookId=${bookId}`;
-    } else if (e.target.closest('.write-btn')) {
-      const bookId = e.target.closest('.write-btn').dataset.bookid;
-      window.location.href = `manuscript.html?bookId=${bookId}`;
-    }
-  });
+    // Event delegation for book buttons
+    document.querySelector('.book-grid').addEventListener('click', (e) => {
+        if (e.target.closest('.manage-btn')) {
+            const bookId = e.target.closest('.manage-btn').dataset.bookid;
+            window.location.href = `managebooks.html?bookId=${bookId}`;
+        } else if (e.target.closest('.write-btn')) {
+            const bookId = e.target.closest('.write-btn').dataset.bookid;
+            window.location.href = `manuscript.html?bookId=${bookId}`;
+        }
+    });
 
-  // Modal toggle functions
-  const toggleModal = (modalId, show) => {
-    const modal = document.getElementById(modalId);
-    if (modal) modal.style.display = show ? 'block' : 'none';
-  };
+    // Modal toggle functions
+    const toggleModal = (modalId, show) => {
+        const modal = document.getElementById(modalId);
+        if (modal) modal.style.display = show ? 'block' : 'none';
+    };
 
-  // Button event listeners
-  document.querySelector('.action.create')?.addEventListener('click', () => toggleModal('createBookModal', true));
-  document.querySelector('.action.import')?.addEventListener('click', () => toggleModal('importBookModal', true));
+    // Button event listeners
+    document.querySelector('.action.create')?.addEventListener('click', () => toggleModal('createBookModal', true));
+    document.querySelector('.action.import')?.addEventListener('click', () => toggleModal('importBookModal', true));
 
-  // Close buttons
-  document.querySelector('.create-close')?.addEventListener('click', () => toggleModal('createBookModal', false));
-  document.querySelector('.import-close')?.addEventListener('click', () => toggleModal('importBookModal', false));
+    // Close buttons
+    document.querySelector('.create-close')?.addEventListener('click', () => toggleModal('createBookModal', false));
+    document.querySelector('.import-close')?.addEventListener('click', () => toggleModal('importBookModal', false));
 
-  // Form submissions
-  document.getElementById('createBookForm')?.addEventListener('submit', handleCreateBook);
-  document.getElementById('importBookForm')?.addEventListener('submit', handleImportBook);
+    // Form submissions
+    document.getElementById('createBookForm')?.addEventListener('submit', handleCreateBook);
+    document.getElementById('importBookForm')?.addEventListener('submit', handleImportBook);
 }
 
 async function handleCreateBook(e) {
@@ -313,34 +311,33 @@ async function handleImportBook(e) {
 // 5. INITIALIZATION
 // ===============================================
 document.addEventListener('DOMContentLoaded', async () => {
-  try {
-    await initGoogleDrive();
-    
-    onAuthStateChanged(auth, (user) => {
-      console.log("Auth state changed:", user);
-      
-      const authStatusEl = document.getElementById('authStatus');
-      
-      if (user) {
-        if (authStatusEl) {
-          authStatusEl.textContent = `Connected as ${user.email}`;
-          authStatusEl.style.color = 'green';
-        }
-        setupModals();
-        loadBooks();
-      } else {
-        if (authStatusEl) {
-          authStatusEl.textContent = "Redirecting to login...";
-          authStatusEl.style.color = 'red';
-        }
-        window.location.href = 'admin.html';
-      }
-    });
-    
-  } catch (error) {
-    console.error("Initialization error:", error);
-    alert("Failed to initialize application. Please check console for details.");
-  }
+    try {
+        await initGoogleDrive();
+
+        onAuthStateChanged(auth, (user) => {
+            console.log("Auth state changed:", user);
+            const authStatusEl = document.getElementById('authStatus');
+            
+            if (user) {
+                if (authStatusEl) {
+                    authStatusEl.textContent = `Connected as ${user.email}`;
+                    authStatusEl.style.color = 'green';
+                }
+                setupModals();
+                loadBooks();
+            } else {
+                if (authStatusEl) {
+                    authStatusEl.textContent = "Redirecting to login...";
+                    authStatusEl.style.color = 'red';
+                }
+                window.location.href = 'admin.html';
+            }
+        });
+
+    } catch (error) {
+        console.error("Initialization error:", error);
+        alert("Failed to initialize application. Please check console for details.");
+    }
 });
 
 // Make functions available for HTML onclick handlers
