@@ -3,6 +3,7 @@
 // ===============================================
 // 1. IMPORTS & CONFIGURATION
 // ===============================================
+import { signInWithRedirect } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
   getAuth,
@@ -51,48 +52,70 @@ function initGoogleDrive() {
 
 async function handleGoogleSignIn() {
   try {
+    // Check if we're already authenticated
+    if (auth.currentUser) {
+      const user = auth.currentUser;
+      const credential = GoogleAuthProvider.credentialFromResult(
+        await user.getIdTokenResult()
+      );
+      return credential.accessToken;
+    }
+
+    // Otherwise initiate new sign-in
     const result = await signInWithPopup(auth, googleAuthProvider);
     const credential = GoogleAuthProvider.credentialFromResult(result);
+    
+    if (!credential?.accessToken) {
+      throw new Error("No access token received");
+    }
+    
     return credential.accessToken;
+    
   } catch (error) {
     console.error("Google Sign-In Error:", error);
-    if (error.code === 'auth/popup-closed-by-user' || error.code === 'auth/cancelled-popup-request') {
-      alert("Google Sign-In was cancelled. Please try again and allow popups.");
-    } else {
-      alert(`Failed to sign in: ${error.message}`);
+    
+    // Special handling for popup issues
+    if (error.code === 'auth/popup-closed-by-user' || 
+        error.code === 'auth/cancelled-popup-request') {
+      // Implement fallback to redirect if popup fails
+      await signInWithRedirect(auth, googleAuthProvider);
+      return new Promise(() => {}); // Never resolves to block further execution
     }
+    
     throw error;
   }
 }
 
 async function uploadToDrive(file, folderId = 'root') {
-  const accessToken = await handleGoogleSignIn();
-  const metadata = {
-    name: file.name,
-    mimeType: file.type,
-    parents: [folderId]
-  };
+  try {
+    const accessToken = await handleGoogleSignIn();
+    
+    const metadata = {
+      name: file.name,
+      mimeType: file.type,
+      parents: [folderId]
+    };
 
-  const formData = new FormData();
-  formData.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
-  formData.append('file', file);
+    const formData = new FormData();
+    formData.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
+    formData.append('file', file);
 
-  const response = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
-    method: 'POST',
-    headers: { 'Authorization': `Bearer ${accessToken}` },
-    body: formData
-  });
+    const response = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${accessToken}` },
+      body: formData
+    });
 
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.error?.message || "Upload failed");
+    if (!response.ok) {
+      throw new Error("Upload failed");
+    }
+
+    return response.json();
+    
+  } catch (error) {
+    console.error("Upload Error:", error);
+    throw error;
   }
-
-  return response.json();
-}
-
-function getDriveThumbnailUrl(fileId) {
-  return `https://drive.google.com/thumbnail?id=${fileId}&sz=w300`;
 }
 
 // ===============================================
@@ -126,6 +149,7 @@ async function loadBooks() {
     if (querySnapshot.empty) {
       const msg = document.createElement('p');
       msg.className = 'no-books-message';
+      msg.style.cssText = 'width: 100%; text-align: center; margin-top: 50px; color: #555;'; // Inline style for quick fix
       msg.textContent = 'No books found. Click "Create Book" or "Import Book" to get started!';
       bookGrid.appendChild(msg);
     } else {
