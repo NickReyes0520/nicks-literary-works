@@ -50,6 +50,8 @@ async function initGoogleClient() {
       googleAuthInstance = gapi.auth2.getAuthInstance();
       gapiClientReady = true;
       console.log("Google API initialized");
+      console.log("Google Auth Instance:", googleAuthInstance);
+      console.log("Sign-In Status:", googleAuthInstance.isSignedIn.get());
     });
   } catch (error) {
     console.error("Google API init error:", error);
