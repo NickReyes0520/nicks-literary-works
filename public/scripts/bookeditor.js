@@ -26,7 +26,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyBVhLP24BL4mibJhLuK5H8S4UIyc6SnbkM",
   authDomain: "nicks-literary-works-29a64.firebaseapp.com",
   projectId: "nicks-literary-works-29a64",
-  storageBucket: "nicks-literary-works-29a64.appspot.com", // This field is no longer actively used for file uploads in this version
+  storageBucket: "nicks-literary-works-29a64.appspot.com",
   messagingSenderId: "1030818110758",
   appId: "1:1030818110758:web:6a47c5af6d6cba8b9635e7"
 };
@@ -40,8 +40,8 @@ const db = getFirestore(app);
 // ===============================================
 // 2. GOOGLE DRIVE API CONFIGURATION & CLIENT
 // ===============================================
-const GOOGLE_API_KEY = "AIzaSyCUCB0RGXI16eRzk_uLNdgyvBaCJ3t8bDg"; // Your Google API Key
-const GOOGLE_CLIENT_ID = "278892341970-8ugrn87lh2v516oftr1sgftdbcgupufl.apps.googleusercontent.com"; // Your Google Client ID
+const GOOGLE_API_KEY = "AIzaSyBT9JEi6PvroCcBSZpfL4ozqKZ9g83lDB0"; // Your Google API Key
+const GOOGLE_CLIENT_ID = "832365472915-ktjj2o7o2cafgi609e8l4fg0bbku62kj.apps.googleusercontent.com"; // Your Google Client ID
 const GOOGLE_DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.file'; // Minimal scope for files created by the app
 
 let gapiClientReady = false; // Flag to ensure gapi client is loaded and initialized
@@ -61,10 +61,10 @@ function initGoogleClient() {
 
     gapi.load('client:auth2', () => {
       gapi.client.init({
-        apiKey: GOOGLE_API_KEY,
-        clientId: GOOGLE_CLIENT_ID,
+        apiKey: "AIzaSyBT9JEi6PvroCcBSZpfL4ozqKZ9g83lDB0",
+        clientId: "832365472915-ktjj2o7o2cafgi609e8l4fg0bbku62kj.apps.googleusercontent.com",
         discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
-        scope: GOOGLE_DRIVE_SCOPE
+        scope: ['https://www.googleapis.com/auth/drive.file']
       }).then(() => {
         googleAuthInstance = gapi.auth2.getAuthInstance();
         gapiClientReady = true;
