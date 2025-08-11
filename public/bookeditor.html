@@ -13,9 +13,6 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="/styles/bookeditor.css" />
 
-  <!-- Google API Client Library -->
-  <script src="https://apis.google.com/js/api.js"></script>
-
   <!-- Main Book Editor JavaScript -->
   <script type="module" src="/scripts/bookeditor.js" defer></script>
 </head>
@@ -30,6 +27,9 @@
       <a href="#">Image Editor</a>
     </nav>
   </header>
+
+  <!-- Added for Authentication Status Display -->
+  <div id="authStatus" style="margin: 10px; text-align: center; font-size: 0.9em; color: #666;"></div>
 
   <main>
     <section class="book-grid">
@@ -63,6 +63,10 @@
         <label for="bookCover">Book Cover</label>
         <input type="file" id="bookCover" accept="image/*" required>
 
+        <!-- Added for loading and error feedback -->
+        <div class="loader" style="display:none; text-align: center; margin-top: 10px;">Loading...</div>
+        <div class="error-message" style="color:red; text-align: center; margin-top: 10px; display:none;"></div>
+
         <button type="submit">Create</button>
       </form>
     </div>
@@ -82,6 +86,10 @@
 
         <label for="importCover">Book Cover (Optional)</label>
         <input type="file" id="importCover" accept="image/*">
+
+        <!-- Added for loading and error feedback -->
+        <div class="loader" style="display:none; text-align: center; margin-top: 10px;">Loading...</div>
+        <div class="error-message" style="color:red; text-align: center; margin-top: 10px; display:none;"></div>
 
         <button type="submit">Import</button>
       </form>
