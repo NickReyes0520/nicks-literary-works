@@ -313,6 +313,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     await initGoogleDrive();
     
     onAuthStateChanged(auth, (user) => {
+      console.log("Auth state changed:", user);
+      
       const authStatusEl = document.getElementById('authStatus');
       
       if (user) {
