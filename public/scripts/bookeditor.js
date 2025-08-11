@@ -43,7 +43,7 @@ function initGoogleDrive() {
   return new Promise((resolve) => {
     gapi.load("client", () => {
       gapi.client.init({
-        apiKey: "AIzaSyBT9JEi6PvroCcBSZpfL4ozqKZ9g83lDB0",
+        apiKey: "AIzaSyBVhLP24BL4mibJhLuK5H8S4UIyc6SnbkM",
         discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
       }).then(resolve);
     });
