@@ -225,31 +225,34 @@ if (importBookModal) {
 
 
 // ===============================================
-// 5. LOAD BOOKS FUNCTIONALITY (UPDATED for Google Drive)
+// 5. LOAD BOOKS FUNCTIONALITY (FIXED & UPDATED for Google Drive)
 // ===============================================
 async function loadBooks() {
   if (!auth.currentUser) {
     console.warn("No user signed in. Cannot load books.");
+    // If not authenticated, ensure the grid is clear except for the dual-action box,
+    // and don't attempt to load books.
+    // The redirect to admin.html should handle this case.
     return;
   }
 
   // Identify the static 'dual-action' box
   const dualActionBox = document.querySelector('.book-box.dual-action');
 
-  // Clear all *other* book boxes from the grid, leaving the dual-action box intact
-  // Iterate backwards to avoid issues with NodeList changing during removal
-  for (let i = bookGrid.children.length - 1; i >= 0; i--) {
-    const child = bookGrid.children[i];
-    if (child !== dualActionBox) { // Ensure we DON'T remove the dual-action box
-      bookGrid.removeChild(child);
-    }
+  // Remove any previous "no books found" message
+  const noBooksMsgExisting = bookGrid.querySelector('.no-books-message');
+  if (noBooksMsgExisting) {
+    bookGrid.removeChild(noBooksMsgExisting);
   }
 
-  // Remove any previous "no books found" message
-  const noBooksMsg = bookGrid.querySelector('.no-books-message');
-  if (noBooksMsg) {
-    bookGrid.removeChild(noBooksMsg);
-  }
+  // Clear all *other* book boxes from the grid, leaving the dual-action box intact
+  // Create a static copy of the children array to avoid issues during removal
+  const currentChildren = Array.from(bookGrid.children);
+  currentChildren.forEach(child => {
+    if (child !== dualActionBox) {
+      bookGrid.removeChild(child);
+    }
+  });
 
   // Query books belonging to the currently authenticated user
   const q = query(collection(db, "books"), where("authorId", "==", auth.currentUser.uid));
@@ -259,13 +262,6 @@ async function loadBooks() {
 
     if (querySnapshot.empty) {
       // Display a message if no books are found
-      bookGrid.innerHTML = '<p class="no-books-message" style="width: 100%; text-align: center; margin-top: 50px; color: #555;">No books found. Click "Create Book" or "Import Book" to get started!</p>';
-    } else {
-      querySnapshot.forEach((doc) => {
-        const book = doc.data();
-        renderBook(book); // Render each book found
-      });
-    }
       const msg = document.createElement('p');
       msg.className = 'no-books-message';
       msg.style.cssText = 'width: 100%; text-align: center; margin-top: 50px; color: #555;'; // Inline style for quick fix
@@ -438,7 +434,8 @@ onAuthStateChanged(auth, async (user) => {
       await loadBooks(); // Load books after Firebase auth and Google API are ready
     } catch (e) {
       console.error("Initialization error:", e);
-      alert("Failed to initialize required services. Please refresh or check console.");
+      // Removed the alert here to prevent endless popups if initGoogleClient() fails
+      // as the console.error should be sufficient for debugging.
     }
   } else {
     // User is signed out, redirect to admin login page
