@@ -1,0 +1,93 @@
+<!-- Editing Studio -->
+<!-- Book Editor Dashboard -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Editing Studio</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="/publisher-logo.png" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/styles/bookeditor.css" />
+
+  <!-- Google API Client Library -->
+  <script src="https://apis.google.com/js/api.js"></script>
+
+  <!-- Main Book Editor JavaScript -->
+  <script type="module" src="/scripts/bookeditor.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <h1>You’re in the Admin’s Editing Studio</h1>
+    <nav class="nav-buttons">
+      <a href="admin.html">Back to Admin Panel</a>
+      <a href="#" class="active">Book Editor</a>
+      <a href="#">PDF Editor</a>
+      <a href="#">Image Editor</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="book-grid">
+      <!-- This is the ONLY static content in book-grid. It will NOT be cleared by JS. -->
+      <div class="book-box dual-action">
+        <div class="action create">
+          <span>+</span>
+          <p>Create Book</p>
+        </div>
+        <div class="action import">
+          <span>↑</span>
+          <p>Import Book</p>
+        </div>
+      </div>
+
+      <!-- ALL dynamic books and the "No books found" message will be rendered here by bookeditor.js -->
+      <!-- Remove ALL static book-box divs (like Book cover 1, 2, 3 etc.) you had previously here. -->
+
+    </section>
+  </main>
+
+  <!-- Create Book Modal (kept inside body, at the end for clean structure) -->
+  <div id="createBookModal" class="modal">
+    <div class="modal-content">
+      <span class="close create-close">&times;</span>
+      <h2>Create New Book</h2>
+      <form id="createBookForm">
+        <label for="bookTitle">Book Title</label>
+        <input type="text" id="bookTitle" required>
+
+        <label for="bookCover">Book Cover</label>
+        <input type="file" id="bookCover" accept="image/*" required>
+
+        <button type="submit">Create</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Import Book Modal (kept inside body, at the end for clean structure) -->
+  <div id="importBookModal" class="modal">
+    <div class="modal-content">
+      <span class="close import-close">&times;</span>
+      <h2>Import Book</h2>
+      <form id="importBookForm">
+        <label for="importTitle">Book Title</label>
+        <input type="text" id="importTitle" required>
+
+        <label for="importFile">Manuscript File (.doc, .docx)</label>
+        <input type="file" id="importFile" accept=".doc,.docx" required>
+
+        <label for="importCover">Book Cover (Optional)</label>
+        <input type="file" id="importCover" accept="image/*">
+
+        <button type="submit">Import</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- You might want a footer here too -->
+</body>
+</html>
