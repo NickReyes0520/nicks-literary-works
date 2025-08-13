@@ -1,352 +1,234 @@
-// bookeditor.js - Google Drive Integration for Nick's Literary Works (Unified Auth)
+// bookeditor.js
 
-// ===============================================
-// 1. IMPORTS & CONFIGURATION
-// ===============================================
-import { signInWithRedirect } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+// --- 1. Firebase Initialization and Authentication ---
+// We use the global variables provided by the environment for Firebase configuration.
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {
-  getAuth,
-  onAuthStateChanged,
-  GoogleAuthProvider,
-  signInWithPopup
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import {
-  getFirestore, collection, doc, setDoc, getDocs, query, where, serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, collection, onSnapshot, addDoc, doc, getDoc, query, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// Firebase config
-const firebaseConfig = {
-  apiKey: "AIzaSyBVhLP24BL4mibJhLuK5H8S4UIyc6SnbkM",
-  authDomain: "nicks-literary-works-29a64.firebaseapp.com",
-  projectId: "nicks-literary-works-29a64",
-  storageBucket: "nicks-literary-works-29a64.appspot.com",
-  messagingSenderId: "1030818110758",
-  appId: "1:1030818110758:web:6a47c5af6d6cba8b9635e7"
-};
+// Global variables for the canvas environment.
+const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
 
-// Initialize Firebase once (modular version)
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 const db = getFirestore(app);
+const auth = getAuth(app);
 
-// ===============================================
-// 2. AUTHENTICATION & GOOGLE DRIVE FUNCTIONS
-// ===============================================
-const googleAuthProvider = new GoogleAuthProvider();
-googleAuthProvider.addScope('https://www.googleapis.com/auth/drive.file');
+let userId = null;
 
-/** Initialize Google Drive API **/
-function initGoogleDrive() {
-  return new Promise((resolve, reject) => {
-    if (typeof gapi === 'undefined') {
-      return reject(new Error("Google API script not loaded"));
-    }
-    gapi.load("client", () => {
-      gapi.client.init({
-        apiKey: "AIzaSyBVhLP24BL4mibJhLuK5H8S4UIyc6SnbkM",
-        discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
-      }).then(resolve).catch(reject);
-    });
-  });
-}
+// Authenticate the user when the app loads
+onAuthStateChanged(auth, async (user) => {
+  const authStatusDiv = document.getElementById('authStatus');
+  if (user) {
+    // User is signed in.
+    userId = user.uid;
+    authStatusDiv.textContent = `Authenticated as: ${userId}`;
+    console.log(`User authenticated with ID: ${userId}`);
 
-async function handleGoogleSignIn() {
-  try {
-    // Check if we're already authenticated
-    if (auth.currentUser) {
-      const user = auth.currentUser;
-      const credential = GoogleAuthProvider.credentialFromResult(
-        await user.getIdTokenResult()
-      );
-      return credential.accessToken;
-    }
-
-    // Otherwise initiate new sign-in
-    const result = await signInWithPopup(auth, googleAuthProvider);
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    
-    if (!credential?.accessToken) {
-      throw new Error("No access token received");
-    }
-    
-    return credential.accessToken;
-    
-  } catch (error) {
-    console.error("Google Sign-In Error:", error);
-    
-    // Special handling for popup issues
-    if (error.code === 'auth/popup-closed-by-user' || 
-        error.code === 'auth/cancelled-popup-request') {
-      // Implement fallback to redirect if popup fails
-      await signInWithRedirect(auth, googleAuthProvider);
-      return new Promise(() => {}); // Never resolves to block further execution
-    }
-    
-    throw error;
-  }
-}
-
-async function uploadToDrive(file, folderId = 'root') {
-  try {
-    const accessToken = await handleGoogleSignIn();
-    
-    const metadata = {
-      name: file.name,
-      mimeType: file.type,
-      parents: [folderId]
-    };
-
-    const formData = new FormData();
-    formData.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
-    formData.append('file', file);
-
-    const response = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${accessToken}` },
-      body: formData
-    });
-
-    if (!response.ok) {
-      throw new Error("Upload failed");
-    }
-
-    return response.json();
-    
-  } catch (error) {
-    console.error("Upload Error:", error);
-    throw error;
-  }
-}
-
-// ===============================================
-// 3. BOOK MANAGEMENT FUNCTIONS
-// ===============================================
-async function loadBooks() {
-  const bookGrid = document.querySelector('.book-grid');
-  const dualActionBox = document.querySelector('.book-box.dual-action');
-
-  // Clear existing messages and books
-  const existingMessages = bookGrid.querySelectorAll('.no-books-message');
-  existingMessages.forEach(msg => msg.remove());
-
-  const children = Array.from(bookGrid.children);
-  children.forEach(child => {
-    if (child !== dualActionBox) bookGrid.removeChild(child);
-  });
-
-  if (!auth.currentUser) {
-    const msg = document.createElement('p');
-    msg.className = 'no-books-message';
-    msg.textContent = 'Please sign in to view your books.';
-    bookGrid.appendChild(msg);
-    return;
-  }
-
-  try {
-    const q = query(collection(db, "books"), where("authorId", "==", auth.currentUser.uid));
-    const querySnapshot = await getDocs(q);
-
-    if (querySnapshot.empty) {
-      const msg = document.createElement('p');
-      msg.className = 'no-books-message';
-      msg.style.cssText = 'width: 100%; text-align: center; margin-top: 50px; color: #555;'; // Inline style for quick fix
-      msg.textContent = 'No books found. Click "Create Book" or "Import Book" to get started!';
-      bookGrid.appendChild(msg);
-    } else {
-      querySnapshot.forEach(doc => renderBook(doc.data()));
-    }
-  } catch (error) {
-    console.error("Error loading books:", error);
-    alert("Failed to load books. Please check console for details.");
-  }
-}
-
-function getDriveThumbnailUrl(fileId) {
-  return `https://drive.google.com/thumbnail?id=${fileId}`;
-}
-
-function renderBook(book) {
-  const bookBox = document.createElement('div');
-  bookBox.className = 'book-box';
-  bookBox.innerHTML = `
-    <img src="${book.coverDriveId ? getDriveThumbnailUrl(book.coverDriveId) : '/images/default-cover.png'}" alt="${book.title || 'Untitled Book'}">
-    <div class="overlay">
-      <h2>${book.title || 'Untitled Book'}</h2>
-      <div class="overlay-buttons">
-        <button class="manage-btn" data-bookid="${book.id}">⚙️ Manage</button>
-        <button class="write-btn" data-bookid="${book.id}">✍🏻 Write</button>
-      </div>
-    </div>
-  `;
-  document.querySelector('.book-grid').appendChild(bookBox);
-}
-
-// ===============================================
-// 4. MODAL & FORM HANDLERS
-// ===============================================
-function toggleModal(modalId, show) {
-  const modal = document.getElementById(modalId);
-  if (modal) modal.style.display = show ? 'block' : 'none';
-}
-
-function setupModals() {
-  // Event delegation for book buttons
-  document.querySelector('.book-grid').addEventListener('click', (e) => {
-    if (e.target.closest('.manage-btn')) {
-      const bookId = e.target.closest('.manage-btn').dataset.bookid;
-      window.location.href = `managebooks.html?bookId=${bookId}`;
-    } else if (e.target.closest('.write-btn')) {
-      const bookId = e.target.closest('.write-btn').dataset.bookid;
-      window.location.href = `manuscript.html?bookId=${bookId}`;
-    }
-  });
-
-  // Modal toggle functions
-  const toggleModal = (modalId, show) => {
-    const modal = document.getElementById(modalId);
-    if (modal) modal.style.display = show ? 'block' : 'none';
-  };
-
-  // Button event listeners
-  document.querySelector('.action.create')?.addEventListener('click', () => toggleModal('createBookModal', true));
-  document.querySelector('.action.import')?.addEventListener('click', () => toggleModal('importBookModal', true));
-
-  // Close buttons
-  document.querySelector('.create-close')?.addEventListener('click', () => toggleModal('createBookModal', false));
-  document.querySelector('.import-close')?.addEventListener('click', () => toggleModal('importBookModal', false));
-
-  // Form submissions
-  document.getElementById('createBookForm')?.addEventListener('submit', handleCreateBook);
-  document.getElementById('importBookForm')?.addEventListener('submit', handleImportBook);
-}
-
-async function handleCreateBook(e) {
-  e.preventDefault();
-  const form = e.target;
-  const submitBtn = form.querySelector('button[type="submit"]');
-  const originalText = submitBtn.textContent;
-
-  try {
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Creating...';
-
-    const title = form.bookTitle.value.trim();
-    const coverFile = form.bookCover.files[0];
-    
-    if (!title || !coverFile) {
-      throw new Error("Title and cover image are required");
-    }
-
-    const coverResponse = await uploadToDrive(coverFile);
-    const bookRef = doc(collection(db, "books"));
-    
-    await setDoc(bookRef, {
-      id: bookRef.id,
-      title: title,
-      coverDriveId: coverResponse.id,
-      authorId: auth.currentUser.uid,
-      createdAt: serverTimestamp(),
-      content: "",
-      status: "draft"
-    });
-
-    toggleModal('createBookModal', false);
-    form.reset();
-    window.location.href = `manuscript.html?bookId=${bookRef.id}`;
-    
-  } catch (error) {
-    console.error("Create Book Error:", error);
-    alert(error.message);
-  } finally {
-    submitBtn.disabled = false;
-    submitBtn.textContent = originalText;
-  }
-}
-
-async function handleImportBook(e) {
-  e.preventDefault();
-  const form = e.target;
-  const submitBtn = form.querySelector('button[type="submit"]');
-  const originalText = submitBtn.textContent;
-
-  try {
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Importing...';
-
-    const title = form.importTitle.value.trim();
-    const manuscriptFile = form.importFile.files[0];
-    const coverFile = form.importCover.files[0];
-    
-    if (!title || !manuscriptFile) {
-      throw new Error("Title and manuscript file are required");
-    }
-
-    // Upload files
-    const [manuscriptResponse, coverResponse] = await Promise.all([
-      uploadToDrive(manuscriptFile),
-      coverFile ? uploadToDrive(coverFile) : Promise.resolve({id: ''})
-    ]);
-
-    // Create book record
-    const bookRef = doc(collection(db, "books"));
-    await setDoc(bookRef, {
-      id: bookRef.id,
-      title: title,
-      coverDriveId: coverResponse.id,
-      manuscriptDriveId: manuscriptResponse.id,
-      authorId: auth.currentUser.uid,
-      createdAt: serverTimestamp(),
-      content: "",
-      status: "draft"
-    });
-
-    toggleModal('importBookModal', false);
-    form.reset();
-    loadBooks();
-    alert("Book imported successfully!");
-    
-  } catch (error) {
-    console.error("Import Book Error:", error);
-    alert(error.message);
-  } finally {
-    submitBtn.disabled = false;
-    submitBtn.textContent = originalText;
-  }
-}
-
-// ===============================================
-// 5. INITIALIZATION
-// ===============================================
-document.addEventListener('DOMContentLoaded', () => {
-  setupModals();
-  initGoogleDrive()
-    .then(() => {
-      onAuthStateChanged(auth, (user) => {
-      console.log("Auth state changed:", user);
-      
-      const authStatusEl = document.getElementById('authStatus');
-      
-      if (user) {
-        if (authStatusEl) {
-          authStatusEl.textContent = `Connected as ${user.email}`;
-          authStatusEl.style.color = 'green';
-        }
-        setupModals();
-        loadBooks();
+    // Once authenticated, start listening for book data
+    listenForBooks();
+  } else {
+    // No user is signed in. Attempt to sign in with custom token or anonymously.
+    try {
+      if (typeof __initial_auth_token !== 'undefined') {
+        await signInWithCustomToken(auth, __initial_auth_token);
+        console.log("Signed in with custom token.");
       } else {
-        if (authStatusEl) {
-          authStatusEl.textContent = "Redirecting to login...";
-          authStatusEl.style.color = 'red';
-        }
-        window.location.href = 'admin.html';
+        await signInAnonymously(auth);
+        console.log("Signed in anonymously.");
       }
-    });
-  })
-  .catch((err) => console.error("Drive init failed:", err));
+    } catch (error) {
+      console.error("Authentication failed:", error);
+      authStatusDiv.textContent = `Authentication failed: ${error.message}`;
+    }
+  }
 });
 
-// Make functions available for HTML onclick handlers
-window.renderBook = renderBook;
-window.handleCreateBook = handleCreateBook;
-window.handleImportBook = handleImportBook;
+// --- 2. DOM Elements and Event Listeners ---
+const createBookModal = document.getElementById('createBookModal');
+const importBookModal = document.getElementById('importBookModal');
+const bookGrid = document.querySelector('.book-grid');
+
+// Create Book button and modal
+document.querySelector('.action.create').addEventListener('click', () => {
+  createBookModal.style.display = 'block';
+});
+document.querySelector('.close.create-close').addEventListener('click', () => {
+  createBookModal.style.display = 'none';
+});
+window.addEventListener('click', (event) => {
+  if (event.target === createBookModal) {
+    createBookModal.style.display = 'none';
+  }
+});
+
+// Import Book button and modal
+document.querySelector('.action.import').addEventListener('click', () => {
+  importBookModal.style.display = 'block';
+});
+document.querySelector('.close.import-close').addEventListener('click', () => {
+  importBookModal.style.display = 'none';
+});
+window.addEventListener('click', (event) => {
+  if (event.target === importBookModal) {
+    importBookModal.style.display = 'none';
+  }
+});
+
+// --- 3. Firestore Data Management ---
+
+// This function listens for real-time changes in the books collection
+function listenForBooks() {
+  if (!userId) {
+    console.warn("User ID is not available yet. Skipping Firestore listener.");
+    return;
+  }
+  
+  // Create a private collection for the user's books.
+  const booksCollectionRef = collection(db, `artifacts/${appId}/users/${userId}/books`);
+  
+  // Set up a real-time listener
+  onSnapshot(booksCollectionRef, (snapshot) => {
+    const books = [];
+    snapshot.forEach((doc) => {
+      books.push({ id: doc.id, ...doc.data() });
+    });
+    renderBooks(books);
+  }, (error) => {
+    console.error("Error fetching books:", error);
+  });
+}
+
+// Renders the books to the UI
+function renderBooks(books) {
+  // Clear existing book entries, but keep the static create/import box
+  const bookElements = bookGrid.querySelectorAll('.book-box:not(.dual-action)');
+  bookElements.forEach(el => el.remove());
+
+  const noBooksMessage = document.getElementById('no-books-message');
+  if (noBooksMessage) {
+    noBooksMessage.remove();
+  }
+  
+  if (books.length === 0) {
+    // Display "No books found" message if no books exist
+    const message = document.createElement('div');
+    message.id = 'no-books-message';
+    message.style.cssText = 'width: 100%; text-align: center; margin-top: 50px; font-size: 1.2rem; color: #666;';
+    message.textContent = "No books found. Click 'Create Book' or 'Import Book' to get started!";
+    bookGrid.appendChild(message);
+  } else {
+    // Render each book dynamically
+    books.forEach(book => {
+      const bookBox = document.createElement('div');
+      bookBox.className = 'book-box';
+      bookBox.innerHTML = `
+        <img src="${book.coverUrl || 'https://placehold.co/180x270/cccccc/333333?text=No+Cover'}" alt="${book.title} Cover">
+        <div class="overlay">
+          <div class="overlay-buttons">
+            <h2>${book.title}</h2>
+            <button class="manage-btn" onclick="window.location.href='managebook.html?bookId=${book.id}'">Manage</button>
+            <button class="write-btn" onclick="window.location.href='manuscript.html?bookId=${book.id}'">Write</button>
+          </div>
+        </div>
+      `;
+      bookGrid.appendChild(bookBox);
+    });
+  }
+}
+
+// This is a placeholder for file upload functionality.
+// In a real application, you would use Google Drive API, Firebase Storage, or another service.
+async function uploadFile(file) {
+  // Simulate a file upload and return a mock URL.
+  // In a real scenario, this would be an async operation uploading to storage.
+  console.log(`Simulating upload for file: ${file.name}`);
+  await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network latency
+  return `https://placehold.co/180x270?text=${encodeURIComponent(file.name)}`;
+}
+
+
+// --- 4. Form Submission Handlers ---
+
+// Create Book Form
+document.getElementById('createBookForm').addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const form = event.target;
+  const loader = form.querySelector('.loader');
+  const errorMessage = form.querySelector('.error-message');
+
+  try {
+    loader.style.display = 'block';
+    errorMessage.style.display = 'none';
+
+    const bookTitle = form.querySelector('#bookTitle').value;
+    const bookCoverFile = form.querySelector('#bookCover').files[0];
+
+    // Upload the book cover file (simulated)
+    const coverUrl = await uploadFile(bookCoverFile);
+
+    // Add the new book to Firestore
+    const booksCollectionRef = collection(db, `artifacts/${appId}/users/${userId}/books`);
+    await addDoc(booksCollectionRef, {
+      title: bookTitle,
+      coverUrl: coverUrl,
+      createdAt: new Date()
+    });
+
+    // Close modal and reset form
+    createBookModal.style.display = 'none';
+    form.reset();
+
+  } catch (error) {
+    console.error("Error creating book:", error);
+    errorMessage.textContent = "Failed to create book. Please try again.";
+    errorMessage.style.display = 'block';
+  } finally {
+    loader.style.display = 'none';
+  }
+});
+
+// Import Book Form
+document.getElementById('importBookForm').addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const form = event.target;
+  const loader = form.querySelector('.loader');
+  const errorMessage = form.querySelector('.error-message');
+
+  try {
+    loader.style.display = 'block';
+    errorMessage.style.display = 'none';
+
+    const importTitle = form.querySelector('#importTitle').value;
+    const importFile = form.querySelector('#importFile').files[0];
+    const importCover = form.querySelector('#importCover').files[0];
+
+    // Upload manuscript and cover (simulated)
+    const manuscriptUrl = await uploadFile(importFile);
+    let coverUrl = null;
+    if (importCover) {
+      coverUrl = await uploadFile(importCover);
+    }
+
+    // Add the imported book to Firestore
+    const booksCollectionRef = collection(db, `artifacts/${appId}/users/${userId}/books`);
+    await addDoc(booksCollectionRef, {
+      title: importTitle,
+      manuscriptUrl: manuscriptUrl,
+      coverUrl: coverUrl, // This will be null if no cover was provided
+      createdAt: new Date()
+    });
+
+    // Close modal and reset form
+    importBookModal.style.display = 'none';
+    form.reset();
+
+  } catch (error) {
+    console.error("Error importing book:", error);
+    errorMessage.textContent = "Failed to import book. Please try again.";
+    errorMessage.style.display = 'block';
+  } finally {
+    loader.style.display = 'none';
+  }
+});
