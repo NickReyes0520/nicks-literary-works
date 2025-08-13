@@ -98,7 +98,6 @@ async function handleAuthClick() {
       const user = await authInstance.signIn();
       if (user.isSignedIn()) {
         console.log("Signed in with Google Drive.");
-        checkAndRenderBooks();
       }
     } catch (error) {
       console.error("Google Sign-In failed:", error);
@@ -111,15 +110,16 @@ async function handleAuthClick() {
 // Check if all clients are ready before trying to render books
 function checkAndRenderBooks() {
   if (gapiInited && gisInited && userId) {
-    // All services are ready, now we can render the book list
-    // The book list rendering will happen automatically via the onSnapshot listener.
-    // We just need to make sure the Google sign-in button is hidden if signed in.
     const googleAuthStatus = document.getElementById('googleAuthStatus');
     if (googleAuthStatus) {
       if (gapi.auth2.getAuthInstance().isSignedIn().get()) {
         googleAuthStatus.style.display = 'none';
       } else {
         googleAuthStatus.style.display = 'block';
+        const signInButton = googleAuthStatus.querySelector('button');
+        if (signInButton) {
+            signInButton.addEventListener('click', handleAuthClick);
+        }
       }
     }
   }
@@ -131,11 +131,51 @@ const importBookModal = document.getElementById('importBookModal');
 const bookGrid = document.querySelector('.book-grid');
 
 // Add a button for Google Sign-In
-const googleAuthButton = document.createElement('div');
-googleAuthButton.id = 'googleAuthStatus';
-googleAuthButton.innerHTML = `<button onclick="handleAuthClick()">Sign in with Google Drive</button>`;
-googleAuthButton.style.cssText = 'width: 100%; text-align: center; margin-top: 50px;';
-document.querySelector('main').prepend(googleAuthButton);
+const googleAuthStatus = document.createElement('div');
+googleAuthStatus.id = 'googleAuthStatus';
+googleAuthStatus.innerHTML = `
+    <button class="google-sign-in-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-google">
+        <path d="M12 10.9v2.8h7.9c-.4 2.8-2.6 4.9-5.9 4.9-3.5 0-6.4-2.8-6.4-6.4s2.8-6.4 6.4-6.4c1.9 0 3.5.7 4.8 1.9l2.1-2.1c-1.6-1.5-3.6-2.4-5.9-2.4-5.2 0-9.4 4.2-9.4 9.4s4.2 9.4 9.4 9.4c5.3 0 9.2-3.8 9.2-9.2 0-.6-.1-1.2-.2-1.7h-9z"/>
+      </svg>
+      Sign in with Google Drive
+    </button>
+`;
+googleAuthStatus.style.cssText = `
+  width: 100%; 
+  text-align: center; 
+  margin-top: 50px;
+  --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  border-radius: 0.5rem;
+`;
+document.querySelector('main').prepend(googleAuthStatus);
+
+// Create some custom styles for the button itself
+const style = document.createElement('style');
+style.innerHTML = `
+  .google-sign-in-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background-image: linear-gradient(to right, #4285F4, #33A852);
+    color: #ffffff;
+    font-weight: 600;
+    border-radius: 9999px; /* This creates a pill shape */
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  }
+  .google-sign-in-btn:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+  }
+`;
+document.head.appendChild(style);
 
 // Create Book button and modal
 document.querySelector('.action.create').addEventListener('click', () => {
