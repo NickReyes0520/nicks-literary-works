@@ -127,8 +127,6 @@ function checkAndRenderBooks() {
         googleAuthStatus.style.display = 'block';
         const signInButton = googleAuthStatus.querySelector('button');
         if (signInButton) {
-            // New: Attach the click listener here, only when gapi is ready
-            signInButton.removeEventListener('click', handleAuthClick); // Prevent duplicate listeners
             signInButton.addEventListener('click', handleAuthClick);
         }
       }
