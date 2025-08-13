@@ -1,14 +1,23 @@
 // bookeditor.js
 
 // --- 1. Firebase Initialization and Authentication ---
-// We use the global variables provided by the environment for Firebase configuration.
+// We use the provided Firebase configuration directly for local testing.
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, collection, onSnapshot, addDoc, doc, getDoc, query, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// Global variables for the canvas environment.
-const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+// Your Firebase configuration, taken directly from your provided details.
+const firebaseConfig = {
+  apiKey: "AIzaSyBVhLP24BL4mibJhLuK5H8S4UIyc6SnbkM",
+  authDomain: "nicks-literary-works-29a64.firebaseapp.com",
+  projectId: "nicks-literary-works-29a64",
+  storageBucket: "nicks-literary-works-29a64.appspot.com",
+  messagingSenderId: "1030818110758",
+  appId: "1:1030818110758:web:6a47c5af6d6cba8b9635e7"
+};
+
+// The app ID for the collection path.
+const appId = 'nicks-literary-works-29a64';
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -29,15 +38,10 @@ onAuthStateChanged(auth, async (user) => {
     // Once authenticated, start listening for book data
     listenForBooks();
   } else {
-    // No user is signed in. Attempt to sign in with custom token or anonymously.
+    // No user is signed in. Since we are running locally, signInAnonymously is a good fallback.
     try {
-      if (typeof __initial_auth_token !== 'undefined') {
-        await signInWithCustomToken(auth, __initial_auth_token);
-        console.log("Signed in with custom token.");
-      } else {
-        await signInAnonymously(auth);
-        console.log("Signed in anonymously.");
-      }
+      await signInAnonymously(auth);
+      console.log("Signed in anonymously.");
     } catch (error) {
       console.error("Authentication failed:", error);
       authStatusDiv.textContent = `Authentication failed: ${error.message}`;
@@ -84,7 +88,7 @@ function listenForBooks() {
     console.warn("User ID is not available yet. Skipping Firestore listener.");
     return;
   }
-  
+
   // Create a private collection for the user's books.
   const booksCollectionRef = collection(db, `artifacts/${appId}/users/${userId}/books`);
   
