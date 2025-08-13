@@ -1,0 +1,79 @@
+/* pdfeditor.css */
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fdfdfd;
+  margin: 0;
+  color: #333;
+}
+
+header {
+  background-color: #2f2f2f;
+  color: white;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 4px solid #ce7e00;
+}
+
+h1 {
+  font-family: 'Cambria', serif;
+}
+
+nav {
+  display: flex;
+  gap: 1rem;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-buttons a {
+  background-color: #f3f6f4;
+  color: #000;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-buttons a:hover {
+  background-color: #5cc057;
+  color: #fff;
+}
+
+.nav-buttons a.active {
+  background-color: #5cc057;
+  color: #fff;
+}
+
+.pdf-page-container {
+  position: relative;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  margin-bottom: 2rem;
+  transition: transform 0.2s ease;
+  cursor: crosshair;
+}
+
+.pdf-page-container:hover {
+  transform: translateY(-5px);
+}  
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #333;
+  color: white;
+}
