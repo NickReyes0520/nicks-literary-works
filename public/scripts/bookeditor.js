@@ -32,7 +32,9 @@ onAuthStateChanged(auth, async (user) => {
   if (user) {
     // User is signed in.
     userId = user.uid;
+    // Apply styling to the auth status message
     authStatusDiv.textContent = `Authenticated with Firebase as: ${userId}`;
+    authStatusDiv.classList.add('auth-status-styled'); // Add the new class for styling
     console.log(`User authenticated with ID: ${userId}`);
 
     // Once authenticated with Firebase, listen for book data and initialize Google API
@@ -92,12 +94,17 @@ function initGoogleClient() {
 
 // Function to handle Google Sign-In
 async function handleAuthClick() {
+  console.log("Attempting to sign in with Google...");
   if (gapi.auth2.getAuthInstance()) {
     try {
       const authInstance = gapi.auth2.getAuthInstance();
       const user = await authInstance.signIn();
       if (user.isSignedIn()) {
-        console.log("Signed in with Google Drive.");
+        console.log("Successfully signed in with Google Drive.");
+        const googleAuthStatus = document.getElementById('googleAuthStatus');
+        if (googleAuthStatus) {
+            googleAuthStatus.style.display = 'none';
+        }
       }
     } catch (error) {
       console.error("Google Sign-In failed:", error);
@@ -107,17 +114,20 @@ async function handleAuthClick() {
   }
 }
 
-// Check if all clients are ready before trying to render books
+// Check if all clients are ready before trying to render books and add listeners
 function checkAndRenderBooks() {
   if (gapiInited && gisInited && userId) {
     const googleAuthStatus = document.getElementById('googleAuthStatus');
     if (googleAuthStatus) {
       if (gapi.auth2.getAuthInstance().isSignedIn().get()) {
+        console.log("User is already signed in with Google. Hiding the button.");
         googleAuthStatus.style.display = 'none';
       } else {
+        console.log("Google Auth is ready. Attaching click listener to button.");
         googleAuthStatus.style.display = 'block';
         const signInButton = googleAuthStatus.querySelector('button');
         if (signInButton) {
+            signInButton.removeEventListener('click', handleAuthClick); // Prevent duplicate listeners
             signInButton.addEventListener('click', handleAuthClick);
         }
       }
@@ -145,16 +155,18 @@ googleAuthStatus.style.cssText = `
   width: 100%; 
   text-align: center; 
   margin-top: 50px;
-  --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-  border-radius: 0.5rem;
 `;
 document.querySelector('main').prepend(googleAuthStatus);
 
-// Create some custom styles for the button itself
+// Create some custom styles for the buttons and text
 const style = document.createElement('style');
 style.innerHTML = `
+  /* Remove header border */
+  header {
+    border-bottom: none !important;
+  }
+  
+  /* Style for the Google Sign-in Button */
   .google-sign-in-btn {
     display: inline-flex;
     align-items: center;
@@ -173,6 +185,16 @@ style.innerHTML = `
   .google-sign-in-btn:hover {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
     transform: translateY(-2px);
+  }
+
+  /* Style for the authenticated status text */
+  .auth-status-styled {
+    font-size: 0.9em;
+    font-style: italic;
+    color: #555;
+    text-align: center;
+    margin: 10px 0;
+    padding: 5px 0;
   }
 `;
 document.head.appendChild(style);
