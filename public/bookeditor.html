@@ -14,15 +14,12 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="/styles/bookeditor.css" />
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js"></script>
-
   <!-- Google API Client -->
   <script src="https://apis.google.com/js/api.js"></script>
 
   <!-- Main Book Editor JavaScript -->
   <script type="module" src="/scripts/bookeditor.js"></script>
+
 </head>
 
 <body>
@@ -66,10 +63,10 @@
       <h2>Create New Book</h2>
       <form id="createBookForm">
         <label for="bookTitle">Book Title</label>
-        <input type="text" id="bookTitle" required>
+        <input type="text" id="bookTitle" name="bookTitle" required>
 
         <label for="bookCover">Book Cover</label>
-        <input type="file" id="bookCover" accept="image/*" required>
+        <input type="file" id="bookCover" name="bookCover" accept="image/*" required>
 
         <!-- Added for loading and error feedback -->
         <div class="loader" style="display:none; text-align: center; margin-top: 10px;">Loading...</div>
@@ -87,13 +84,13 @@
       <h2>Import Book</h2>
       <form id="importBookForm">
         <label for="importTitle">Book Title</label>
-        <input type="text" id="importTitle" required>
+        <input type="text" id="importTitle" name="importTitle" required>
 
         <label for="importFile">Manuscript File (.doc, .docx)</label>
-        <input type="file" id="importFile" accept=".doc,.docx" required>
+        <input type="file" id="importFile" name="importFile" accept=".doc,.docx" required>
 
         <label for="importCover">Book Cover (Optional)</label>
-        <input type="file" id="importCover" accept="image/*">
+        <input type="file" id="importCover" name="importCover" accept="image/*">
 
         <!-- Added for loading and error feedback -->
         <div class="loader" style="display:none; text-align: center; margin-top: 10px;">Loading...</div>
@@ -104,6 +101,8 @@
     </div>
   </div>
 
-  <!-- You might want a footer here too -->
+  <footer>
+    <p>&copy; Nick Reyes. All rights reserved.</p>
+  </footer>
 </body>
 </html>
