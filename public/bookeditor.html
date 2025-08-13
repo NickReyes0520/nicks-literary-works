@@ -14,8 +14,11 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="/styles/bookeditor.css" />
 
-  <!-- Google API Client -->
-  <script src="https://apis.google.com/js/api.js"></script>
+  <!-- The NEW, single, modern Google Identity Services script. This is required for the new bookeditor.js to work. -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <!-- The Google API client library, used for making Drive API calls. -->
+  <script src="https://apis.google.com/js/api.js" async defer></script>
 
   <!-- Main Book Editor JavaScript -->
   <script type="module" src="/scripts/bookeditor.js"></script>
@@ -28,8 +31,8 @@
     <nav class="nav-buttons">
       <a href="admin.html">Back to Admin Panel</a>
       <a href="#" class="active">Book Editor</a>
-      <a href="#">PDF Editor</a>
-      <a href="#">Image Editor</a>
+      <a href="pdfeditor.html">PDF Editor</a>
+      <a href="imgeditor.html">Image Editor</a>
     </nav>
   </header>
 
