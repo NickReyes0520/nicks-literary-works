@@ -5,6 +5,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-signin-client_id" content="1030818110758-ivtvih92p8i4odf8bngo5om2nofid2f5.apps.googleusercontent.com">
   <title>Book Editing Studio</title>
 
   <!-- Favicon -->
@@ -13,11 +14,13 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="/styles/bookeditor.css" />
 
-  <!-- Google Identity Services -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <!-- Google API Client -->
+  <script src="https://apis.google.com/js/api.js"></script>
+  <script async defer src="https://apis.google.com/js/api.js"></script>
 
   <!-- Main Book Editor JavaScript -->
   <script type="module" src="/scripts/bookeditor.js"></script>
+
 </head>
 
 <body>
@@ -31,7 +34,7 @@
     </nav>
   </header>
 
-  <!-- Firebase Authentication Status -->
+  <!-- Added for Authentication Status Display -->
   <div id="authStatus" style="margin: 10px; text-align: center; font-size: 0.9em; color: #666;"></div>
 
   <main>
@@ -49,10 +52,12 @@
       </div>
 
       <!-- ALL dynamic books and the "No books found" message will be rendered here by bookeditor.js -->
+      <!-- Remove ALL static book-box divs (like Book cover 1, 2, 3 etc.) you had previously here. -->
+
     </section>
   </main>
 
-  <!-- Create Book Modal -->
+  <!-- Create Book Modal (kept inside body, at the end for clean structure) -->
   <div id="createBookModal" class="modal">
     <div class="modal-content">
       <span class="close create-close">&times;</span>
@@ -64,6 +69,7 @@
         <label for="bookCover">Book Cover</label>
         <input type="file" id="bookCover" name="bookCover" accept="image/*" required>
 
+        <!-- Added for loading and error feedback -->
         <div class="loader" style="display:none; text-align: center; margin-top: 10px;">Loading...</div>
         <div class="error-message" style="color:red; text-align: center; margin-top: 10px; display:none;"></div>
 
@@ -72,7 +78,7 @@
     </div>
   </div>
 
-  <!-- Import Book Modal -->
+  <!-- Import Book Modal (kept inside body, at the end for clean structure) -->
   <div id="importBookModal" class="modal">
     <div class="modal-content">
       <span class="close import-close">&times;</span>
@@ -87,6 +93,7 @@
         <label for="importCover">Book Cover (Optional)</label>
         <input type="file" id="importCover" name="importCover" accept="image/*">
 
+        <!-- Added for loading and error feedback -->
         <div class="loader" style="display:none; text-align: center; margin-top: 10px;">Loading...</div>
         <div class="error-message" style="color:red; text-align: center; margin-top: 10px; display:none;"></div>
 
