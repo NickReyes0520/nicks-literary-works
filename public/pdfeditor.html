@@ -1,4 +1,3 @@
-<!-- PDF Editor Dashboard -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,16 +12,16 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="/styles/pdfeditor.css" />
 
-  <!-- Inter font from Google Fonts -->
+  <!-- Google Fonts for Segoe UI and Cambria -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cambria:wght@400;700&family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
 
   <!-- PDF.js and PDF-lib libraries from CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
   <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-
 </head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
   <header>
     <h1>You’re in the Admin’s Editing Studio</h1>
     <nav class="nav-buttons">
@@ -33,50 +32,53 @@
     </nav>
   </header>
 
-  <main class="flex-grow container mx-auto p-8">
-    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
-      <h2 class="text-2xl font-bold mb-4 text-center text-gray-800">PDF Editing Dashboard</h2>
-      <p class="text-center text-gray-600 mb-6">
+  <main class="main-container">
+    <div class="dashboard-card">
+      <h2 class="dashboard-title">PDF Editing Dashboard</h2>
+      <p class="dashboard-description">
         Upload a PDF file to begin editing. You can add text, signatures, and convert pages.
       </p>
       
-      <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-8">
-        <label for="pdf-input" class="cursor-pointer bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 shadow-md hover:shadow-lg">
+      <div class="button-group">
+        <label for="pdf-input" class="button-label upload-pdf-btn">
           Upload PDF
         </label>
         <input type="file" id="pdf-input" accept=".pdf" class="hidden" />
 
-        <label for="image-input" class="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 shadow-md hover:shadow-lg">
+        <label for="image-input" class="button-label upload-image-btn">
           Upload Signature/Logo
         </label>
         <input type="file" id="image-input" accept=".png, .jpg, .jpeg" class="hidden" />
       </div>
 
       <!-- Controls for editing and exporting -->
-      <div id="controls" class="hidden flex flex-col md:flex-row items-center justify-center gap-4 mb-8">
-        <input type="text" id="text-input" placeholder="Type text to add..." class="flex-grow p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" />
+      <div id="controls" class="hidden button-group">
+        <input type="text" id="text-input" placeholder="Type text to add..." class="input-text" />
         
-        <select id="font-size-select" class="p-3 border border-gray-300 rounded-lg">
+        <select id="font-size-select" class="select-font-size">
           <option value="12">12px</option>
           <option value="16">16px</option>
           <option value="20">20px</option>
           <option value="24">24px</option>
         </select>
         
-        <button id="add-text-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 shadow-md hover:shadow-lg">
+        <button id="add-text-btn" class="button-label add-text-btn">
           Add Text Mode
         </button>
-        <button id="add-image-btn" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 shadow-md hover:shadow-lg">
+        <button id="add-image-btn" class="button-label add-image-btn">
           Add Image Mode
         </button>
-        <button id="delete-element-btn" class="hidden bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 shadow-md hover:shadow-lg">
+        <button id="delete-element-btn" class="hidden button-label delete-btn">
           Delete Selected
         </button>
       </div>
 
-      <div class="flex flex-col md:flex-row items-center justify-center gap-4">
-        <button id="export-pdf-btn" class="hidden bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 shadow-md hover:shadow-lg">
+      <div class="button-group">
+        <button id="export-pdf-btn" class="hidden button-label export-btn">
           Export PDF
+        </button>
+        <button id="convert-page-btn" class="hidden button-label convert-btn">
+          Convert Page to Image
         </button>
       </div>
     </div>
@@ -99,7 +101,6 @@
         </div>
       </div>
     </div>
-
   </main>
 
   <footer>
@@ -123,6 +124,7 @@
     const convertToJpgBtn = document.getElementById('convert-to-jpg-btn');
     const convertToPngBtn = document.getElementById('convert-to-png-btn');
     const closeModalBtn = document.getElementById('close-modal-btn');
+    const convertPageBtn = document.getElementById('convert-page-btn');
 
     let pdfDoc = null;
     let originalPdfBytes = null;
@@ -157,7 +159,7 @@
             await renderPdf(data);
             controls.classList.remove('hidden');
             exportPdfBtn.classList.remove('hidden');
-            document.getElementById('convert-page-btn').classList.remove('hidden');
+            convertPageBtn.classList.remove('hidden');
         };
         reader.readAsArrayBuffer(file);
     });
@@ -515,60 +517,51 @@
     });
 
     // Page conversion functionality
-    document.addEventListener('DOMContentLoaded', () => {
-        const conversionBtn = document.createElement('button');
-        conversionBtn.textContent = 'Convert Page to Image';
-        conversionBtn.id = 'convert-page-btn';
-        conversionBtn.className = 'hidden bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 shadow-md hover:shadow-lg mt-4 mx-auto';
-        
-        document.getElementById('controls').parentElement.appendChild(conversionBtn);
-
-        conversionBtn.addEventListener('click', () => {
-            if (!pdfDoc) {
-                showMessage('Please upload a PDF first!', true);
-                return;
-            }
-            // Populate modal with page options
-            pageSelectContainer.innerHTML = '';
-            const numPages = pdfDoc.getPages().length;
-            for (let i = 1; i <= numPages; i++) {
-                const label = document.createElement('label');
-                label.className = 'block p-2 hover:bg-gray-100 cursor-pointer';
-                label.innerHTML = `<input type="checkbox" name="page-select" value="${i}" class="mr-2"> Page ${i}`;
-                pageSelectContainer.appendChild(label);
-            }
-            convertModal.classList.remove('hidden');
-        });
-
-        closeModalBtn.addEventListener('click', () => {
-            convertModal.classList.add('hidden');
-        });
-        
-        const convertPages = (format) => {
-            const checkboxes = document.querySelectorAll('input[name="page-select"]:checked');
-            if (checkboxes.length === 0) {
-                showMessage('Please select at least one page to convert.', true);
-                return;
-            }
-
-            checkboxes.forEach(checkbox => {
-                const pageNumber = parseInt(checkbox.value);
-                const canvas = pageCanvases[pageNumber].canvas;
-                const dataURL = canvas.toDataURL(`image/${format}`);
-                const a = document.createElement('a');
-                a.href = dataURL;
-                a.download = `page_${pageNumber}.${format}`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-            });
-            showMessage(`Selected pages exported as ${format.toUpperCase()}.`);
-            convertModal.classList.add('hidden');
-        };
-
-        convertToJpgBtn.addEventListener('click', () => convertPages('jpeg'));
-        convertToPngBtn.addEventListener('click', () => convertPages('png'));
+    convertPageBtn.addEventListener('click', () => {
+        if (!pdfDoc) {
+            showMessage('Please upload a PDF first!', true);
+            return;
+        }
+        // Populate modal with page options
+        pageSelectContainer.innerHTML = '';
+        const numPages = pdfDoc.getPages().length;
+        for (let i = 1; i <= numPages; i++) {
+            const label = document.createElement('label');
+            label.className = 'block p-2 hover:bg-gray-100 cursor-pointer';
+            label.innerHTML = `<input type="checkbox" name="page-select" value="${i}" class="mr-2"> Page ${i}`;
+            pageSelectContainer.appendChild(label);
+        }
+        convertModal.classList.remove('hidden');
     });
+
+    closeModalBtn.addEventListener('click', () => {
+        convertModal.classList.add('hidden');
+    });
+    
+    const convertPages = (format) => {
+        const checkboxes = document.querySelectorAll('input[name="page-select"]:checked');
+        if (checkboxes.length === 0) {
+            showMessage('Please select at least one page to convert.', true);
+            return;
+        }
+
+        checkboxes.forEach(checkbox => {
+            const pageNumber = parseInt(checkbox.value);
+            const canvas = pageCanvases[pageNumber].canvas;
+            const dataURL = canvas.toDataURL(`image/${format}`);
+            const a = document.createElement('a');
+            a.href = dataURL;
+            a.download = `page_${pageNumber}.${format}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
+        showMessage(`Selected pages exported as ${format.toUpperCase()}.`);
+        convertModal.classList.add('hidden');
+    };
+
+    convertToJpgBtn.addEventListener('click', () => convertPages('jpeg'));
+    convertToPngBtn.addEventListener('click', () => convertPages('png'));
   </script>
 </body>
 </html>
