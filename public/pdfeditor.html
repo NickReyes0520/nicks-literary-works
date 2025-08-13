@@ -1,0 +1,648 @@
+<!-- PDF Editor Dashboard -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-signin-client_id" content="1030818110758-ivtvih92p8i4odf8bngo5om2nofid2f5.apps.googleusercontent.com">
+  <title>PDF Editing Studio</title>
+
+  <!-- Tailwind CSS CDN for styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Inter font from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Base styles, adapted from user's provided CSS */
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #fdfdfd;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #2f2f2f;
+      color: white;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 4px solid #ce7e00;
+    }
+
+    h1 {
+      font-family: 'Cambria', serif;
+      margin: 0;
+    }
+
+    .nav-buttons {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav-buttons a {
+      background-color: #f3f6f4;
+      color: #000;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      text-decoration: none;
+    }
+
+    .nav-buttons a:hover {
+      background-color: #5cc057;
+      color: #fff;
+    }
+
+    .nav-buttons a.active {
+      background-color: #5cc057;
+      color: #fff;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #333;
+      color: white;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+
+    /* Custom styles for the PDF editor layout */
+    .pdf-page-container {
+      position: relative;
+      border: 1px solid #ccc;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      margin-bottom: 2rem;
+      transition: transform 0.2s ease;
+      cursor: crosshair;
+    }
+
+    .pdf-page-container:hover {
+      transform: translateY(-5px);
+    }
+  </style>
+
+  <!-- PDF.js and PDF-lib libraries from CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+  <header>
+    <h1>You’re in the Admin’s Editing Studio</h1>
+    <nav class="nav-buttons">
+      <a href="admin.html">Back to Admin Panel</a>
+      <a href="bookeditor.html">Book Editor</a>
+      <a href="#" class="active">PDF Editor</a>
+      <a href="imgeditor.html">Image Editor</a>
+    </nav>
+  </header>
+
+  <main class="flex-grow container mx-auto p-8">
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-2xl font-bold mb-4 text-center text-gray-800">PDF Editing Dashboard</h2>
+      <p class="text-center text-gray-600 mb-6">
+        Upload a PDF file to begin editing. You can add text, signatures, and convert pages.
+      </p>
+      
+      <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-8">
+        <label for="pdf-input" class="cursor-pointer bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 shadow-md hover:shadow-lg">
+          Upload PDF
+        </label>
+        <input type="file" id="pdf-input" accept=".pdf" class="hidden" />
+
+        <label for="image-input" class="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 shadow-md hover:shadow-lg">
+          Upload Signature/Logo
+        </label>
+        <input type="file" id="image-input" accept=".png, .jpg, .jpeg" class="hidden" />
+      </div>
+
+      <!-- Controls for editing and exporting -->
+      <div id="controls" class="hidden flex flex-col md:flex-row items-center justify-center gap-4 mb-8">
+        <input type="text" id="text-input" placeholder="Type text to add..." class="flex-grow p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" />
+        
+        <select id="font-size-select" class="p-3 border border-gray-300 rounded-lg">
+          <option value="12">12px</option>
+          <option value="16">16px</option>
+          <option value="20">20px</option>
+          <option value="24">24px</option>
+        </select>
+        
+        <button id="add-text-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 shadow-md hover:shadow-lg">
+          Add Text Mode
+        </button>
+        <button id="add-image-btn" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 shadow-md hover:shadow-lg">
+          Add Image Mode
+        </button>
+        <button id="delete-element-btn" class="hidden bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 shadow-md hover:shadow-lg">
+          Delete Selected
+        </button>
+      </div>
+
+      <div class="flex flex-col md:flex-row items-center justify-center gap-4">
+        <button id="export-pdf-btn" class="hidden bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 shadow-md hover:shadow-lg">
+          Export PDF
+        </button>
+      </div>
+    </div>
+
+    <!-- Message area for user feedback -->
+    <div id="message-box" class="fixed top-4 right-4 bg-white p-4 rounded-lg shadow-xl hidden transition-opacity duration-300"></div>
+
+    <!-- Container for PDF pages -->
+    <div id="pdf-container" class="flex flex-col items-center"></div>
+
+    <!-- Modal for page conversion -->
+    <div id="convert-modal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center hidden">
+      <div class="bg-white p-6 rounded-lg shadow-xl w-11/12 md:w-1/2">
+        <h3 class="text-xl font-bold mb-4">Select pages to convert</h3>
+        <div id="page-select-container" class="max-h-64 overflow-y-auto mb-4 p-2 border rounded-md"></div>
+        <div class="flex justify-end gap-4">
+          <button id="convert-to-jpg-btn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full">Convert to JPG</button>
+          <button id="convert-to-png-btn" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-full">Convert to PNG</button>
+          <button id="close-modal-btn" class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-full">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>&copy; Nick Reyes. All rights reserved.</p>
+  </footer>
+
+  <script type="text/javascript">
+    const pageCanvases = {};
+    const pageOriginalSizes = {};
+    const textInput = document.getElementById('text-input');
+    const imageInput = document.getElementById('image-input');
+    const exportPdfBtn = document.getElementById('export-pdf-btn');
+    const controls = document.getElementById('controls');
+    const pdfContainer = document.getElementById('pdf-container');
+    const addTextBtn = document.getElementById('add-text-btn');
+    const addImageBtn = document.getElementById('add-image-btn');
+    const deleteElementBtn = document.getElementById('delete-element-btn');
+    const messageBox = document.getElementById('message-box');
+    const convertModal = document.getElementById('convert-modal');
+    const pageSelectContainer = document.getElementById('page-select-container');
+    const convertToJpgBtn = document.getElementById('convert-to-jpg-btn');
+    const convertToPngBtn = document.getElementById('convert-to-png-btn');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+
+    let pdfDoc = null;
+    let originalPdfBytes = null;
+    let imageForPdf = null;
+    let editMode = 'none';
+    let addedElements = {}; // Stores all elements added to each page
+    let selectedElement = null; // Stores the currently selected element for moving/deleting
+    let isDragging = false;
+    let dragStartX, dragStartY;
+
+    // Helper function to show a temporary message
+    const showMessage = (message, isError = false) => {
+        messageBox.textContent = message;
+        messageBox.className = `fixed top-4 right-4 p-4 rounded-lg shadow-xl transition-opacity duration-300 block ${isError ? 'bg-red-500 text-white' : 'bg-white text-gray-800'}`;
+        setTimeout(() => {
+            messageBox.classList.add('hidden');
+        }, 5000);
+    };
+
+    // Load PDF.js worker
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+    // Handle PDF file upload
+    document.getElementById('pdf-input').addEventListener('change', async (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+            originalPdfBytes = e.target.result;
+            const data = new Uint8Array(originalPdfBytes);
+            await renderPdf(data);
+            controls.classList.remove('hidden');
+            exportPdfBtn.classList.remove('hidden');
+            document.getElementById('convert-page-btn').classList.remove('hidden');
+        };
+        reader.readAsArrayBuffer(file);
+    });
+
+    // Handle image upload for signatures/logos
+    imageInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            imageForPdf = e.target.result;
+            showMessage('Image uploaded successfully! Click on a page to add it.');
+        };
+        reader.readAsDataURL(file);
+    });
+
+    // Function to render the PDF pages onto canvases
+    async function renderPdf(data) {
+      pdfContainer.innerHTML = '';
+      addedElements = {}; // Reset added elements
+      selectedElement = null;
+
+      const pdf = await pdfjsLib.getDocument({ data }).promise;
+      pdfDoc = await PDFLib.PDFDocument.load(data);
+      
+      const numPages = pdf.numPages;
+
+      for (let i = 1; i <= numPages; i++) {
+        const page = await pdf.getPage(i);
+        const scale = 1.5;
+        const viewport = page.getViewport({ scale });
+        const canvas = document.createElement('canvas');
+        canvas.classList.add('border-2', 'border-transparent', 'hover:border-blue-500'); // Add border for visual feedback
+        const context = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        const pageContainer = document.createElement('div');
+        pageContainer.className = 'pdf-page-container w-full max-w-2xl mx-auto my-4 rounded-lg overflow-hidden';
+        pageContainer.setAttribute('data-page-number', i);
+
+        const renderContext = {
+          canvasContext: context,
+          viewport: viewport
+        };
+        
+        await page.render(renderContext).promise;
+        pageContainer.appendChild(canvas);
+        pdfContainer.appendChild(pageContainer);
+
+        pageCanvases[i] = { canvas, page, context };
+        
+        const pdfPage = pdfDoc.getPages()[i - 1];
+        pageOriginalSizes[i] = {
+            width: pdfPage.getWidth(),
+            height: pdfPage.getHeight()
+        };
+
+        // Add mouse event listeners for moving/deleting elements
+        canvas.addEventListener('mousedown', (event) => startDragOrSelect(event, i));
+        canvas.addEventListener('mousemove', (event) => dragElement(event, i));
+        canvas.addEventListener('mouseup', (event) => endDrag(event));
+        canvas.addEventListener('mouseout', (event) => endDrag(event));
+      }
+    }
+
+    // Function to add text or image to the page
+    const addElementToPage = async (event, pageNumber) => {
+        if (editMode === 'none') {
+            showMessage('Please select an editing mode first (Add Text or Add Image).', true);
+            return;
+        }
+
+        const canvas = pageCanvases[pageNumber].canvas;
+        const rect = canvas.getBoundingClientRect();
+        
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        
+        const { width, height } = pageOriginalSizes[pageNumber];
+        const scaleX = width / rect.width;
+        const scaleY = height / rect.height;
+        const pdfX = x * scaleX;
+        const pdfY = height - (y * scaleY); // PDF coordinates are bottom-up
+
+        if (editMode === 'text' && textInput.value) {
+            const newText = textInput.value;
+            const fontSize = parseInt(document.getElementById('font-size-select').value);
+            
+            if (!addedElements[pageNumber]) addedElements[pageNumber] = [];
+            
+            const element = {
+                type: 'text',
+                text: newText,
+                x: x,
+                y: y,
+                size: fontSize,
+                pdfX: pdfX,
+                pdfY: pdfY
+            };
+
+            addedElements[pageNumber].push(element);
+            redrawPage(pageNumber);
+            showMessage(`Added text "${newText}" to page ${pageNumber}.`);
+        } else if (editMode === 'image' && imageForPdf) {
+            const image = new Image();
+            image.src = imageForPdf;
+            image.onload = () => {
+                const imgWidth = image.width / 5;
+                const imgHeight = image.height / 5;
+                
+                if (!addedElements[pageNumber]) addedElements[pageNumber] = [];
+
+                const element = {
+                    type: 'image',
+                    imageSrc: imageForPdf,
+                    x: x,
+                    y: y,
+                    width: imgWidth,
+                    height: imgHeight,
+                    pdfX: pdfX,
+                    pdfY: pdfY - (imgHeight * scaleY) // Adjust for bottom-up origin
+                };
+
+                addedElements[pageNumber].push(element);
+                redrawPage(pageNumber);
+                showMessage(`Added image to page ${pageNumber}.`);
+            };
+        }
+    };
+
+    // Redraw a specific page with all its elements
+    const redrawPage = async (pageNumber) => {
+        const { canvas, page, context } = pageCanvases[pageNumber];
+        const scale = 1.5; // Must match original render scale
+        const viewport = page.getViewport({ scale });
+        
+        // Render original PDF content again
+        await page.render({ canvasContext: context, viewport }).promise;
+
+        // Draw all added elements on top
+        if (addedElements[pageNumber]) {
+            for (const element of addedElements[pageNumber]) {
+                if (element.type === 'text') {
+                    context.font = `${element.size}px Arial`;
+                    context.fillStyle = '#000000';
+                    context.fillText(element.text, element.x, element.y);
+                } else if (element.type === 'image') {
+                    const image = new Image();
+                    image.src = element.imageSrc;
+                    image.onload = () => {
+                        context.drawImage(image, element.x, element.y, element.width, element.height);
+                    };
+                }
+            }
+        }
+        
+        // If an element is selected, draw a selection box around it
+        if (selectedElement && selectedElement.pageNumber === pageNumber) {
+            drawSelectionBox(selectedElement.element);
+        }
+    };
+
+    // Draw a selection box around an element
+    const drawSelectionBox = (element) => {
+        const { canvas, context } = pageCanvases[element.pageNumber];
+        context.strokeStyle = 'blue';
+        context.lineWidth = 2;
+        context.setLineDash([5, 5]);
+
+        if (element.type === 'text') {
+            const textWidth = context.measureText(element.text).width;
+            const textHeight = element.size;
+            context.strokeRect(element.x, element.y - textHeight, textWidth, textHeight);
+        } else if (element.type === 'image') {
+            context.strokeRect(element.x, element.y, element.width, element.height);
+        }
+        context.setLineDash([]); // Reset line dash
+    };
+
+    // Handle mousedown event for selecting or starting a drag
+    const startDragOrSelect = (event, pageNumber) => {
+        // Prevent default behavior to avoid canvas selection issues
+        event.preventDefault();
+        const canvas = pageCanvases[pageNumber].canvas;
+        const rect = canvas.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        // Reset selected element
+        if (selectedElement) {
+            redrawPage(selectedElement.pageNumber);
+            selectedElement = null;
+            deleteElementBtn.classList.add('hidden');
+        }
+
+        // Check if we clicked on an existing element
+        if (addedElements[pageNumber]) {
+            for (let i = addedElements[pageNumber].length - 1; i >= 0; i--) {
+                const element = addedElements[pageNumber][i];
+                let elementRect;
+                if (element.type === 'text') {
+                    // Simple text bounding box check
+                    const textWidth = pageCanvases[pageNumber].context.measureText(element.text).width;
+                    const textHeight = element.size;
+                    elementRect = { x: element.x, y: element.y - textHeight, width: textWidth, height: textHeight };
+                } else if (element.type === 'image') {
+                    elementRect = { x: element.x, y: element.y, width: element.width, height: element.height };
+                }
+
+                if (x >= elementRect.x && x <= elementRect.x + elementRect.width &&
+                    y >= elementRect.y && y <= elementRect.y + elementRect.height) {
+                    
+                    selectedElement = { element: element, pageNumber: pageNumber };
+                    isDragging = true;
+                    dragStartX = x - element.x;
+                    dragStartY = y - element.y;
+                    
+                    redrawPage(pageNumber);
+                    deleteElementBtn.classList.remove('hidden');
+                    
+                    return; // Stop after finding the top-most element
+                }
+            }
+        }
+
+        // If no element was selected, assume we are adding a new one
+        if (editMode !== 'none') {
+            addElementToPage(event, pageNumber);
+        }
+    };
+
+    // Handle mousemove event for dragging
+    const dragElement = (event, pageNumber) => {
+        if (!isDragging || !selectedElement || selectedElement.pageNumber !== pageNumber) return;
+        
+        event.preventDefault();
+        const canvas = pageCanvases[pageNumber].canvas;
+        const rect = canvas.getBoundingClientRect();
+        
+        const newX = event.clientX - rect.left - dragStartX;
+        const newY = event.clientY - rect.top - dragStartY;
+
+        // Update the element's position
+        selectedElement.element.x = newX;
+        selectedElement.element.y = newY;
+        
+        // Update PDF-lib coordinates
+        const { width, height } = pageOriginalSizes[pageNumber];
+        const scaleX = width / rect.width;
+        const scaleY = height / rect.height;
+        selectedElement.element.pdfX = newX * scaleX;
+        selectedElement.element.pdfY = height - (newY * scaleY);
+        if (selectedElement.element.type === 'image') {
+            selectedElement.element.pdfY -= (selectedElement.element.height * scaleY);
+        }
+        
+        redrawPage(pageNumber);
+    };
+
+    // Handle mouseup event to end drag
+    const endDrag = (event) => {
+        if (isDragging) {
+            isDragging = false;
+        }
+    };
+
+    // Handle delete button click
+    deleteElementBtn.addEventListener('click', () => {
+        if (selectedElement) {
+            const { pageNumber, element } = selectedElement;
+            const elementsOnPage = addedElements[pageNumber];
+            const index = elementsOnPage.indexOf(element);
+            if (index > -1) {
+                elementsOnPage.splice(index, 1);
+                redrawPage(pageNumber);
+                showMessage('Element deleted successfully.');
+            }
+            selectedElement = null;
+            deleteElementBtn.classList.add('hidden');
+        } else {
+            showMessage('No element selected to delete.', true);
+        }
+    });
+
+    // Toggle editing modes
+    addTextBtn.addEventListener('click', () => {
+        editMode = 'text';
+        addTextBtn.classList.add('bg-purple-800');
+        addImageBtn.classList.remove('bg-teal-800');
+        showMessage('Add Text Mode activated. Click on a page to add text.');
+    });
+
+    addImageBtn.addEventListener('click', () => {
+        if (!imageForPdf) {
+            showMessage('Please upload an image first using the "Upload Signature/Logo" button.', true);
+            return;
+        }
+        editMode = 'image';
+        addImageBtn.classList.add('bg-teal-800');
+        addTextBtn.classList.remove('bg-purple-800');
+        showMessage('Add Image Mode activated. Click on a page to add the uploaded image.');
+    });
+    
+    // Export the modified PDF
+    exportPdfBtn.addEventListener('click', async () => {
+        if (!originalPdfBytes) {
+            showMessage('Please upload a PDF first!', true);
+            return;
+        }
+
+        showMessage('Processing PDF, please wait...');
+
+        const newPdfDoc = await PDFLib.PDFDocument.load(originalPdfBytes);
+        const font = await newPdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
+
+        for (const pageNumber in addedElements) {
+            const page = newPdfDoc.getPages()[pageNumber - 1];
+            if (page) {
+                for (const element of addedElements[pageNumber]) {
+                    if (element.type === 'text') {
+                        page.drawText(element.text, {
+                            x: element.pdfX,
+                            y: element.pdfY,
+                            size: element.size,
+                            font: font
+                        });
+                    } else if (element.type === 'image') {
+                        const img = new Image();
+                        img.src = element.imageSrc;
+                        const embeddedImage = await newPdfDoc.embedPng(img.src);
+                        page.drawImage(embeddedImage, {
+                            x: element.pdfX,
+                            y: element.pdfY,
+                            width: element.width,
+                            height: element.height
+                        });
+                    }
+                }
+            }
+        }
+
+        const pdfBytes = await newPdfDoc.save();
+        
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'edited_document.pdf';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showMessage('PDF exported successfully!');
+    });
+
+    // Page conversion functionality
+    document.addEventListener('DOMContentLoaded', () => {
+        const conversionBtn = document.createElement('button');
+        conversionBtn.textContent = 'Convert Page to Image';
+        conversionBtn.id = 'convert-page-btn';
+        conversionBtn.className = 'hidden bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 shadow-md hover:shadow-lg mt-4 mx-auto';
+        
+        document.getElementById('controls').parentElement.appendChild(conversionBtn);
+
+        conversionBtn.addEventListener('click', () => {
+            if (!pdfDoc) {
+                showMessage('Please upload a PDF first!', true);
+                return;
+            }
+            // Populate modal with page options
+            pageSelectContainer.innerHTML = '';
+            const numPages = pdfDoc.getPages().length;
+            for (let i = 1; i <= numPages; i++) {
+                const label = document.createElement('label');
+                label.className = 'block p-2 hover:bg-gray-100 cursor-pointer';
+                label.innerHTML = `<input type="checkbox" name="page-select" value="${i}" class="mr-2"> Page ${i}`;
+                pageSelectContainer.appendChild(label);
+            }
+            convertModal.classList.remove('hidden');
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            convertModal.classList.add('hidden');
+        });
+        
+        const convertPages = (format) => {
+            const checkboxes = document.querySelectorAll('input[name="page-select"]:checked');
+            if (checkboxes.length === 0) {
+                showMessage('Please select at least one page to convert.', true);
+                return;
+            }
+
+            checkboxes.forEach(checkbox => {
+                const pageNumber = parseInt(checkbox.value);
+                const canvas = pageCanvases[pageNumber].canvas;
+                const dataURL = canvas.toDataURL(`image/${format}`);
+                const a = document.createElement('a');
+                a.href = dataURL;
+                a.download = `page_${pageNumber}.${format}`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            });
+            showMessage(`Selected pages exported as ${format.toUpperCase()}.`);
+            convertModal.classList.add('hidden');
+        };
+
+        convertToJpgBtn.addEventListener('click', () => convertPages('jpeg'));
+        convertToPngBtn.addEventListener('click', () => convertPages('png'));
+    });
+  </script>
+</body>
+</html>
