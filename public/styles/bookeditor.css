@@ -112,7 +112,7 @@ nav a {
 
 .overlay h2 {
   position: absolute;
-  top: 0;
+  top: 1rem;
   left: 50%;
   transform: translateX(-50%);
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
