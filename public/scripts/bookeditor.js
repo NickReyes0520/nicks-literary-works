@@ -59,12 +59,18 @@ const CLIENT_ID = "1030818110758-ivtvih92p8i4odf8bngo5om2nofid2f5.apps.googleuse
 const SCOPES = 'https://www.googleapis.com/auth/drive.file'; // Scope for creating files
 
 let gapiInited = false;
-let gisInited = false;
+let gisToken = null; // Store the Google token here
 
-// Loads the Google API client library
+// Loads the Google API client and GIS libraries
 function initGoogleClient() {
   gapi.load('client', initializeGapiClient);
-  gapi.load('auth2', initializeGisClient); // Use auth2 for older GAPI sign-in
+  
+  // This is the new, modern approach to Google sign-in
+  window.onload = function() {
+    const signInButton = document.querySelector('.google-sign-in-btn');
+    signInButton.addEventListener('click', handleAuthClick);
+    console.log("Google Sign-In button event listener attached.");
+  };
 
   function initializeGapiClient() {
     gapi.client.init({
@@ -78,60 +84,41 @@ function initGoogleClient() {
       console.error("Error initializing Google API client:", error);
     });
   }
-
-  function initializeGisClient() {
-    const auth2 = gapi.auth2.init({
-      clientId: CLIENT_ID,
-      scope: SCOPES,
-    });
-    auth2.then(() => {
-      gisInited = true;
-      console.log("Google Auth client initialized.");
-      checkAndRenderBooks();
-    });
-  }
 }
 
 // Function to handle Google Sign-In
-async function handleAuthClick() {
+function handleAuthClick() {
   console.log("Attempting to sign in with Google...");
-  if (gapi.auth2.getAuthInstance()) {
-    try {
-      const authInstance = gapi.auth2.getAuthInstance();
-      const user = await authInstance.signIn();
-      if (user.isSignedIn()) {
-        console.log("Successfully signed in with Google Drive.");
-        const googleAuthStatus = document.getElementById('googleAuthStatus');
-        if (googleAuthStatus) {
-            googleAuthStatus.style.display = 'none';
-        }
+  // Use the modern GIS library for authentication
+  google.accounts.oauth2.initTokenClient({
+    client_id: CLIENT_ID,
+    scope: SCOPES,
+    callback: (tokenResponse) => {
+      if (tokenResponse.error) {
+        console.error("Google Sign-In failed:", tokenResponse.error);
+        return;
       }
-    } catch (error) {
-      console.error("Google Sign-In failed:", error);
-    }
-  } else {
-    console.error("Google Auth client not initialized.");
-  }
+      gisToken = tokenResponse;
+      console.log("Successfully signed in with Google Drive and received token.");
+      const googleAuthStatus = document.getElementById('googleAuthStatus');
+      if (googleAuthStatus) {
+        googleAuthStatus.style.display = 'none';
+      }
+    },
+  }).requestAccessToken({prompt: 'consent'});
 }
 
-// Check if all clients are ready before trying to render books and add listeners
+// Check if all clients are ready before trying to render books
 function checkAndRenderBooks() {
-  if (gapiInited && gisInited && userId) {
+  if (gapiInited && userId) {
     const googleAuthStatus = document.getElementById('googleAuthStatus');
-    if (googleAuthStatus) {
-      if (gapi.auth2.getAuthInstance().isSignedIn().get()) {
-        console.log("User is already signed in with Google. Hiding the button.");
-        googleAuthStatus.style.display = 'none';
-      } else {
-        console.log("Google Auth is ready. Attaching click listener to button.");
-        googleAuthStatus.style.display = 'block';
-        const signInButton = googleAuthStatus.querySelector('button');
-        if (signInButton) {
-            // New: Attach the click listener here, only when gapi is ready
-            signInButton.removeEventListener('click', handleAuthClick); // Prevent duplicate listeners
-            signInButton.addEventListener('click', handleAuthClick);
-        }
-      }
+    // If a GIS token exists, hide the button
+    if (gisToken && gisToken.access_token) {
+      console.log("User is already signed in with Google. Hiding the button.");
+      googleAuthStatus.style.display = 'none';
+    } else {
+      console.log("Google Auth is ready. Showing sign-in button.");
+      googleAuthStatus.style.display = 'block';
     }
   }
 }
@@ -283,7 +270,8 @@ function renderBooks(books) {
 
 // --- 5. File Upload Functionality using Google Drive API ---
 async function uploadFile(file) {
-  if (!file || !gapi.auth2.getAuthInstance().isSignedIn().get()) {
+  // Check if the GIS token exists
+  if (!file || !gisToken || !gisToken.access_token) {
     console.error("Google Drive not authenticated.");
     return null;
   }
@@ -300,7 +288,7 @@ async function uploadFile(file) {
   try {
     const response = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
       method: 'POST',
-      headers: new Headers({ 'Authorization': 'Bearer ' + gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token }),
+      headers: new Headers({ 'Authorization': 'Bearer ' + gisToken.access_token }),
       body: form
     });
     
