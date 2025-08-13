@@ -7,96 +7,25 @@
   <meta name="google-signin-client_id" content="1030818110758-ivtvih92p8i4odf8bngo5om2nofid2f5.apps.googleusercontent.com">
   <title>PDF Editing Studio</title>
 
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="/website-logo.jpg" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/styles/pdfeditor.css" />
+
   <!-- Tailwind CSS CDN for styling -->
   <script src="https://cdn.tailwindcss.com"></script>
+
   <!-- Inter font from Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    /* Base styles, adapted from user's provided CSS */
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #fdfdfd;
-      color: #333;
-      margin: 0;
-      padding: 0;
-    }
-
-    header {
-      background-color: #2f2f2f;
-      color: white;
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      border-bottom: 4px solid #ce7e00;
-    }
-
-    h1 {
-      font-family: 'Cambria', serif;
-      margin: 0;
-    }
-
-    .nav-buttons {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .nav-buttons a {
-      background-color: #f3f6f4;
-      color: #000;
-      padding: 0.5rem 1rem;
-      border-radius: 6px;
-      font-weight: 600;
-      transition: background-color 0.3s ease, color 0.3s ease;
-      text-decoration: none;
-    }
-
-    .nav-buttons a:hover {
-      background-color: #5cc057;
-      color: #fff;
-    }
-
-    .nav-buttons a.active {
-      background-color: #5cc057;
-      color: #fff;
-    }
-
-    footer {
-      text-align: center;
-      padding: 1rem;
-      background-color: #333;
-      color: white;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-    }
-
-    /* Custom styles for the PDF editor layout */
-    .pdf-page-container {
-      position: relative;
-      border: 1px solid #ccc;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      margin-bottom: 2rem;
-      transition: transform 0.2s ease;
-      cursor: crosshair;
-    }
-
-    .pdf-page-container:hover {
-      transform: translateY(-5px);
-    }
-  </style>
 
   <!-- PDF.js and PDF-lib libraries from CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
   <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 
 </head>
-<body class="bg-gray-100 flex flex-col min-h-screen">
   <header>
     <h1>You’re in the Admin’s Editing Studio</h1>
     <nav class="nav-buttons">
