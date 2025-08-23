@@ -144,6 +144,8 @@ img {
   display: flex;
   flex-direction: column;
   gap: 30px;
+  margin-top: 40px;
+  width: 100%;
 }
 
 .featured-books h2 {
@@ -153,6 +155,7 @@ img {
   font-weight: bold;
   text-align: center;
   margin-bottom: 40px;
+  border-bottom: 2px solid #888;
 }
 
 /* Each featured book container */
@@ -234,6 +237,15 @@ img {
 
 .carousel-slide.active {
   display: block;
+}
+
+.carousel-slide.active h2 {
+  font-family: 'Cambria', serif;
+  font-size: 26px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 40px;
+  border-bottom: 2px solid #888;
 }
 
 .carousel img {
@@ -493,6 +505,7 @@ img {
   font-weight: bold;
   text-align: center;
   margin-bottom: 40px;
+  border-bottom: 2px solid #888;
 }
 
 .author-content {
@@ -533,6 +546,7 @@ img {
   font-weight: bold;
   text-align: center;
   margin-bottom: 40px;
+  border-bottom: 2px solid #888;
 }
 
 .testimonial {
