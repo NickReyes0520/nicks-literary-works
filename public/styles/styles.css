@@ -144,18 +144,16 @@ img {
   display: flex;
   flex-direction: column;
   gap: 30px;
-  margin-top: 40px;
-  width: 100%;
 }
 
 .featured-books h2 {
   font-family: 'Cambria', serif;
-  color: #333;
   font-size: 26px;
+  color: #333;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 40px;
-  border-bottom: 2px solid #888;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 /* Each featured book container */
@@ -237,9 +235,6 @@ img {
 
 .carousel-slide.active {
   display: block;
-  padding: 50px 20px;
-  margin-top: 40px;
-  width: 100%;
 }
 
 .carousel-slide.active h2 {
@@ -247,8 +242,6 @@ img {
   font-size: 26px;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 40px;
-  border-bottom: 2px solid #888;
 }
 
 .carousel img {
@@ -496,9 +489,11 @@ img {
 /* Author's Desk */
 .author-desk {
   background-color: #c0ffa6;
-  padding: 50px 20px;
-  margin-top: 40px;
-  width: 100%;
+  padding: 40px 20px;
+  margin-top: 60px;
+  border-top: 4px solid #333;
+  border-bottom: 4px solid #333;
+  text-align: left;
 }
 
 .author-desk h2 {
@@ -506,9 +501,10 @@ img {
   font-size: 26px;
   color: #333;
   font-weight: bold;
-  text-align: center;
-  margin-bottom: 40px;
   border-bottom: 2px solid #888;
+  padding-bottom: 10px;
+  margin-bottom: 25px;
+  text-align: center;
 }
 
 .author-content {
@@ -549,7 +545,6 @@ img {
   font-weight: bold;
   text-align: center;
   margin-bottom: 40px;
-  border-bottom: 2px solid #888;
 }
 
 .testimonial {
