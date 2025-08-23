@@ -88,7 +88,7 @@ nav a {
 
 .nav-buttons a {
   background-color: #609ed7;
-  color: #fff;
+  color: #000;
   padding: 0.5rem 1rem;
   border-radius: 6px;
   font-weight: 600;
@@ -100,7 +100,7 @@ nav a {
   color: #fff;
 }
 
-.nav-buttons a:active {
+.nav-buttons a.active {
   background-color: #3d85c6;
   color: #fff;
 }
