@@ -1,0 +1,144 @@
+* aboutauth.css */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+
+  background-image: url('/images/wallpapers/hanging-creepers.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  backdrop-filter: blur(8px);
+}
+
+header {
+  background-color: #363636;
+  color: white;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 4px solid #0b5394;
+}
+
+.branding {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+}
+
+.branding img.logo {
+  height: 120px;
+  width: auto;
+  margin-bottom: 0.1rem;
+  border-radius: 6px;
+}
+
+@media (max-width: 600px) {
+  .branding img.logo {
+    height: 90px;
+  }
+}
+
+.title-group h1 {
+  font-family: 'Cambria', serif;
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+nav {
+  display: flex;
+  gap: 1rem;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-buttons a {
+  background-color: #609ed7;
+  color: #000;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-buttons a:hover {
+  background-color: #3d85c6;
+  color: #fff;
+}
+
+.nav-buttons a.active {
+  background-color: #3d85c6;
+  color: #fff;
+}
+
+.author-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  gap: 2rem;
+}
+
+.author-text {
+  flex: 2;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.author-text h2 {
+  margin-top: 0;
+  font-size: 1.8rem;
+  color: #0b5394;
+}
+
+.author-photo {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.author-photo img {
+  width: 280px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+}
+
+@media (max-width: 768px) {
+  .author-container {
+    flex-direction: column;
+    text-align: center;
+  }
+  .author-photo {
+    margin-top: 1.5rem;
+  }
+  .author-photo img {
+    width: 80%;
+  }
+}
