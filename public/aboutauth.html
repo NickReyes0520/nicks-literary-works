@@ -61,6 +61,26 @@
 </main>
 
   <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const protectedText = document.querySelectorAll(".author-text");
+
+      protectedText.forEach(el => {
+        // Disable right-click context menu
+        el.addEventListener("contextmenu", e => e.preventDefault());
+
+        // Block copy events
+        el.addEventListener("copy", e => {
+          e.preventDefault();
+          alert("Copying is disabled for this content.");
+        });
+
+        // Optional: Block drag events
+        el.addEventListener("dragstart", e => e.preventDefault());
+      });
+    });
+  </script>
+
+  <script>
     // Disable right-click (context menu) on all <img> elements
     document.querySelectorAll("img").forEach(img => {
       img.addEventListener("contextmenu", e => e.preventDefault());
