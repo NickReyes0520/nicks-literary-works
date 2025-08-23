@@ -237,6 +237,9 @@ img {
 
 .carousel-slide.active {
   display: block;
+  padding: 50px 20px;
+  margin-top: 40px;
+  width: 100%;
 }
 
 .carousel-slide.active h2 {
