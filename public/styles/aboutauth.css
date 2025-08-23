@@ -119,6 +119,13 @@ nav a {
 }
 
 .author-text {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  pointer-events: none;
+  color: transparent;
+  text-shadow: 0 0 0 #000;
   flex: 2;
   font-size: 1.1rem;
   line-height: 1.6;
