@@ -15,6 +15,12 @@ body {
   backdrop-filter: blur(8px);
 }
 
+img {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
 header {
   background-color: #363636;
   color: white;
@@ -23,7 +29,7 @@ header {
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  border-bottom: 4px solid #0b5394;
+  border-bottom: 4px solid #174f79;
 }
 
 .branding {
@@ -32,6 +38,7 @@ header {
   align-items: center;
   text-align: center;
   flex: 1;
+  gap: 10px;
 }
 
 .branding img.logo {
@@ -55,8 +62,11 @@ header {
   color: #ffffff;
 }
 
-h2, h3, h4, h5, h6, p, a, nav, .nav-buttons a, button, .author-text {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.title-group .tagline {
+  font-family: 'Segoe Script', cursive;
+  margin-top: 0.5rem;
+  font-size: 1.2rem;
+  color: #f3f6f4;
 }
 
 nav {
@@ -78,7 +88,7 @@ nav a {
 
 .nav-buttons a {
   background-color: #609ed7;
-  color: #000;
+  color: #fff;
   padding: 0.5rem 1rem;
   border-radius: 6px;
   font-weight: 600;
@@ -90,7 +100,7 @@ nav a {
   color: #fff;
 }
 
-.nav-buttons a.active {
+.nav-buttons a:active {
   background-color: #3d85c6;
   color: #fff;
 }
