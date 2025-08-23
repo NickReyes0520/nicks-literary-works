@@ -60,5 +60,20 @@
   </section>
 </main>
 
+  <script>
+    // Disable right-click (context menu) on all <img> elements
+    document.querySelectorAll("img").forEach(img => {
+      img.addEventListener("contextmenu", e => e.preventDefault());
+      img.addEventListener("mousedown", e => {
+        if (e.button === 2) e.preventDefault(); // Extra desktop protection
+      });
+      img.addEventListener("touchstart", e => e.preventDefault()); // Block long-press menus on mobile
+    });
+  </script>
+  
+  <footer>
+    <p>&copy; Nick Reyes. All rights reserved.</p>
+  </footer>
+
 </body>
 </html>
