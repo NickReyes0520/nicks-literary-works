@@ -156,3 +156,10 @@ nav a {
     width: 80%;
   }
 }
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #333;
+  color: white;
+}
