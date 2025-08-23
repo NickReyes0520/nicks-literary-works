@@ -61,23 +61,24 @@
 </main>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const protectedText = document.querySelectorAll(".author-text");
+    // Prevent copy, cut, and context menu inside .author-text
+    const authorText = document.querySelector('.author-text');
 
-      protectedText.forEach(el => {
-        // Disable right-click context menu
-        el.addEventListener("contextmenu", e => e.preventDefault());
+    if (authorText) {
+      authorText.addEventListener('copy', e => e.preventDefault());
+      authorText.addEventListener('cut', e => e.preventDefault());
+      authorText.addEventListener('contextmenu', e => e.preventDefault());
 
-        // Block copy events
-        el.addEventListener("copy", e => {
-          e.preventDefault();
-          alert("Copying is disabled for this content.");
-        });
-
-        // Optional: Block drag events
-        el.addEventListener("dragstart", e => e.preventDefault());
+      // Optional: block keyboard shortcuts like Ctrl+C
+      document.addEventListener('keydown', e => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'c') {
+          const selection = window.getSelection();
+          if (selection && authorText.contains(selection.anchorNode)) {
+            e.preventDefault();
+          }
+        }
       });
-    });
+    }
   </script>
 
   <script>
