@@ -1,0 +1,97 @@
+<!-- Author Info Page -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nick’s Website Info</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="website-logo.jpg" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/styles/aboutauth.css" />
+
+</head>
+
+<body>
+  <header>
+    <div class="branding">
+      <img src="/images/white-logo.png" alt="Kuya Nick Logo" class="logo">
+      <div class="title-group">
+        <h1>About the Website</h1>
+        <p class="tagline">Wondering what this website is all about too?</p>
+      </div>
+    </div>
+
+    <div class="navigations">
+    <nav class="nav-buttons">
+      <a href="index.html">Home</a>
+      <a href="aboutauth.html">About the Author</a>
+      <a href="aboutpub.html">About the Publisher</a>
+      <a href="#" class="active">About the Website</a>
+      <a href="certificates.html">Certificates</a>
+      <a href="recognitions.html">Recognitions</a>
+    </nav>
+    </div>
+
+  </header>
+
+<main>
+  <section class="author-container">
+    <div class="author-text">
+      <h2>Nick’s Literary Works</h2>
+      <p>
+        <strong>Nick’s Literary Works</strong> is more than just a website, it is a living archive of creativity, a digital sanctuary where storiesmbreathe and voices find their echo. Designed with care and intention, this space serves as the official home of Kuya Nick’s published masterpieces, offering readers a direct path to purchase, explore, and connect with his literary world.
+      </p>
+      <p>
+        Beyond the bookselling domain, the site opens its heart to all logged-in users through a curated selection of free readings—poems, articles, and excerpts that invite reflection, wonder, and dialogue. These offerings are not just content; they are gifts of insight, crafted to nourish the soul and celebrate the richness of Filipino thought and imagination.
+      </p>
+      <p>
+        Every page, every scroll, every interaction is designed to feel welcoming, exclusive, and meaningful. This is a place where literature meets technology, where commerce honors culture, and where storytelling is both sacred and shared.
+      </p>
+    </div>
+    <div class="author-photo">
+      <img src="website-logo.jpg" alt="Website Logo">
+    </div>
+  </section>
+</main>
+
+  <script>
+    // Prevent copy, cut, and context menu inside .author-text
+    const authorText = document.querySelector('.author-text');
+
+    if (authorText) {
+      authorText.addEventListener('copy', e => e.preventDefault());
+      authorText.addEventListener('cut', e => e.preventDefault());
+      authorText.addEventListener('contextmenu', e => e.preventDefault());
+
+      // Optional: block keyboard shortcuts like Ctrl+C
+      document.addEventListener('keydown', e => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'c') {
+          const selection = window.getSelection();
+          if (selection && authorText.contains(selection.anchorNode)) {
+            e.preventDefault();
+          }
+        }
+      });
+    }
+  </script>
+
+  <script>
+    // Disable right-click (context menu) on all <img> elements
+    document.querySelectorAll("img").forEach(img => {
+      img.addEventListener("contextmenu", e => e.preventDefault());
+      img.addEventListener("mousedown", e => {
+        if (e.button === 2) e.preventDefault(); // Extra desktop protection
+      });
+      img.addEventListener("touchstart", e => e.preventDefault()); // Block long-press menus on mobile
+    });
+  </script>
+  
+  <footer>
+    <p>&copy; Nick Reyes. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
