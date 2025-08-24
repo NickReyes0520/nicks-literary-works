@@ -268,9 +268,9 @@ img {
 }
 
 .carousel-and-below {
-  flex: 2;
+  flex: 1;
   max-height: 100%;
-  max-width: 50%;
+  max-width: 100%;
   overflow: visible;
 }
 
