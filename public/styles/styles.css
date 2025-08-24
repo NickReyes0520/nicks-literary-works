@@ -311,6 +311,7 @@ img {
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 0;
 }
 
 .styled-box {
@@ -598,7 +599,7 @@ img {
 .author-desk {
   background-color: #c0ffa6;
   padding: 40px 20px;
-  margin-top: 60px;
+  margin-top: 0;
   border-top: 4px solid #333;
   border-bottom: 4px solid #333;
   text-align: left;
