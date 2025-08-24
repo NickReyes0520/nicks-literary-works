@@ -274,10 +274,6 @@ img {
   overflow: visible;
 }
 
-.carousel-and-below > section {
-  margin-top: 40px;
-}
-
 .carousel, .quick-access {
   padding: 2rem;
   text-align: center;
