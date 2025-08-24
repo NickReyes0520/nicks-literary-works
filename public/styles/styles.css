@@ -142,7 +142,7 @@ img {
 /* Featured Books Section */
 .featured-books {
   flex: 1;
-  max-width: 50%;
+  max-width: 100%;
   background-color: #f8f8f8;
   padding: 25px 30px;
   border-radius: 12px;
