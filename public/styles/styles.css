@@ -249,6 +249,58 @@ img {
   color: #555;
 }
 
+/* Find My Books & Pages Section */
+.find-my-books {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.find-my-books h2 {
+  font-family: 'Cambria', serif;
+  font-size: 26px;
+  color: #333;
+  font-weight: bold;
+  border-bottom: 2px solid #888;
+  padding-bottom: 10px;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.social-links-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.social-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #555;
+  transition: transform 0.2s ease;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.social-link:hover {
+  transform: translateY(-5px);
+  background-color: #f0f0f0;
+}
+
+.social-link img {
+  width: 60px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 600px) {
+  .social-link img {
+    width: 50px;
+  }
+}
+  
 /* Carousel Section */
 .carousel-section {
   flex: 1;
