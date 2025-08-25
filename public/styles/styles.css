@@ -241,12 +241,8 @@ img {
   width: 100%;
   height: auto;
   display: block;
-  filter: blur(10px);
-  transition: filter 1s ease-in;
-}
-
-.video-is-playing {
-  filter: blur(0px) !important; /* Remove the blur */
+  opacity: 0.7;
+  transition: opacity 1s ease-in-out;
 }
 
 .video-caption {
