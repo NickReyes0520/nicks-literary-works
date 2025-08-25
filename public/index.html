@@ -114,7 +114,7 @@
       <section class="author-spotlight">
         <h2>⋆⁺｡˚⋆˙‧₊☽ Author’s Spotlight ☾₊‧˙⋆˚｡⁺⋆</h2>
         <div class="video-container">
-          <video controls poster="images/author-video-poster.jpg">
+          <video id="author-spotlight-video" poster="images/spotlight-thumbnail.jpg">
             <source src="videos/author-spotlight.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
@@ -266,6 +266,28 @@
   <footer>
     <p>&copy; Kuya Nick’s Literary Works. All rights reserved.</p>
   </footer>
+
+  <script>
+    const video = document.getElementById('author-spotlight-video');
+
+    // Fade-in effect
+    video.addEventListener('play', () => {
+      video.style.opacity = '1';
+      video.style.transition = 'opacity 1s ease-in';
+    });
+
+    // Fade-out effect
+    video.addEventListener('pause', () => {
+      video.style.opacity = '0.7';
+      video.style.transition = 'opacity 1s ease-out';
+    });
+
+    // Custom Controls to disable the download option
+    video.oncontextmenu = function() {
+      return false;
+    };
+    video.controls = true; // Re-enable controls after the context menu is disabled
+  </script>
 
   <script>
     const slides = document.querySelectorAll(".carousel-slide");
