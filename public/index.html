@@ -270,16 +270,17 @@
   <script>
     const video = document.getElementById('author-spotlight-video');
 
-    // Fade-in effect
+    // Add a class to remove the blur when the video starts playing
     video.addEventListener('play', () => {
-      video.style.opacity = '1';
-      video.style.transition = 'opacity 1s ease-in';
+      video.classList.add('video-is-playing');
     });
 
-    // Fade-out effect
+    // Remove the class when the video is paused or ends
     video.addEventListener('pause', () => {
-      video.style.opacity = '0.7';
-      video.style.transition = 'opacity 1s ease-out';
+      video.classList.remove('video-is-playing');
+    });
+    video.addEventListener('ended', () => {
+      video.classList.remove('video-is-playing');
     });
 
     // Custom Controls to disable the download option
